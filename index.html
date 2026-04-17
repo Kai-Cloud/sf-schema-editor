@@ -1418,7 +1418,7 @@ function renderTable() {
       <td><code style="font-size:0.8rem">${r.property}</code></td>
       <td><span class="type-badge">${r.type}</span></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="${idx-1}" onfocusout="updateDesc(this)">${escHtml(r.description)}</div></td>
-      <td style="font-size:0.75rem"><input list="semLabels" value="${r.semanticLabel==='—'?'':escHtml(r.semanticLabel)}" data-idx="${idx-1}" onchange="updateSemanticLabel(this)" style="font-size:0.75rem;width:120px;border:1px solid var(--border);border-radius:3px;padding:1px 4px;${r.semanticLabel!=='—'&&!SEMANTIC_LABELS.includes(r.semanticLabel)?'color:var(--danger);font-weight:700':''}"></td>
+      <td style="font-size:0.75rem"><input list="semLabels" value="${r.semanticLabel==='—'?'':escHtml(r.semanticLabel)}" data-idx="${idx-1}" onchange="updateSemanticLabel(this)" style="font-size:0.75rem;width:120px;border:1px solid var(--border);border-radius:3px;padding:1px 4px;${r.semanticLabel!=='—'&&!SEMANTIC_LABELS.some(l=>l.toLowerCase()===r.semanticLabel.toLowerCase())?'color:var(--danger);font-weight:700':''}"></td>
       <td class="cb-cell"><input type="checkbox" ${r.searchable?'checked':''} data-idx="${idx-1}" data-field="searchable" onchange="toggleFlag(this)"></td>
       <td style="text-align:center">${qSel}</td>
       <td class="cb-cell"><input type="checkbox" ${r.retrievable?'checked':''} data-idx="${idx-1}" data-field="retrievable" onchange="toggleFlag(this)"></td>
