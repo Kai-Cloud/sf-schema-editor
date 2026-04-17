@@ -246,6 +246,7 @@
     <thead>
       <tr id="headerRow"><th style="width: 36px; min-width: 36px;">#<span class="sort-arrow">▲</span></th><th style="width: 90px; min-width: 90px;">Section<span class="sort-arrow">▲</span></th><th style="width: 140px; min-width: 140px;">Property<span class="sort-arrow">▲</span></th><th style="width: 90px; min-width: 90px;">Type<span class="sort-arrow">▲</span></th><th style="width: 260px; min-width: 260px;">Description</th><th style="width: 110px; min-width: 110px;">Semantic Label<span class="sort-arrow">▲</span></th><th style="width: 32px; min-width: 32px;">S<span class="info-icon" data-tip="Searchable — value added to full-text index for keyword search. Mutually exclusive with Refinable.">?</span><span class="sort-arrow">▲</span></th><th style="width: 50px; min-width: 50px;">Q<span class="info-icon" data-tip="Queryable — enables KQL property filtering. Q = queryable, — = not queryable.">?</span><span class="sort-arrow">▲</span></th><th style="width: 32px; min-width: 32px;">R<span class="info-icon" data-tip="Retrievable — value returned in search results / Copilot responses.">?</span><span class="sort-arrow">▲</span></th><th style="width: 36px; min-width: 36px;">Ref<span class="info-icon" data-tip="Refinable — adds a UI filter control on search results page. Requires Queryable. Mutually exclusive with Searchable.">?</span><span class="sort-arrow">▲</span></th><th style="width: 180px; min-width: 180px;">Note</th><th style="width: 200px; min-width: 200px;">SF Source</th><th style="width: 200px; min-width: 200px;">Rationale</th></tr>
     </thead>
+    <datalist id="semLabels"></datalist>
     <tbody id="tableBody"><tr class="changed">
       <td style="text-align:right;color:var(--muted)">1</td>
       <td><span class="obj-chip common">Common</span></td>
@@ -1153,6 +1154,7 @@
 
 <script>
 // ── DATA ────────────────────────────────────────────────────────────────
+const SEMANTIC_LABELS = ["title","url","createdBy","lastModifiedBy","authors","createdDateTime","lastModifiedDateTime","fileName","fileExtension","iconUrl","containerName","containerUrl","AssignedToPeople","DueDate","ClosedDate","ClosedBy","ReportedBy","SprintName","Severity","State","StateNormalized","Priority","PriorityNormalized","SecondaryId","ParentId","ParentURL","Tags","ItemType","ItemPath","NumReactions","MentionedPeople"];
 /*SCHEMA_START*/
 const SCHEMA = [
   // ── Common ──
@@ -1400,7 +1402,7 @@ function renderTable() {
   const rows = getFiltered();
   rows.forEach(r => {
     const orig = ORIGINAL[r.globalIdx-1];
-    const changed = r.searchable!==orig.searchable || r.retrievable!==orig.retrievable || r.refinable!==orig.refinable || r.description!==orig.description || r.q!==orig.q || r.note!==orig.note;
+    const changed = r.searchable!==orig.searchable || r.retrievable!==orig.retrievable || r.refinable!==orig.refinable || r.description!==orig.description || r.q!==orig.q || r.note!==orig.note || r.semanticLabel!==orig.semanticLabel;
     const tr = document.createElement('tr');
     if (changed) tr.classList.add('changed');
     const idx = r.globalIdx;
@@ -1416,7 +1418,7 @@ function renderTable() {
       <td><code style="font-size:0.8rem">${r.property}</code></td>
       <td><span class="type-badge">${r.type}</span></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="${idx-1}" onfocusout="updateDesc(this)">${escHtml(r.description)}</div></td>
-      <td style="font-size:0.75rem;color:var(--muted)">${r.semanticLabel==='—'?'':r.semanticLabel}</td>
+      <td style="font-size:0.75rem"><input list="semLabels" value="${r.semanticLabel==='—'?'':escHtml(r.semanticLabel)}" data-idx="${idx-1}" onchange="updateSemanticLabel(this)" style="font-size:0.75rem;width:120px;border:1px solid var(--border);border-radius:3px;padding:1px 4px;${r.semanticLabel!=='—'&&!SEMANTIC_LABELS.includes(r.semanticLabel)?'color:var(--danger);font-weight:700':''}"></td>
       <td class="cb-cell"><input type="checkbox" ${r.searchable?'checked':''} data-idx="${idx-1}" data-field="searchable" onchange="toggleFlag(this)"></td>
       <td style="text-align:center">${qSel}</td>
       <td class="cb-cell"><input type="checkbox" ${r.retrievable?'checked':''} data-idx="${idx-1}" data-field="retrievable" onchange="toggleFlag(this)"></td>
@@ -1459,6 +1461,13 @@ function updateDesc(el) {
 function updateNote(el) {
   const i = +el.dataset.idx;
   data[i].note = el.innerText.trim();
+  saveToStorage();
+  renderTable();
+}
+
+function updateSemanticLabel(el) {
+  const i = +el.dataset.idx;
+  data[i].semanticLabel = el.value.trim() || '—';
   saveToStorage();
   renderTable();
 }
@@ -1539,6 +1548,7 @@ function showChangelog() {
     if (r.retrievable!==o.retrievable) diffs.push(`Retrievable: ${o.retrievable} → ${r.retrievable}`);
     if (r.refinable!==o.refinable) diffs.push(`Refinable: ${o.refinable} → ${r.refinable}`);
     if (r.description!==o.description) diffs.push(`Description changed`);
+    if (r.semanticLabel!==o.semanticLabel) diffs.push(`Semantic: ${o.semanticLabel} → ${r.semanticLabel}`);
     if (diffs.length) changes.push(`<strong>${r.section}.${r.property}</strong>: ${diffs.join('; ')}`);
   });
   // Discussion changes
@@ -1638,6 +1648,7 @@ function closeModal(id) { document.getElementById(id).classList.remove('active')
 document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if(e.target===m) m.classList.remove('active'); }));
 
 // ── INIT ──
+document.getElementById('semLabels').innerHTML = SEMANTIC_LABELS.map(l=>`<option value="${l}">`).join('');
 renderDiscussion();
 renderHeader();
 renderTable();
