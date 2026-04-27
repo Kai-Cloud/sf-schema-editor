@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salesforce Connector Gap Analysis — Glean vs Microsoft</title>
+<style>
+  :root {
+    --bg: #f8f9fa; --surface: #fff; --border: #dee2e6; --text: #212529; --muted: #6c757d;
+    --primary: #0d6efd; --primary-light: #e7f1ff; --success: #198754; --warning: #ffc107;
+    --danger: #dc3545; --info: #0dcaf0;
+    --glean: #d97706; --msft: #0d6efd;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 24px; font-size: 13px; max-width: 960px; margin: 0 auto; }
+  h1 { font-size: 1.5rem; margin: 0 0 2px; }
+  .subtitle { color: var(--muted); font-size: 0.82rem; margin-bottom: 20px; }
+  a { color: var(--primary); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Section headers */
+  .section { margin-bottom: 32px; }
+  .section-hdr { font-size: 1.05rem; font-weight: 700; margin: 0 0 6px; padding-bottom: 6px; border-bottom: 2px solid var(--border); }
+  .section-desc { font-size: 0.78rem; color: var(--muted); margin: 0 0 14px; line-height: 1.5; }
+
+  /* Verdict banner */
+  .verdict { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; margin-bottom: 16px; }
+  .verdict.glean-wins { background: #fef3c7; border: 1px solid #f59e0b; color: #92400e; }
+  .verdict.tie { background: #e0f2fe; border: 1px solid #38bdf8; color: #0369a1; }
+  .verdict.msft-wins { background: #dbeafe; border: 1px solid #3b82f6; color: #1e40af; }
+  .verdict-icon { font-size: 1.2rem; flex-shrink: 0; }
+
+  /* Entity gap table */
+  .gap-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); margin-bottom: 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  thead th { background: #f1f3f5; border-bottom: 2px solid var(--border); padding: 8px 10px; text-align: left; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  tbody td { padding: 7px 10px; border-bottom: 1px solid #f1f3f5; vertical-align: middle; }
+  tbody tr:hover { background: #f8f9ff; }
+  thead th.center, tbody td.center { text-align: center; }
+
+  /* Status pills */
+  .pill { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px; border-radius: 10px; font-size: 0.72rem; font-weight: 600; white-space: nowrap; }
+  .pill-yes { background: #d1fae5; color: #065f46; }
+  .pill-no { background: #fee2e2; color: #991b1b; }
+  .pill-partial { background: #fef3c7; color: #92400e; }
+  .pill-bug { background: #fce7f3; color: #9d174d; }
+
+  /* Closure path tags */
+  .path-tag { display: inline-flex; align-items: center; gap: 3px; padding: 2px 8px; border-radius: 8px; font-size: 0.68rem; font-weight: 600; white-space: nowrap; }
+  .path-oob { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+  .path-custom { background: #e0e7ff; color: #4338ca; border: 1px solid #a5b4fc; }
+  .path-fcc { background: #cffafe; color: #155e75; border: 1px solid #67e8f9; }
+  .path-none { background: #f3f4f6; color: #6b7280; border: 1px solid #d1d5db; }
+
+  /* Gap row highlight */
+  tr.gap-row { background: #fffbeb; }
+  tr.gap-row:hover { background: #fef3c7; }
+
+  /* Comparison rows */
+  .cmp-row { display: grid; grid-template-columns: 200px 1fr 1fr; gap: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--surface); margin-bottom: 12px; font-size: 0.8rem; }
+  .cmp-row .cmp-label { background: #f1f3f5; padding: 10px 12px; font-weight: 600; display: flex; align-items: center; border-right: 1px solid var(--border); }
+  .cmp-col { padding: 10px 12px; border-right: 1px solid var(--border); }
+  .cmp-col:last-child { border-right: none; }
+  .cmp-col-hdr { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; margin-bottom: 4px; }
+  .cmp-col-hdr.glean { color: var(--glean); }
+  .cmp-col-hdr.msft { color: var(--msft); }
+
+  /* Legend */
+  .legend { display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.72rem; margin-bottom: 20px; align-items: center; padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+  .legend b { margin-right: 4px; }
+
+  /* Summary cards */
+  .summary-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .summary-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .summary-card .sc-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
+  .summary-card .sc-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .summary-card .sc-val { font-size: 1.4rem; font-weight: 800; line-height: 1; }
+  .summary-card .sc-detail { font-size: 0.75rem; color: var(--muted); }
+
+  /* Bar chart (horizontal) */
+  .bar-chart { margin: 10px 0; }
+  .bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .bar-label { width: 70px; font-size: 0.72rem; font-weight: 600; text-align: right; flex-shrink: 0; }
+  .bar-track { flex: 1; height: 22px; background: #e9ecef; border-radius: 4px; overflow: hidden; position: relative; }
+  .bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; justify-content: flex-end; padding-right: 6px; font-size: 0.68rem; font-weight: 700; color: #fff; min-width: 24px; }
+  .bar-fill.glean { background: var(--glean); }
+  .bar-fill.msft { background: var(--msft); }
+
+  /* Limitation table */
+  .lim-table td:first-child { font-weight: 500; white-space: nowrap; width: 180px; }
+  .lim-table .lim-glean, .lim-table .lim-msft { font-size: 0.78rem; }
+
+  /* Note box */
+  .note-box { background: #f0f4ff; border: 1px solid #c7d2fe; border-radius: 8px; padding: 12px 16px; font-size: 0.78rem; line-height: 1.55; margin-bottom: 16px; }
+
+  /* Footer */
+  .footer { margin-top: 24px; color: var(--muted); font-size: 0.7rem; text-align: center; border-top: 1px solid var(--border); padding-top: 12px; }
+
+  hr.divider { border: none; border-top: 2px solid var(--border); margin: 36px 0 28px; }
+
+  @media (max-width: 700px) {
+    body { padding: 12px; }
+    .summary-strip { grid-template-columns: 1fr; }
+    .cmp-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Salesforce Connector Gap Analysis: Glean vs Microsoft</h1>
+<p class="subtitle">Data-driven comparison based on documented connector capabilities. April 2026. <a href="index.html">Schema Editor</a></p>
+
+<!-- ============ ENTITY COVERAGE ============ -->
+<div class="section">
+  <h2 class="section-hdr">Entity / Object Coverage</h2>
+  <p class="section-desc">What Salesforce objects each connector can crawl, index, and surface in search results.</p>
+
+  <!-- Visual bar comparison -->
+  <div class="bar-chart" style="max-width: 400px;">
+    <div class="bar-row">
+      <div class="bar-label" style="color:var(--glean)">Glean</div>
+      <div class="bar-track"><div class="bar-fill glean" style="width:100%">18+</div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label" style="color:var(--msft)">Microsoft</div>
+      <div class="bar-track"><div class="bar-fill msft" style="width:28%">5</div></div>
+    </div>
+  </div>
+
+  <div class="gap-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Salesforce Object</th>
+          <th class="center">Glean</th>
+          <th class="center">Microsoft</th>
+          <th class="center">Gap?</th>
+          <th>How Microsoft Could Close It</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Supported by both -->
+        <tr><td>Accounts</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"></td><td></td></tr>
+        <tr><td>Contacts</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"></td><td></td></tr>
+        <tr><td>Leads</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"></td><td></td></tr>
+        <tr><td>Opportunities</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"></td><td></td></tr>
+        <tr><td>Cases</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"></td><td></td></tr>
+
+        <!-- Gaps -->
+        <tr class="gap-row"><td>Case Comments</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: add object</span></td></tr>
+        <tr class="gap-row"><td>Tasks</td><td class="center"><span class="pill pill-partial">Partial ACL</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: add object</span></td></tr>
+        <tr class="gap-row"><td>Campaigns</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: add object</span></td></tr>
+        <tr class="gap-row"><td>Knowledge Articles</td><td class="center"><span class="pill pill-yes">Yes (incl. drafts)</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: add object</span></td></tr>
+        <tr class="gap-row"><td>Chatter Feed Items</td><td class="center"><span class="pill pill-yes">Yes (optional)</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: add object</span></td></tr>
+        <tr class="gap-row"><td>Discussion Forums</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: add object</span></td></tr>
+        <tr class="gap-row"><td>Products</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: add object</span></td></tr>
+        <tr class="gap-row"><td>Orders &amp; Order Items</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: add object</span></td></tr>
+        <tr class="gap-row"><td>Quotes</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: add object</span></td></tr>
+        <tr class="gap-row"><td>Voice Calls</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: add object</span></td></tr>
+        <tr class="gap-row"><td>CPQ (SBQQ) Objects</td><td class="center"><span class="pill pill-yes">Yes (3 objects)</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-custom">Custom connector</span></td></tr>
+        <tr class="gap-row"><td>Custom Objects (__c)</td><td class="center"><span class="pill pill-yes">Any queryable</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-custom">Custom connector</span></td></tr>
+        <tr class="gap-row"><td>Files / Attachments</td><td class="center"><span class="pill pill-yes">Content extraction</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: add crawl</span> <span class="path-tag path-fcc">FCC: live fetch</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="legend">
+    <b>Closure paths:</b>
+    <span class="path-tag path-oob">OOB: add object</span> Proven by custom connector. Can be added to OOB connector with engineering investment.
+    <span class="path-tag path-custom">Custom connector</span> Requires per-customer custom build. Not feasible for OOB.
+    <span class="path-tag path-fcc">FCC: live fetch</span> Real-time API call at query time. Closes gap without crawling.
+  </div>
+
+  <div class="verdict glean-wins"><span class="verdict-icon">&#9888;</span> Glean indexes 18+ object types vs Microsoft's 5. Most standard-object gaps are closable via OOB engineering. Custom objects and CPQ require per-customer custom connectors.</div>
+</div>
+
+<!-- ============ PERMISSIONS / ACL ============ -->
+<div class="section">
+  <h2 class="section-hdr">Permissions / ACL</h2>
+  <p class="section-desc">How each connector enforces Salesforce record-level and field-level security.</p>
+
+  <div class="gap-table-wrap">
+    <table>
+      <thead>
+        <tr><th>Capability</th><th class="center">Glean</th><th class="center">Microsoft</th><th>Closure Path</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Org-wide defaults</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td></td></tr>
+        <tr><td>Role hierarchy</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td></td></tr>
+        <tr><td>Sharing rules</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td></td></tr>
+        <tr><td>Manual shares</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td></td></tr>
+        <tr class="gap-row"><td>Territory Management (Territory2)</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td><span class="path-tag path-oob">OOB: add ACL model</span></td></tr>
+        <tr><td>Apex-based sharing</td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">No</span></td><td><span class="path-tag path-fcc">FCC: native SF enforcement</span></td></tr>
+        <tr>
+          <td>Field-Level Security (FLS)</td>
+          <td class="center"><span class="pill pill-no">Not enforced</span></td>
+          <td class="center"><span class="pill pill-partial">Blocks field ingestion</span></td>
+          <td><span class="path-tag path-fcc">FCC: native SF enforcement</span></td>
+        </tr>
+        <tr class="gap-row">
+          <td>Lead org-wide defaults</td>
+          <td class="center"><span class="pill pill-yes">Yes</span></td>
+          <td class="center"><span class="pill pill-bug">Known bug</span></td>
+          <td><span class="path-tag path-oob">OOB: fix bug</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note-box">
+    <strong>FLS tradeoff:</strong> Both connectors have FLS limitations, but in opposite directions. Glean over-exposes fields (indexed but not filtered at query time). Microsoft under-indexes them (blocks entire field if FLS is set on any profile). Neither approach is ideal. FCC sidesteps this entirely because it uses the user's own Salesforce session, so native FLS applies.
+  </div>
+
+  <div class="verdict glean-wins"><span class="verdict-icon">&#9888;</span> Glean has broader ACL coverage (Territory Management, hourly share sync). Microsoft has a known bug with Lead defaults. Both have FLS limitations. FCC resolves all ACL gaps by using native Salesforce permissions at query time.</div>
+</div>
+
+<!-- ============ CRAWL & SYNC ============ -->
+<div class="section">
+  <h2 class="section-hdr">Crawl &amp; Sync</h2>
+  <p class="section-desc">How frequently each connector crawls data and syncs permission changes.</p>
+
+  <div class="gap-table-wrap">
+    <table>
+      <thead>
+        <tr><th>Attribute</th><th class="center">Glean</th><th class="center">Microsoft</th><th>Closure Path</th></tr>
+      </thead>
+      <tbody>
+        <tr class="gap-row"><td>Incremental crawl</td><td class="center">Minutes</td><td class="center">Every 15 min</td><td><span class="path-tag path-oob">OOB: reduce interval</span></td></tr>
+        <tr><td>Full crawl</td><td class="center">~Every 28 days</td><td class="center">Daily (default)</td><td></td></tr>
+        <tr class="gap-row"><td>Permission sync</td><td class="center">Hourly (dedicated)</td><td class="center">Full crawl only (daily)</td><td><span class="path-tag path-oob">OOB: add share crawl</span></td></tr>
+        <tr><td>SOQL filtering</td><td class="center"><span class="pill pill-yes">Via config</span></td><td class="center"><span class="pill pill-yes">WHERE clause</span></td><td></td></tr>
+        <tr><td>Time-based filtering</td><td class="center"><span class="pill pill-no">Not documented</span></td><td class="center"><span class="pill pill-yes">Rolling modified time</span></td><td></td></tr>
+        <tr><td>Admin-configurable schedule</td><td class="center"><span class="pill pill-partial">Via support</span></td><td class="center"><span class="pill pill-yes">Self-service</span></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="verdict glean-wins"><span class="verdict-icon">&#9888;</span> Glean has faster incremental crawls (minutes vs 15 min) and dedicated hourly permission sync. Microsoft runs full crawls daily vs Glean's 28-day cycle and offers easier admin scheduling.</div>
+</div>
+
+<!-- ============ FILES & ATTACHMENTS ============ -->
+<div class="section">
+  <h2 class="section-hdr">File &amp; Attachment Support</h2>
+  <p class="section-desc">Ability to extract and index content from files attached to Salesforce records.</p>
+
+  <div class="gap-table-wrap">
+    <table>
+      <thead>
+        <tr><th>Capability</th><th class="center">Glean</th><th class="center">Microsoft</th><th>Closure Path</th></tr>
+      </thead>
+      <tbody>
+        <tr class="gap-row"><td>File content indexing</td><td class="center"><span class="pill pill-yes">PDF, DOCX, TXT, HTML</span></td><td class="center"><span class="pill pill-no">No</span></td><td><span class="path-tag path-oob">OOB: add crawl</span> <span class="path-tag path-fcc">FCC: live fetch</span></td></tr>
+        <tr class="gap-row"><td>Max file size</td><td class="center">64 MB</td><td class="center">N/A</td><td></td></tr>
+        <tr class="gap-row"><td>Text extraction limit</td><td class="center">~16.875 MB</td><td class="center">N/A</td><td></td></tr>
+        <tr class="gap-row"><td>Encrypted / compressed</td><td class="center">Metadata only</td><td class="center">N/A</td><td></td></tr>
+        <tr class="gap-row"><td>Images / video</td><td class="center"><span class="pill pill-no">Not indexed</span></td><td class="center">N/A</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="verdict glean-wins"><span class="verdict-icon">&#9888;</span> Glean-only capability. Microsoft has no Salesforce file/attachment indexing. Can be closed via OOB crawl engineering or FCC live fetch.</div>
+</div>
+
+<!-- ============ SCHEMA & CUSTOMIZATION ============ -->
+<div class="section">
+  <h2 class="section-hdr">Schema &amp; Property Customization</h2>
+  <p class="section-desc">How each connector handles field mapping, filtering, and search customization.</p>
+
+  <div class="gap-table-wrap">
+    <table>
+      <thead>
+        <tr><th>Capability</th><th class="center">Glean</th><th class="center">Microsoft</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Custom field mapping</td><td class="center"><span class="pill pill-yes">Title, owner, facets, indexable</span></td><td class="center"><span class="pill pill-yes">Searchable, queryable, retrievable, refinable</span></td></tr>
+        <tr><td>Custom facets / filters</td><td class="center"><span class="pill pill-yes">5 field types</span></td><td class="center"><span class="pill pill-yes">Via schema properties</span></td></tr>
+        <tr class="gap-row"><td>Field exclusion (red-listing)</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">Not documented</span></td><td></td></tr>
+        <tr><td>Semantic labels</td><td class="center"><span class="pill pill-no">Not documented</span></td><td class="center"><span class="pill pill-yes">Title, URL, authors, etc.</span></td></tr>
+        <tr><td>Result type / layout</td><td class="center">Glean's own UI</td><td class="center"><span class="pill pill-yes">Auto-generated result types</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="verdict tie"><span class="verdict-icon">&#8596;</span> Tie. Glean adds field-level exclusion for sensitive data. Microsoft offers semantic labeling and result type customization. Different strengths.</div>
+</div>
+
+<!-- ============ ADDITIONAL CAPABILITIES ============ -->
+<div class="section">
+  <h2 class="section-hdr">Additional Capabilities</h2>
+
+  <div class="gap-table-wrap">
+    <table>
+      <thead>
+        <tr><th>Capability</th><th class="center">Glean</th><th class="center">Microsoft</th><th>Closure Path</th></tr>
+      </thead>
+      <tbody>
+        <tr class="gap-row"><td>Live Mode (real-time fetch)</td><td class="center"><span class="pill pill-yes">Per-user OAuth</span></td><td class="center"><span class="pill pill-no">No</span></td><td><span class="path-tag path-fcc">FCC</span></td></tr>
+        <tr><td>AI Assistant integration</td><td class="center"><span class="pill pill-yes">Search + write-back</span></td><td class="center"><span class="pill pill-yes">Copilot + Copilot Studio</span></td><td></td></tr>
+        <tr><td>Multi-org support</td><td class="center"><span class="pill pill-yes">Each org = data source</span></td><td class="center"><span class="pill pill-yes">Per-connection</span></td><td></td></tr>
+        <tr><td>Sandbox support</td><td class="center"><span class="pill pill-yes">Explicit</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td></td></tr>
+        <tr><td>Staged rollout</td><td class="center"><span class="pill pill-no">Not documented</span></td><td class="center"><span class="pill pill-yes">Limited audience</span></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ============ KEY LIMITATIONS SUMMARY ============ -->
+<div class="section">
+  <h2 class="section-hdr">Key Limitations Summary</h2>
+  <p class="section-desc">Critical limitations for each connector, with the path to resolution.</p>
+
+  <div class="gap-table-wrap">
+    <table class="lim-table">
+      <thead>
+        <tr><th>Limitation</th><th>Glean</th><th>Microsoft</th><th>Closure Path</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>FLS enforcement</td>
+          <td class="lim-glean"><span class="pill pill-no">Not enforced</span> Risk of over-exposure</td>
+          <td class="lim-msft"><span class="pill pill-partial">Blocks field ingestion</span> if FLS set on any profile</td>
+          <td><span class="path-tag path-fcc">FCC: native SF</span></td>
+        </tr>
+        <tr>
+          <td>Permission update lag</td>
+          <td class="lim-glean">Up to ~1 hour (share crawl)</td>
+          <td class="lim-msft"><span class="pill pill-no">Full crawl only</span> (daily default)</td>
+          <td><span class="path-tag path-oob">OOB: add share crawl</span></td>
+        </tr>
+        <tr>
+          <td>Territory-based sharing</td>
+          <td class="lim-glean"><span class="pill pill-yes">Supported</span></td>
+          <td class="lim-msft"><span class="pill pill-no">Not supported</span></td>
+          <td><span class="path-tag path-oob">OOB: add ACL model</span></td>
+        </tr>
+        <tr>
+          <td>Lead defaults bug</td>
+          <td class="lim-glean">No known issue</td>
+          <td class="lim-msft"><span class="pill pill-bug">Known bug</span> Not honored</td>
+          <td><span class="path-tag path-oob">OOB: fix bug</span></td>
+        </tr>
+        <tr>
+          <td>Custom objects</td>
+          <td class="lim-glean"><span class="pill pill-yes">Fully supported</span></td>
+          <td class="lim-msft"><span class="pill pill-no">Not supported</span></td>
+          <td><span class="path-tag path-custom">Custom connector</span></td>
+        </tr>
+        <tr>
+          <td>Knowledge articles</td>
+          <td class="lim-glean"><span class="pill pill-yes">Fully supported</span></td>
+          <td class="lim-msft"><span class="pill pill-no">Not supported</span></td>
+          <td><span class="path-tag path-oob">OOB: add object</span></td>
+        </tr>
+        <tr>
+          <td>File content search</td>
+          <td class="lim-glean"><span class="pill pill-yes">Supported</span> (with limits)</td>
+          <td class="lim-msft"><span class="pill pill-no">Not supported</span></td>
+          <td><span class="path-tag path-oob">OOB: add crawl</span> <span class="path-tag path-fcc">FCC</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ============ OVERALL VERDICT ============ -->
+<div class="section">
+  <h2 class="section-hdr">Overall Verdict</h2>
+
+  <div class="gap-table-wrap">
+    <table>
+      <thead>
+        <tr><th>Category</th><th class="center">Winner</th><th>Notes</th><th>Closure Path</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Entity coverage</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>18+ objects vs 5</td><td><span class="path-tag path-oob">OOB: add objects</span> <span class="path-tag path-custom">Custom for __c</span></td></tr>
+        <tr><td>ACL / Permissions</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Territory mgmt, hourly share sync; but FLS not enforced</td><td><span class="path-tag path-oob">OOB: Territory + bug fix</span> <span class="path-tag path-fcc">FCC: FLS</span></td></tr>
+        <tr><td>Crawl freshness</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Minutes vs 15 min incremental</td><td><span class="path-tag path-oob">OOB: reduce interval</span></td></tr>
+        <tr><td>File indexing</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Microsoft has no file support</td><td><span class="path-tag path-oob">OOB: add crawl</span> <span class="path-tag path-fcc">FCC</span></td></tr>
+        <tr><td>Custom objects</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Microsoft has no custom object support</td><td><span class="path-tag path-custom">Custom connector only</span></td></tr>
+        <tr><td>Knowledge articles</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Microsoft has no Knowledge support</td><td><span class="path-tag path-oob">OOB: add object</span></td></tr>
+        <tr><td>Ease of setup</td><td class="center"><span class="pill pill-yes">Microsoft</span></td><td>Simpler admin UI, fewer prerequisites</td><td></td></tr>
+        <tr><td>Schema customization</td><td class="center"><span class="pill" style="background:#e0f2fe;color:#0369a1;">Tie</span></td><td>Different strengths (exclusion vs semantic labels)</td><td></td></tr>
+        <tr><td>AI integration</td><td class="center"><span class="pill" style="background:#e0f2fe;color:#0369a1;">Tie</span></td><td>Both support their respective AI platforms</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note-box">
+    <strong>Bottom line:</strong> Glean's Salesforce connector is substantially more capable, particularly for organizations needing CRM data beyond the 5 core objects, file/attachment search, territory-based permissions, or near-real-time freshness.<br><br>
+    <strong>Closure strategy:</strong><br>
+    &#8226; <span class="path-tag path-oob">OOB engineering</span> closes the majority of standard-object and crawl gaps. These are proven patterns already validated by custom connector implementations.<br>
+    &#8226; <span class="path-tag path-custom">Custom connector</span> is the only current path for custom objects (__c) and CPQ. Not scalable as an OOB solution.<br>
+    &#8226; <span class="path-tag path-fcc">FCC (Federated Content Connector)</span> closes the real-time, FLS, and file gaps by querying Salesforce APIs directly with user credentials at query time. This is the architectural equivalent of Glean's Live Mode.
+  </div>
+</div>
+
+<!-- Sources & methodology -->
+<div class="note-box" style="background: #f9fafb; border-color: var(--border);">
+  <strong>Sources:</strong>
+  <a href="https://docs.glean.com/connectors/native/salesforce/home" target="_blank">Glean Salesforce Docs</a> &middot;
+  <a href="https://learn.microsoft.com/en-us/microsoftsearch/salesforce-connector" target="_blank">Microsoft Salesforce Connector Docs</a> &middot;
+  <a href="index.html">Schema Editor</a> &middot;
+  March 2026
+</div>
+
+<div class="footer">
+  Salesforce Connector Gap Analysis: Glean vs Microsoft &middot; Microsoft SSP &middot; April 2026 &middot; v3.0
+</div>
+
+</body>
+</html>
