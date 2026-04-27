@@ -263,7 +263,7 @@
         <tr><th>Attribute</th><th class="center">Glean</th><th class="center">Microsoft</th><th>Closure Path</th></tr>
       </thead>
       <tbody>
-        <tr class="gap-row"><td>Incremental crawl</td><td class="center">Minutes</td><td class="center">Every 15 min</td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr class="gap-row"><td>Incremental crawl</td><td class="center">Minutes</td><td class="center">Every 15 min</td><td><span class="path-tag path-none">Platform</span></td></tr>
         <tr><td>Full crawl</td><td class="center">~Every 28 days</td><td class="center">Daily (default)</td><td></td></tr>
         <tr class="gap-row"><td>Hourly ACL full crawl</td><td class="center">Hourly (dedicated scan of all share tables)</td><td class="center">Full crawl only (daily)</td><td><span class="path-tag path-none">Platform</span></td></tr>
         <tr><td>SOQL filtering</td><td class="center"><span class="pill pill-yes">Via config</span></td><td class="center"><span class="pill pill-yes">WHERE clause</span></td><td></td></tr>
@@ -324,7 +324,7 @@
       <tbody>
         <tr><td>Entity / Object Coverage</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>18+ objects vs 5 (all with schema issues). Custom objects and CPQ supported by Glean only.</td><td><span class="path-tag path-oob">OOB: MVP</span> <span class="path-tag path-oob">OOB: Post-MVP</span> <span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
         <tr><td>Permissions / ACL</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Territory mgmt, hourly ACL full crawl. FLS not enforced by either. Lead OWD bug on Microsoft side.</td><td><span class="path-tag path-oob">OOB: leverage custom</span> <span class="path-tag path-fcc">FCC</span> <span class="path-tag path-none">Platform</span></td></tr>
-        <tr><td>Crawl &amp; Sync</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Minutes vs 15 min incremental. Dedicated hourly ACL crawl vs daily full crawl only.</td><td><span class="path-tag path-oob">OOB: MVP</span> <span class="path-tag path-none">Platform</span></td></tr>
+        <tr><td>Crawl &amp; Sync</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Minutes vs 15 min incremental. Dedicated hourly ACL crawl vs daily full crawl only.</td><td><span class="path-tag path-none">Platform</span></td></tr>
         <tr><td>Additional Capabilities</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Glean: Live Mode with real-time fetch and write-back. Microsoft: staged rollout. Parity on AI, multi-org, sandbox.</td><td><span class="path-tag path-fcc">FCC</span></td></tr>
       </tbody>
     </table>
