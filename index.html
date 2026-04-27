@@ -382,7 +382,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="9" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="9" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="9" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)"></div></td>
-      <td style="font-size:0.72rem">OwnerId → resolve Name + URL</td>
+      <td style="font-size:0.72rem">Acct: OwnerId; Opp: OwnerId; Lead: OwnerId; Contact: OwnerId; Case: OwnerId → resolve Name + URL</td>
       <td style="font-size:0.72rem">Record owner — "leads owned by Alice"</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">11</td>
@@ -1177,7 +1177,7 @@ const SCHEMA = [
   {n:7, section:"Common", property:"Number", type:"String", q:"Q", semanticLabel:"secondaryId", sfSource:"Acct: AccountNumber; Case: CaseNumber; Contact: null; Lead: null; Opp: null", rationale:"Account or Case number — \"find account #12345\" / \"find case 00001234\"", note:"Exact match required", description:"The number assigned to an Account or Case. For Account this is the customer/vendor AccountNumber; for Case this is the auto-generated CaseNumber. Contains null if the record is not an Account or Case.", searchable:true, retrievable:true, refinable:false},
   {n:8, section:"Common", property:"Name", type:"String", q:"Q", semanticLabel:"title", sfSource:"Name", rationale:"Primary display name; queryable for name lookups", note:"", description:"Primary display name of the record (e.g. account company name, contact full name, opportunity deal name). Mapped to the 'title' semantic label for search result rendering.", searchable:true, retrievable:true, refinable:false},
   {n:9, section:"Common", property:"Description", type:"String", q:"—", semanticLabel:"—", sfSource:"Description", rationale:"Rich text description", note:"Mapped to CONTENT; not a property slot in practice", description:"Free-text description field. Mapped to the CONTENT property for semantic search and Copilot summarization rather than as a schema property, to save property budget.", searchable:true, retrievable:true, refinable:false},
-  {n:10, section:"Common", property:"Owner", type:"Principal", q:"Q", semanticLabel:"assignedToPeople", sfSource:"OwnerId → resolve Name + URL", rationale:"Record owner — \"leads owned by Alice\"", note:"", description:"The user who owns this record, resolved as a Principal type carrying both display name and profile URL. Enables queries like 'show my leads' or 'leads owned by Alice'.", searchable:false, retrievable:true, refinable:false},
+  {n:10, section:"Common", property:"Owner", type:"Principal", q:"Q", semanticLabel:"assignedToPeople", sfSource:"Acct: OwnerId; Opp: OwnerId; Lead: OwnerId; Contact: OwnerId; Case: OwnerId → resolve Name + URL", rationale:"Record owner — \"leads owned by Alice\"", note:"", description:"The user who owns this record, resolved as a Principal type carrying both display name and profile URL. Enables queries like 'show my leads' or 'leads owned by Alice'.", searchable:false, retrievable:true, refinable:false},
   {n:11, section:"Common", property:"CreatedBy", type:"Principal", q:"Q", semanticLabel:"createdBy", sfSource:"CreatedById → resolve Name + URL", rationale:"Audit; semantic label enables platform \"created by\"", note:"", description:"The user who created this record, resolved as a Principal type. Semantic label 'createdBy' enables platform-native 'created by' filtering in Microsoft Search.", searchable:false, retrievable:true, refinable:false},
   {n:12, section:"Common", property:"CreatedDate", type:"DateTime", q:"Q", semanticLabel:"createdDateTime", sfSource:"CreatedDate", rationale:"\"Cases opened this week\"", note:"", description:"Timestamp when the record was created. Enables time-based queries like 'cases opened this week' or 'leads created last month'. Semantic label 'createdDateTime'.", searchable:false, retrievable:true, refinable:true},
   {n:13, section:"Common", property:"LastModifiedBy", type:"Principal", q:"Q", semanticLabel:"lastModifiedBy", sfSource:"LastModifiedById → resolve Name + URL", rationale:"Audit field", note:"", description:"The user who last modified this record, resolved as a Principal type. Semantic label 'lastModifiedBy' for platform audit features.", searchable:false, retrievable:true, refinable:false},
@@ -1263,6 +1263,7 @@ function saveToStorage() {
     if (r.refinable!==o.refinable) d.refinable = r.refinable;
     if (r.description!==o.description) d.description = r.description;
     if (r.note!==o.note) d.note = r.note;
+    if (r.sfSource!==o.sfSource) d.sfSource = r.sfSource;
     return Object.keys(d).length ? {i, ...d} : null;
   }).filter(Boolean);
   if (patch.length) localStorage.setItem(STORAGE_KEY, JSON.stringify(patch));
@@ -1283,6 +1284,7 @@ function loadFromStorage() {
         if ('refinable' in p) d[p.i].refinable = p.refinable;
         if ('description' in p) d[p.i].description = p.description;
         if ('note' in p) d[p.i].note = p.note;
+        if ('sfSource' in p) d[p.i].sfSource = p.sfSource;
       }
     });
     return d;
@@ -1412,7 +1414,7 @@ function renderTable() {
   const rows = getFiltered();
   rows.forEach(r => {
     const orig = ORIGINAL[r.globalIdx-1];
-    const changed = r.searchable!==orig.searchable || r.retrievable!==orig.retrievable || r.refinable!==orig.refinable || r.description!==orig.description || r.q!==orig.q || r.note!==orig.note;
+    const changed = r.searchable!==orig.searchable || r.retrievable!==orig.retrievable || r.refinable!==orig.refinable || r.description!==orig.description || r.q!==orig.q || r.note!==orig.note || r.sfSource!==orig.sfSource;
     const tr = document.createElement('tr');
     if (changed) tr.classList.add('changed');
     const idx = r.globalIdx;
@@ -1434,7 +1436,7 @@ function renderTable() {
       <td class="cb-cell"><input type="checkbox" ${r.retrievable?'checked':''} data-idx="${idx-1}" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" ${r.refinable?'checked':''} data-idx="${idx-1}" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="${idx-1}" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">${escHtml(r.note)}</div></td>
-      <td style="font-size:0.72rem">${escHtml(r.sfSource)}</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="${idx-1}" onfocusout="updateSfSource(this)" style="font-size:0.72rem">${escHtml(r.sfSource)}</div></td>
       <td style="font-size:0.72rem">${escHtml(r.rationale)}</td>
     `;
     tbody.appendChild(tr);
@@ -1471,6 +1473,13 @@ function updateDesc(el) {
 function updateNote(el) {
   const i = +el.dataset.idx;
   data[i].note = el.innerText.trim();
+  saveToStorage();
+  renderTable();
+}
+
+function updateSfSource(el) {
+  const i = +el.dataset.idx;
+  data[i].sfSource = el.innerText.trim();
   saveToStorage();
   renderTable();
 }
