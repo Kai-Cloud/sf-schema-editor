@@ -24,7 +24,10 @@
   .section-desc { font-size: 0.78rem; color: var(--muted); margin: 0 0 14px; line-height: 1.5; }
 
   /* Verdict banner */
-  .verdict { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; margin-bottom: 16px; }
+  .verdict { padding: 10px 16px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 16px; }
+  .verdict-title { font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .verdict ul { margin: 4px 0 0 18px; padding: 0; font-weight: 400; line-height: 1.5; }
+  .verdict li { margin-bottom: 2px; }
   .verdict.glean-wins { background: #fef3c7; border: 1px solid #f59e0b; color: #92400e; }
   .verdict.tie { background: #e0f2fe; border: 1px solid #38bdf8; color: #0369a1; }
   .verdict.msft-wins { background: #dbeafe; border: 1px solid #3b82f6; color: #1e40af; }
@@ -66,7 +69,8 @@
   .cmp-col-hdr.msft { color: var(--msft); }
 
   /* Legend */
-  .legend { display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.72rem; margin-bottom: 20px; align-items: center; padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+  .legend { display: flex; flex-direction: column; gap: 6px; font-size: 0.72rem; margin-bottom: 20px; padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+  .legend-item { display: flex; align-items: center; gap: 8px; }
   .legend b { margin-right: 4px; }
 
   /* Summary cards */
@@ -98,6 +102,23 @@
 
   hr.divider { border: none; border-top: 2px solid var(--border); margin: 36px 0 28px; }
 
+  /* Editable cell styling */
+  td[data-editable] { cursor: pointer; position: relative; }
+  td[data-editable]:hover { outline: 2px solid var(--primary); outline-offset: -2px; border-radius: 4px; }
+  .edit-select { font-size: 0.72rem; font-weight: 600; border: 2px solid var(--primary); border-radius: 6px; padding: 2px 4px; background: #fff; cursor: pointer; max-width: 200px; }
+  .edit-text { font-size: 0.78rem; border: 2px solid var(--primary); border-radius: 6px; padding: 2px 6px; background: #fff; width: 100%; max-width: 280px; }
+
+  /* Contenteditable hover/focus */
+  [contenteditable="true"] { cursor: text; transition: outline 0.1s; }
+  [contenteditable="true"]:hover { outline: 2px dashed var(--primary); outline-offset: 2px; border-radius: 4px; }
+  [contenteditable="true"]:focus { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: 4px; }
+
+  /* Save button */
+  .save-btn { position: fixed; bottom: 24px; right: 24px; z-index: 999; background: var(--primary); color: #fff; border: none; border-radius: 10px; padding: 10px 20px; font-size: 0.82rem; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: background 0.15s, transform 0.1s; }
+  .save-btn:hover { background: #0b5ed7; transform: translateY(-1px); }
+  .save-btn:active { transform: translateY(0); }
+  .save-btn.saved { background: var(--success); }
+
   @media (max-width: 700px) {
     body { padding: 12px; }
     .summary-strip { grid-template-columns: 1fr; }
@@ -109,6 +130,15 @@
 
 <h1>Salesforce Connector Gap Analysis: Glean vs Microsoft</h1>
 <p class="subtitle">Data-driven comparison based on documented connector capabilities. April 2026. <a href="index.html">Schema Editor</a></p>
+
+<div class="note-box" contenteditable="true">
+  <strong>Closure strategy:</strong><br>
+  • <span class="path-tag path-oob">OOB: MVP</span> Fix the 5 core objects (Account, Contact, Lead, Opportunity, Case) with correct schema in the OOB connector.<br>
+  • <span class="path-tag path-oob">OOB: Post-MVP</span> High-priority objects (Tasks, Events, Case Comments, Files) planned for the OOB connector after MVP ships.<br>
+  • <span class="path-tag path-oob">OOB: leverage custom</span> Remaining objects (Campaigns, Products, Orders, CPQ, Custom Objects, etc.) are already supported by custom connector implementations. OOB engineering should reference that work.<br>
+  • <span class="path-tag path-fcc">FCC</span> Federated Content Connector closes real-time, FLS, and file gaps by querying Salesforce APIs directly with user credentials at query time. Architectural equivalent of Glean's Live Mode.<br>
+  • <span class="path-tag path-none">Platform</span> Requires platform-level infrastructure (e.g. hourly ACL full crawl). Neither OOB nor custom connector can implement without platform support.
+</div>
 
 <!-- ============ ENTITY COVERAGE ============ -->
 <div class="section">
@@ -146,11 +176,11 @@
         <tr class="gap-row"><td>Opportunities</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Schema broken</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
         <tr class="gap-row"><td>Cases</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Schema broken</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
 
-        <!-- OOB: add after MVP (high priority) -->
-        <tr class="gap-row"><td>Tasks</td><td class="center"><span class="pill pill-partial">Partial ACL</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: add after MVP</span></td></tr>
-        <tr class="gap-row"><td>Events</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: add after MVP</span></td></tr>
-        <tr class="gap-row"><td>Case Comments</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: add after MVP</span></td></tr>
-        <tr class="gap-row"><td>Files / Attachments</td><td class="center"><span class="pill pill-yes">Content extraction</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: add after MVP</span></td></tr>
+        <!-- OOB: Post-MVP (high priority) -->
+        <tr class="gap-row"><td>Tasks</td><td class="center"><span class="pill pill-partial">Partial ACL</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Events</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Case Comments</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Files / Attachments</td><td class="center"><span class="pill pill-yes">Content extraction</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
 
         <!-- OOB: leverage custom connector work -->
         <tr class="gap-row"><td>Campaigns</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
@@ -166,15 +196,13 @@
     </table>
   </div>
 
-  <div class="legend">
-    <b>Closure paths:</b>
-    <span class="path-tag path-oob">OOB: add after MVP</span> High-priority objects to add to OOB connector post-MVP.
-    <span class="path-tag path-oob">OOB: leverage custom</span> Custom connector has proven support. OOB should reference that work.
-    <span class="path-tag path-fcc">FCC: live fetch</span> Real-time API call at query time. Closes gap without crawling.
-    <span class="path-tag path-none">Platform</span> Requires platform-level infrastructure. Not closable by OOB or custom connector alone.
+  <div class="verdict glean-wins">
+    <div class="verdict-title"><span class="verdict-icon">⚠</span> Glean wins: 18+ object types vs Microsoft's 5</div>
+    <ul>
+      <li><b>Glean:</b> Covers 18+ objects including Tasks, Events, Knowledge, CPQ, custom objects, and file content extraction.</li>
+      <li><b>Microsoft:</b> Only 5 core CRM objects (Account, Contact, Lead, Opportunity, Case), all with known schema quality issues. MVP will fix these 5. Post-MVP OOB adds high-priority objects; remaining gaps leverage custom connector.</li>
+    </ul>
   </div>
-
-  <div class="verdict glean-wins"><span class="verdict-icon">&#9888;</span> Glean indexes 18+ object types vs Microsoft's 5 (all with broken schemas). MVP will fix the 5 core objects. High-priority objects (Tasks, Events, Case Comments, Files) are planned for OOB post-MVP. Remaining objects (including custom objects and CPQ) can leverage existing custom connector work.</div>
 </div>
 
 <!-- ============ PERMISSIONS / ACL ============ -->
@@ -188,7 +216,7 @@
         <tr><th>Capability</th><th class="center">Glean</th><th class="center">Microsoft</th><th>Closure Path</th></tr>
       </thead>
       <tbody>
-        <tr><td>Record-level security (OWD, role hierarchy, sharing rules, manual shares)</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td></td></tr>
+        <tr class="gap-row"><td>Record-level security (OWD, role hierarchy, sharing rules, manual shares)</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Restricted</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
         <tr class="gap-row"><td>Territory Management (Territory2)</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td><span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
         <tr class="gap-row">
           <td>Field-Level Security (FLS)</td>
@@ -196,22 +224,20 @@
           <td class="center"><span class="pill pill-no">Not ingested</span></td>
           <td><span class="path-tag path-oob">OOB: MVP</span></td>
         </tr>
-        <tr><td>Apex-based sharing</td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">No</span></td><td><span class="path-tag path-fcc">FCC: native SF enforcement</span></td></tr>
-        <tr class="gap-row">
-          <td>Lead org-wide defaults</td>
-          <td class="center"><span class="pill pill-yes">Yes</span></td>
-          <td class="center"><span class="pill pill-bug">Known bug</span></td>
-          <td><span class="path-tag path-oob">OOB: fix bug</span></td>
-        </tr>
+        <tr class="gap-row"><td>Apex-based sharing</td><td class="center"><span class="pill pill-partial">Not mentioned</span></td><td class="center"><span class="pill pill-no">No</span></td><td><span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
+        <tr class="gap-row"><td>ACL freshness (per hour)</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td><span class="path-tag path-none">Platform</span></td></tr>
       </tbody>
     </table>
   </div>
 
-  <div class="note-box">
-    <strong>FLS tradeoff:</strong> Both connectors have FLS limitations, but in opposite directions. Glean over-exposes fields (indexed but not filtered at query time). Microsoft under-indexes them (blocks entire field if FLS is set on any profile). Neither approach is ideal. FCC sidesteps this entirely because it uses the user's own Salesforce session, so native FLS applies.
-  </div>
 
-  <div class="verdict glean-wins"><span class="verdict-icon">&#9888;</span> Glean has broader ACL coverage (Territory Management, hourly ACL full crawl of all share tables). Microsoft has a known bug with Lead defaults. Both have FLS limitations. FCC resolves FLS gaps by using native Salesforce permissions at query time, but hourly ACL crawl requires platform-level support.</div>
+  <div class="verdict glean-wins">
+    <div class="verdict-title"><span class="verdict-icon">⚠</span> Glean wins: broader ACL coverage</div>
+    <ul>
+      <li><b>Glean:</b> Supports Territory Management, hourly ACL full crawl of all share tables (AccountShare, CaseShare, etc.).</li>
+      <li><b>Microsoft:</b> No Territory Management. Known bug with Lead OWD defaults. FLS blocks field ingestion org-wide. ACL updates only during daily full crawl. Hourly ACL crawl requires platform-level support. FCC resolves FLS gaps via native Salesforce permissions at query time.</li>
+    </ul>
+  </div>
 </div>
 
 <!-- ============ CRAWL & SYNC ============ -->
@@ -225,17 +251,23 @@
         <tr><th>Attribute</th><th class="center">Glean</th><th class="center">Microsoft</th><th>Closure Path</th></tr>
       </thead>
       <tbody>
-        <tr class="gap-row"><td>Incremental crawl</td><td class="center">Minutes</td><td class="center">Every 15 min</td><td><span class="path-tag path-oob">OOB: reduce interval</span></td></tr>
+        <tr class="gap-row"><td>Incremental crawl</td><td class="center">Minutes</td><td class="center">Every 15 min</td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
         <tr><td>Full crawl</td><td class="center">~Every 28 days</td><td class="center">Daily (default)</td><td></td></tr>
-        <tr class="gap-row"><td>Hourly ACL full crawl</td><td class="center">Hourly (dedicated scan of all share tables)</td><td class="center">Full crawl only (daily)</td><td><span class="path-tag path-none">Platform: needs ACL crawl infra</span></td></tr>
+        <tr class="gap-row"><td>Hourly ACL full crawl</td><td class="center">Hourly (dedicated scan of all share tables)</td><td class="center">Full crawl only (daily)</td><td><span class="path-tag path-none">Platform</span></td></tr>
         <tr><td>SOQL filtering</td><td class="center"><span class="pill pill-yes">Via config</span></td><td class="center"><span class="pill pill-yes">WHERE clause</span></td><td></td></tr>
-        <tr><td>Time-based filtering</td><td class="center"><span class="pill pill-no">Not documented</span></td><td class="center"><span class="pill pill-yes">Rolling modified time</span></td><td></td></tr>
+        <tr class="gap-row"><td>Time-based filtering</td><td class="center"><span class="pill pill-partial">Not mentioned</span></td><td class="center"><span class="pill pill-yes">Rolling modified time</span></td><td></td></tr>
         <tr><td>Admin-configurable schedule</td><td class="center"><span class="pill pill-partial">Via support</span></td><td class="center"><span class="pill pill-yes">Self-service</span></td><td></td></tr>
       </tbody>
     </table>
   </div>
 
-  <div class="verdict glean-wins"><span class="verdict-icon">&#9888;</span> Glean has faster incremental crawls (minutes vs 15 min) and a dedicated hourly ACL full crawl that scans all share tables (AccountShare, CaseShare, etc.) to keep permissions current. Microsoft only updates permissions during daily full crawls. Hourly ACL crawl is a platform-level gap: neither OOB nor custom connector can implement it today.</div>
+  <div class="verdict glean-wins">
+    <div class="verdict-title"><span class="verdict-icon">⚠</span> Glean wins: faster crawl and dedicated permission sync</div>
+    <ul>
+      <li><b>Glean:</b> Incremental crawl in minutes. Dedicated hourly ACL full crawl scans all share tables to keep permissions current.</li>
+      <li><b>Microsoft:</b> Incremental crawl every 15 min. Permissions only updated during daily full crawl. Hourly ACL crawl is a platform-level gap: neither OOB nor custom connector can implement it today.</li>
+    </ul>
+  </div>
 </div>
 
 <!-- ============ FILES & ATTACHMENTS ============ -->
@@ -249,7 +281,7 @@
         <tr><th>Capability</th><th class="center">Glean</th><th class="center">Microsoft</th><th>Closure Path</th></tr>
       </thead>
       <tbody>
-        <tr class="gap-row"><td>File content indexing</td><td class="center"><span class="pill pill-yes">PDF, DOCX, TXT, HTML</span></td><td class="center"><span class="pill pill-no">No</span></td><td><span class="path-tag path-oob">OOB: add crawl</span> <span class="path-tag path-fcc">FCC: live fetch</span></td></tr>
+        <tr class="gap-row"><td>File content indexing</td><td class="center"><span class="pill pill-yes">PDF, DOCX, TXT, HTML</span></td><td class="center"><span class="pill pill-no">No</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span> <span class="path-tag path-fcc">FCC</span></td></tr>
         <tr class="gap-row"><td>Max file size</td><td class="center">64 MB</td><td class="center">N/A</td><td></td></tr>
         <tr class="gap-row"><td>Text extraction limit</td><td class="center">~16.875 MB</td><td class="center">N/A</td><td></td></tr>
         <tr class="gap-row"><td>Encrypted / compressed</td><td class="center">Metadata only</td><td class="center">N/A</td><td></td></tr>
@@ -258,7 +290,13 @@
     </table>
   </div>
 
-  <div class="verdict glean-wins"><span class="verdict-icon">&#9888;</span> Glean-only capability. Microsoft has no Salesforce file/attachment indexing. Can be closed via OOB crawl engineering or FCC live fetch.</div>
+  <div class="verdict glean-wins">
+    <div class="verdict-title"><span class="verdict-icon">⚠</span> Glean wins: file and attachment indexing</div>
+    <ul>
+      <li><b>Glean:</b> Indexes file content (PDF, DOCX, TXT, HTML) up to 64 MB per file.</li>
+      <li><b>Microsoft:</b> No Salesforce file/attachment indexing at all. Can be closed via OOB crawl engineering or FCC live fetch.</li>
+    </ul>
+  </div>
 </div>
 
 <!-- ============ SCHEMA & CUSTOMIZATION ============ -->
@@ -281,7 +319,13 @@
     </table>
   </div>
 
-  <div class="verdict tie"><span class="verdict-icon">&#8596;</span> Tie. Glean adds field-level exclusion for sensitive data. Microsoft offers semantic labeling and result type customization. Different strengths.</div>
+  <div class="verdict tie">
+    <div class="verdict-title"><span class="verdict-icon">↔</span> Tie: different strengths</div>
+    <ul>
+      <li><b>Glean:</b> Field-level exclusion (red-listing) for sensitive data control.</li>
+      <li><b>Microsoft:</b> Semantic labeling and result type customization for richer search UX.</li>
+    </ul>
+  </div>
 </div>
 
 <!-- ============ ADDITIONAL CAPABILITIES ============ -->
@@ -321,13 +365,13 @@
           <td>FLS enforcement</td>
           <td class="lim-glean"><span class="pill pill-no">Not enforced</span> Risk of over-exposure</td>
           <td class="lim-msft"><span class="pill pill-partial">Blocks field ingestion</span> if FLS set on any profile</td>
-          <td><span class="path-tag path-fcc">FCC: native SF</span></td>
+          <td><span class="path-tag path-fcc">FCC</span></td>
         </tr>
         <tr>
           <td>Hourly ACL full crawl</td>
           <td class="lim-glean">Hourly full scan of all share tables (AccountShare, CaseShare, etc.)</td>
           <td class="lim-msft"><span class="pill pill-no">Not supported</span> Permissions only refresh on daily full crawl</td>
-          <td><span class="path-tag path-none">Platform: needs ACL crawl infra</span></td>
+          <td><span class="path-tag path-none">Platform</span></td>
         </tr>
         <tr>
           <td>Territory-based sharing</td>
@@ -339,7 +383,7 @@
           <td>Lead defaults bug</td>
           <td class="lim-glean">No known issue</td>
           <td class="lim-msft"><span class="pill pill-bug">Known bug</span> Not honored</td>
-          <td><span class="path-tag path-oob">OOB: fix bug</span></td>
+          <td>Noted as Microsoft restriction</td>
         </tr>
         <tr>
           <td>Custom objects</td>
@@ -351,7 +395,7 @@
           <td>File content search</td>
           <td class="lim-glean"><span class="pill pill-yes">Supported</span> (with limits)</td>
           <td class="lim-msft"><span class="pill pill-no">Not supported</span></td>
-          <td><span class="path-tag path-oob">OOB: add after MVP</span> <span class="path-tag path-fcc">FCC</span></td>
+          <td><span class="path-tag path-oob">OOB: Post-MVP</span> <span class="path-tag path-fcc">FCC</span></td>
         </tr>
       </tbody>
     </table>
@@ -368,10 +412,10 @@
         <tr><th>Category</th><th class="center">Winner</th><th>Notes</th><th>Closure Path</th></tr>
       </thead>
       <tbody>
-        <tr><td>Entity coverage</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>18+ objects vs 5 (all schema broken)</td><td><span class="path-tag path-oob">OOB: MVP</span> + post-MVP + leverage custom</td></tr>
-        <tr><td>ACL / Permissions</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Territory mgmt, hourly ACL full crawl; but FLS not enforced</td><td><span class="path-tag path-oob">OOB: Territory + bug fix</span> <span class="path-tag path-fcc">FCC: FLS</span> <span class="path-tag path-none">Platform: ACL crawl</span></td></tr>
-        <tr><td>Crawl freshness</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Minutes vs 15 min incremental</td><td><span class="path-tag path-oob">OOB: reduce interval</span></td></tr>
-        <tr><td>File indexing</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Microsoft has no file support</td><td><span class="path-tag path-oob">OOB: add after MVP</span> <span class="path-tag path-fcc">FCC</span></td></tr>
+        <tr><td>Entity coverage</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>18+ objects vs 5 (all schema broken)</td><td><span class="path-tag path-oob">OOB: MVP</span> <span class="path-tag path-oob">OOB: Post-MVP</span> <span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
+        <tr><td>ACL / Permissions</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Territory mgmt, hourly ACL full crawl; but FLS not enforced</td><td><span class="path-tag path-oob">OOB: leverage custom</span> <span class="path-tag path-fcc">FCC</span> <span class="path-tag path-none">Platform</span></td></tr>
+        <tr><td>Crawl freshness</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Minutes vs 15 min incremental</td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr><td>File indexing</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Microsoft has no file support</td><td><span class="path-tag path-oob">OOB: Post-MVP</span> <span class="path-tag path-fcc">FCC</span></td></tr>
         <tr><td>Custom objects</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Microsoft has no custom object support</td><td><span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
         <tr><td>Ease of setup</td><td class="center"><span class="pill pill-yes">Microsoft</span></td><td>Simpler admin UI, fewer prerequisites</td><td></td></tr>
         <tr><td>Schema customization</td><td class="center"><span class="pill" style="background:#e0f2fe;color:#0369a1;">Tie</span></td><td>Different strengths (exclusion vs semantic labels)</td><td></td></tr>
@@ -380,28 +424,202 @@
     </table>
   </div>
 
-  <div class="note-box">
-    <strong>Bottom line:</strong> Glean's Salesforce connector is substantially more capable, particularly for organizations needing CRM data beyond the 5 core objects, file/attachment search, territory-based permissions, or near-real-time freshness.<br><br>
-    <strong>Closure strategy:</strong><br>
-    &#8226; <span class="path-tag path-oob">OOB: add after MVP</span> High-priority objects (Tasks, Events, Case Comments, Files) planned for the OOB connector post-MVP.<br>
-    &#8226; <span class="path-tag path-oob">OOB: leverage custom</span> Remaining objects (Campaigns, Products, Orders, CPQ, Custom Objects, etc.) are already supported by custom connector implementations. OOB engineering should reference that work to accelerate delivery.<br>
-    &#8226; <span class="path-tag path-fcc">FCC (Federated Content Connector)</span> closes the real-time, FLS, and file gaps by querying Salesforce APIs directly with user credentials at query time. This is the architectural equivalent of Glean's Live Mode.<br>
-    &#8226; <span class="path-tag path-none">Platform</span> Hourly ACL full crawl (scanning Salesforce share tables like AccountShare, CaseShare to keep permissions current) requires platform-level infrastructure. Salesforce does not expose deleted share records via incremental APIs, so a dedicated full scan is needed. Neither OOB nor custom connector can implement this without platform support.
+  <div class="note-box" contenteditable="true">
+    <strong>Bottom line:</strong> Glean's Salesforce connector is substantially more capable, particularly for organizations needing CRM data beyond the 5 core objects, file/attachment search, territory-based permissions, or near-real-time freshness.
   </div>
 </div>
 
 <!-- Sources & methodology -->
 <div class="note-box" style="background: #f9fafb; border-color: var(--border);">
   <strong>Sources:</strong>
-  <a href="https://docs.glean.com/connectors/native/salesforce/home" target="_blank">Glean Salesforce Docs</a> &middot;
-  <a href="https://learn.microsoft.com/en-us/microsoftsearch/salesforce-connector" target="_blank">Microsoft Salesforce Connector Docs</a> &middot;
-  <a href="index.html">Schema Editor</a> &middot;
+  <a href="https://docs.glean.com/connectors/native/salesforce/home" target="_blank">Glean Salesforce Docs</a> ·
+  <a href="https://learn.microsoft.com/en-us/microsoftsearch/salesforce-connector" target="_blank">Microsoft Salesforce Connector Docs</a> ·
+  <a href="index.html">Schema Editor</a> ·
   March 2026
 </div>
 
 <div class="footer">
-  Salesforce Connector Gap Analysis: Glean vs Microsoft &middot; Microsoft SSP &middot; April 2026 &middot; v3.0
+  Salesforce Connector Gap Analysis: Glean vs Microsoft · Microsoft SSP · April 2026 · v3.0
 </div>
+
+
+
+
+
+
+
+
+<button class="save-btn" id="saveBtn" title="Save current page as HTML file">Save to HTML</button>
+
+<script>
+(function() {
+  var STATUS_OPTIONS = [
+    ['Yes', 'pill-yes'],
+    ['No', 'pill-no'],
+    ['Restricted', 'pill-partial'],
+    ['Partial', 'pill-partial'],
+    ['Schema broken', 'pill-partial'],
+    ['Not enforced', 'pill-partial'],
+    ['Not ingested', 'pill-no'],
+    ['Not mentioned', 'pill-partial'],
+    ['Not documented', 'pill-no'],
+    ['Not supported', 'pill-no'],
+    ['Supported', 'pill-yes'],
+    ['Known bug', 'pill-bug'],
+    ['N/A', ''],
+  ];
+
+  var CLOSURE_OPTIONS = [
+    ['', ''],
+    ['OOB: MVP', 'path-oob'],
+    ['OOB: Post-MVP', 'path-oob'],
+    ['OOB: leverage custom', 'path-oob'],
+    ['FCC', 'path-fcc'],
+    ['Platform', 'path-none'],
+  ];
+
+  var GAP_OPTIONS = [['', ''], ['Gap', 'pill-no']];
+  var WINNER_OPTIONS = [['Glean', 'pill-partial'], ['Microsoft', 'pill-yes'], ['Tie', '']];
+
+  function renderPill(label, cls) {
+    if (!label) return '';
+    if (!cls) return '<span class="pill" style="background:#e0f2fe;color:#0369a1;">' + esc(label) + '</span>';
+    return '<span class="pill ' + cls + '">' + esc(label) + '</span>';
+  }
+  function renderPathTag(label, cls) {
+    if (!label) return '';
+    return '<span class="path-tag ' + cls + '">' + esc(label) + '</span>';
+  }
+  function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+  function detectCellType(td) {
+    var pathTag = td.querySelector('.path-tag');
+    if (pathTag) return 'closure';
+    var pill = td.querySelector('.pill');
+    if (pill) {
+      var text = pill.textContent.trim();
+      for (var i = 0; i < GAP_OPTIONS.length; i++) { if (GAP_OPTIONS[i][0] === text) return 'gap'; }
+      for (var i = 0; i < WINNER_OPTIONS.length; i++) { if (WINNER_OPTIONS[i][0] === text) return 'winner'; }
+      return 'status';
+    }
+    return null;
+  }
+
+  function getOptions(type) {
+    if (type === 'status') return STATUS_OPTIONS;
+    if (type === 'closure') return CLOSURE_OPTIONS;
+    if (type === 'gap') return GAP_OPTIONS;
+    if (type === 'winner') return WINNER_OPTIONS;
+    return STATUS_OPTIONS;
+  }
+
+  function getCurrentValue(td, type) {
+    if (type === 'closure') { var tags = td.querySelectorAll('.path-tag'); return tags.length ? tags[0].textContent.trim() : ''; }
+    var pill = td.querySelector('.pill');
+    return pill ? pill.textContent.trim() : td.textContent.trim();
+  }
+
+  function renderCell(td, type, value) {
+    var opts = getOptions(type), match = null;
+    for (var i = 0; i < opts.length; i++) { if (opts[i][0] === value) { match = opts[i]; break; } }
+    if (type === 'closure') { td.innerHTML = match && match[0] ? renderPathTag(match[0], match[1]) : ''; }
+    else { td.innerHTML = match ? renderPill(match[0], match[1]) : (value ? renderPill(value, 'pill-partial') : ''); }
+    updateGapRow(td);
+  }
+
+  function updateGapRow(td) {
+    var tr = td.closest('tr'), hasGap = false;
+    tr.querySelectorAll('.pill-no, .pill-partial, .pill-bug').forEach(function() { hasGap = true; });
+    if (tr.querySelectorAll('.path-tag').length > 0) hasGap = true;
+    if (hasGap) tr.classList.add('gap-row'); else tr.classList.remove('gap-row');
+  }
+
+  function makeEditable(td, type) {
+    td.setAttribute('data-editable', type);
+    td.addEventListener('click', function(e) {
+      if (td.querySelector('.edit-select') || td.querySelector('.edit-text')) return;
+      var currentVal = getCurrentValue(td, type), opts = getOptions(type);
+      var select = document.createElement('select');
+      select.className = 'edit-select';
+      var hasCustom = false;
+      opts.forEach(function(opt) {
+        var o = document.createElement('option');
+        o.value = opt[0]; o.textContent = opt[0] || '(none)';
+        if (opt[0] === currentVal) { o.selected = true; hasCustom = true; }
+        select.appendChild(o);
+      });
+      var customOpt = document.createElement('option');
+      customOpt.value = '__custom__'; customOpt.textContent = 'Custom...';
+      select.appendChild(customOpt);
+      if (!hasCustom && currentVal) {
+        var extra = document.createElement('option');
+        extra.value = currentVal; extra.textContent = currentVal; extra.selected = true;
+        select.insertBefore(extra, customOpt);
+      }
+      td.innerHTML = ''; td.appendChild(select); select.focus();
+
+      function commit(val) {
+        if (val === '__custom__') {
+          td.innerHTML = '';
+          var input = document.createElement('input');
+          input.type = 'text'; input.className = 'edit-text'; input.value = currentVal;
+          td.appendChild(input); input.focus(); input.select();
+          input.addEventListener('blur', function() { renderCell(td, type, input.value.trim()); });
+          input.addEventListener('keydown', function(ev) { if (ev.key === 'Enter') input.blur(); if (ev.key === 'Escape') renderCell(td, type, currentVal); });
+          return;
+        }
+        renderCell(td, type, val);
+      }
+      select.addEventListener('change', function() { commit(select.value); });
+      select.addEventListener('blur', function() { setTimeout(function() { if (td.querySelector('.edit-select')) renderCell(td, type, currentVal); }, 150); });
+    });
+  }
+
+  // Scan tables for dropdown-editable cells
+  document.querySelectorAll('.gap-table-wrap table').forEach(function(table) {
+    var headers = [];
+    table.querySelectorAll('thead th').forEach(function(th) { headers.push(th.textContent.trim().toLowerCase()); });
+    table.querySelectorAll('tbody tr').forEach(function(tr) {
+      var tds = tr.querySelectorAll('td');
+      tds.forEach(function(td, i) {
+        if (i === 0) return;
+        var hdr = headers[i] || '', type = null;
+        if (hdr.includes('closure') || hdr.includes('how microsoft') || hdr === 'closure path') type = 'closure';
+        else if (hdr === 'gap?') type = 'gap';
+        else if (hdr === 'winner') type = 'winner';
+        else if (hdr === 'glean' || hdr === 'microsoft') { if (td.querySelector('.pill') || td.textContent.trim() === '') type = 'status'; }
+        else { var detected = detectCellType(td); if (detected) type = detected; }
+        if (type) makeEditable(td, type);
+      });
+    });
+  });
+
+  // Make text elements contenteditable
+  document.querySelectorAll('.section-hdr, .section-desc').forEach(function(el) { el.contentEditable = 'true'; });
+  document.querySelectorAll('.gap-table-wrap table tbody tr').forEach(function(tr) {
+    var firstTd = tr.querySelector('td:first-child');
+    if (firstTd) firstTd.contentEditable = 'true';
+  });
+  document.querySelectorAll('.verdict, .note-box').forEach(function(el) { el.contentEditable = 'true'; });
+
+  // Save: keeps script + CSS so saved file stays editable
+  document.getElementById('saveBtn').addEventListener('click', function() {
+    var btn = this;
+    document.querySelectorAll('.edit-select, .edit-text').forEach(function(el) { el.blur(); });
+    setTimeout(function() {
+      var clone = document.documentElement.cloneNode(true);
+      clone.querySelectorAll('[contenteditable]').forEach(function(el) { el.removeAttribute('contenteditable'); });
+      clone.querySelectorAll('[data-editable]').forEach(function(el) { el.removeAttribute('data-editable'); });
+      var html = '<!DOCTYPE html>\n<html lang="en">\n' + clone.innerHTML + '\n</html>';
+      var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+      var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'glean-scorecard.html'; a.click();
+      URL.revokeObjectURL(a.href);
+      btn.textContent = 'Saved!'; btn.classList.add('saved');
+      setTimeout(function() { btn.textContent = 'Save to HTML'; btn.classList.remove('saved'); }, 2000);
+    }, 200);
+  });
+})();
+</script>
 
 </body>
 </html>
