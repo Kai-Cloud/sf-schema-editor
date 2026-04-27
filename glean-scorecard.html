@@ -139,15 +139,12 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Supported by both (MVP) -->
-        <tr><td>Accounts</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"></td><td></td></tr>
-        <tr><td>Contacts</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"></td><td></td></tr>
-        <tr><td>Leads</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"></td><td></td></tr>
-        <tr><td>Opportunities</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"></td><td></td></tr>
-        <tr><td>Cases</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"></td><td></td></tr>
-
-        <!-- Covered by separate SF KB connector -->
-        <tr><td>Knowledge Articles</td><td class="center"><span class="pill pill-yes">Yes (incl. drafts)</span></td><td class="center"><span class="pill pill-yes">Yes (SF KB connector)</span></td><td class="center"></td><td></td></tr>
+        <!-- MVP objects (schema broken, fixing in MVP) -->
+        <tr class="gap-row"><td>Accounts</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Schema broken</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr class="gap-row"><td>Contacts</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Schema broken</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr class="gap-row"><td>Leads</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Schema broken</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr class="gap-row"><td>Opportunities</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Schema broken</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr class="gap-row"><td>Cases</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Schema broken</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
 
         <!-- OOB: add after MVP (high priority) -->
         <tr class="gap-row"><td>Tasks</td><td class="center"><span class="pill pill-partial">Partial ACL</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: add after MVP</span></td></tr>
@@ -177,7 +174,7 @@
     <span class="path-tag path-none">Platform</span> Requires platform-level infrastructure. Not closable by OOB or custom connector alone.
   </div>
 
-  <div class="verdict glean-wins"><span class="verdict-icon">&#9888;</span> Glean indexes 18+ object types vs Microsoft's 6 (5 CRM + Knowledge via SF KB connector). High-priority objects (Tasks, Events, Case Comments, Files) are planned for OOB post-MVP. Remaining objects (including custom objects and CPQ) can leverage existing custom connector work.</div>
+  <div class="verdict glean-wins"><span class="verdict-icon">&#9888;</span> Glean indexes 18+ object types vs Microsoft's 5 (all with broken schemas). MVP will fix the 5 core objects. High-priority objects (Tasks, Events, Case Comments, Files) are planned for OOB post-MVP. Remaining objects (including custom objects and CPQ) can leverage existing custom connector work.</div>
 </div>
 
 <!-- ============ PERMISSIONS / ACL ============ -->
@@ -354,12 +351,6 @@
           <td><span class="path-tag path-oob">OOB: leverage custom</span></td>
         </tr>
         <tr>
-          <td>Knowledge articles</td>
-          <td class="lim-glean"><span class="pill pill-yes">Fully supported</span></td>
-          <td class="lim-msft"><span class="pill pill-yes">SF KB connector</span></td>
-          <td></td>
-        </tr>
-        <tr>
           <td>File content search</td>
           <td class="lim-glean"><span class="pill pill-yes">Supported</span> (with limits)</td>
           <td class="lim-msft"><span class="pill pill-no">Not supported</span></td>
@@ -380,12 +371,11 @@
         <tr><th>Category</th><th class="center">Winner</th><th>Notes</th><th>Closure Path</th></tr>
       </thead>
       <tbody>
-        <tr><td>Entity coverage</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>18+ objects vs 6 (5 CRM + Knowledge)</td><td><span class="path-tag path-oob">OOB: post-MVP + leverage custom</span></td></tr>
+        <tr><td>Entity coverage</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>18+ objects vs 5 (all schema broken)</td><td><span class="path-tag path-oob">OOB: MVP</span> + post-MVP + leverage custom</td></tr>
         <tr><td>ACL / Permissions</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Territory mgmt, hourly ACL full crawl; but FLS not enforced</td><td><span class="path-tag path-oob">OOB: Territory + bug fix</span> <span class="path-tag path-fcc">FCC: FLS</span> <span class="path-tag path-none">Platform: ACL crawl</span></td></tr>
         <tr><td>Crawl freshness</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Minutes vs 15 min incremental</td><td><span class="path-tag path-oob">OOB: reduce interval</span></td></tr>
         <tr><td>File indexing</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Microsoft has no file support</td><td><span class="path-tag path-oob">OOB: add after MVP</span> <span class="path-tag path-fcc">FCC</span></td></tr>
         <tr><td>Custom objects</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Microsoft has no custom object support</td><td><span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
-        <tr><td>Knowledge articles</td><td class="center"><span class="pill" style="background:#e0f2fe;color:#0369a1;">Tie</span></td><td>Covered by Microsoft's SF KB connector</td><td></td></tr>
         <tr><td>Ease of setup</td><td class="center"><span class="pill pill-yes">Microsoft</span></td><td>Simpler admin UI, fewer prerequisites</td><td></td></tr>
         <tr><td>Schema customization</td><td class="center"><span class="pill" style="background:#e0f2fe;color:#0369a1;">Tie</span></td><td>Different strengths (exclusion vs semantic labels)</td><td></td></tr>
         <tr><td>AI integration</td><td class="center"><span class="pill" style="background:#e0f2fe;color:#0369a1;">Tie</span></td><td>Both support their respective AI platforms</td><td></td></tr>
