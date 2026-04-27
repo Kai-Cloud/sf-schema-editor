@@ -169,6 +169,7 @@
     <span class="path-tag path-oob">OOB: add object</span> Proven by custom connector. Can be added to OOB connector with engineering investment.
     <span class="path-tag path-custom">Custom connector</span> Requires per-customer custom build. Not feasible for OOB.
     <span class="path-tag path-fcc">FCC: live fetch</span> Real-time API call at query time. Closes gap without crawling.
+    <span class="path-tag path-none">Platform</span> Requires platform-level infrastructure. Not closable by OOB or custom connector alone.
   </div>
 
   <div class="verdict glean-wins"><span class="verdict-icon">&#9888;</span> Glean indexes 18+ object types vs Microsoft's 5. Most standard-object gaps are closable via OOB engineering. Custom objects and CPQ require per-customer custom connectors.</div>
@@ -211,7 +212,7 @@
     <strong>FLS tradeoff:</strong> Both connectors have FLS limitations, but in opposite directions. Glean over-exposes fields (indexed but not filtered at query time). Microsoft under-indexes them (blocks entire field if FLS is set on any profile). Neither approach is ideal. FCC sidesteps this entirely because it uses the user's own Salesforce session, so native FLS applies.
   </div>
 
-  <div class="verdict glean-wins"><span class="verdict-icon">&#9888;</span> Glean has broader ACL coverage (Territory Management, hourly share sync). Microsoft has a known bug with Lead defaults. Both have FLS limitations. FCC resolves all ACL gaps by using native Salesforce permissions at query time.</div>
+  <div class="verdict glean-wins"><span class="verdict-icon">&#9888;</span> Glean has broader ACL coverage (Territory Management, hourly ACL full crawl of all share tables). Microsoft has a known bug with Lead defaults. Both have FLS limitations. FCC resolves FLS gaps by using native Salesforce permissions at query time, but hourly ACL crawl requires platform-level support.</div>
 </div>
 
 <!-- ============ CRAWL & SYNC ============ -->
@@ -227,7 +228,7 @@
       <tbody>
         <tr class="gap-row"><td>Incremental crawl</td><td class="center">Minutes</td><td class="center">Every 15 min</td><td><span class="path-tag path-oob">OOB: reduce interval</span></td></tr>
         <tr><td>Full crawl</td><td class="center">~Every 28 days</td><td class="center">Daily (default)</td><td></td></tr>
-        <tr class="gap-row"><td>Permission sync</td><td class="center">Hourly (dedicated)</td><td class="center">Full crawl only (daily)</td><td><span class="path-tag path-oob">OOB: add share crawl</span></td></tr>
+        <tr class="gap-row"><td>Hourly ACL full crawl</td><td class="center">Hourly (dedicated scan of all share tables)</td><td class="center">Full crawl only (daily)</td><td><span class="path-tag path-none">Platform: needs ACL crawl infra</span></td></tr>
         <tr><td>SOQL filtering</td><td class="center"><span class="pill pill-yes">Via config</span></td><td class="center"><span class="pill pill-yes">WHERE clause</span></td><td></td></tr>
         <tr><td>Time-based filtering</td><td class="center"><span class="pill pill-no">Not documented</span></td><td class="center"><span class="pill pill-yes">Rolling modified time</span></td><td></td></tr>
         <tr><td>Admin-configurable schedule</td><td class="center"><span class="pill pill-partial">Via support</span></td><td class="center"><span class="pill pill-yes">Self-service</span></td><td></td></tr>
@@ -235,7 +236,7 @@
     </table>
   </div>
 
-  <div class="verdict glean-wins"><span class="verdict-icon">&#9888;</span> Glean has faster incremental crawls (minutes vs 15 min) and dedicated hourly permission sync. Microsoft runs full crawls daily vs Glean's 28-day cycle and offers easier admin scheduling.</div>
+  <div class="verdict glean-wins"><span class="verdict-icon">&#9888;</span> Glean has faster incremental crawls (minutes vs 15 min) and a dedicated hourly ACL full crawl that scans all share tables (AccountShare, CaseShare, etc.) to keep permissions current. Microsoft only updates permissions during daily full crawls. Hourly ACL crawl is a platform-level gap: neither OOB nor custom connector can implement it today.</div>
 </div>
 
 <!-- ============ FILES & ATTACHMENTS ============ -->
@@ -324,10 +325,10 @@
           <td><span class="path-tag path-fcc">FCC: native SF</span></td>
         </tr>
         <tr>
-          <td>Permission update lag</td>
-          <td class="lim-glean">Up to ~1 hour (share crawl)</td>
-          <td class="lim-msft"><span class="pill pill-no">Full crawl only</span> (daily default)</td>
-          <td><span class="path-tag path-oob">OOB: add share crawl</span></td>
+          <td>Hourly ACL full crawl</td>
+          <td class="lim-glean">Hourly full scan of all share tables (AccountShare, CaseShare, etc.)</td>
+          <td class="lim-msft"><span class="pill pill-no">Not supported</span> Permissions only refresh on daily full crawl</td>
+          <td><span class="path-tag path-none">Platform: needs ACL crawl infra</span></td>
         </tr>
         <tr>
           <td>Territory-based sharing</td>
@@ -375,7 +376,7 @@
       </thead>
       <tbody>
         <tr><td>Entity coverage</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>18+ objects vs 5</td><td><span class="path-tag path-oob">OOB: add objects</span> <span class="path-tag path-custom">Custom for __c</span></td></tr>
-        <tr><td>ACL / Permissions</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Territory mgmt, hourly share sync; but FLS not enforced</td><td><span class="path-tag path-oob">OOB: Territory + bug fix</span> <span class="path-tag path-fcc">FCC: FLS</span></td></tr>
+        <tr><td>ACL / Permissions</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Territory mgmt, hourly ACL full crawl; but FLS not enforced</td><td><span class="path-tag path-oob">OOB: Territory + bug fix</span> <span class="path-tag path-fcc">FCC: FLS</span> <span class="path-tag path-none">Platform: ACL crawl</span></td></tr>
         <tr><td>Crawl freshness</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Minutes vs 15 min incremental</td><td><span class="path-tag path-oob">OOB: reduce interval</span></td></tr>
         <tr><td>File indexing</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Microsoft has no file support</td><td><span class="path-tag path-oob">OOB: add crawl</span> <span class="path-tag path-fcc">FCC</span></td></tr>
         <tr><td>Custom objects</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Microsoft has no custom object support</td><td><span class="path-tag path-custom">Custom connector only</span></td></tr>
@@ -392,7 +393,8 @@
     <strong>Closure strategy:</strong><br>
     &#8226; <span class="path-tag path-oob">OOB engineering</span> closes the majority of standard-object and crawl gaps. These are proven patterns already validated by custom connector implementations.<br>
     &#8226; <span class="path-tag path-custom">Custom connector</span> is the only current path for custom objects (__c) and CPQ. Not scalable as an OOB solution.<br>
-    &#8226; <span class="path-tag path-fcc">FCC (Federated Content Connector)</span> closes the real-time, FLS, and file gaps by querying Salesforce APIs directly with user credentials at query time. This is the architectural equivalent of Glean's Live Mode.
+    &#8226; <span class="path-tag path-fcc">FCC (Federated Content Connector)</span> closes the real-time, FLS, and file gaps by querying Salesforce APIs directly with user credentials at query time. This is the architectural equivalent of Glean's Live Mode.<br>
+    &#8226; <span class="path-tag path-none">Platform</span> Hourly ACL full crawl (scanning Salesforce share tables like AccountShare, CaseShare to keep permissions current) requires platform-level infrastructure. Salesforce does not expose deleted share records via incremental APIs, so a dedicated full scan is needed. Neither OOB nor custom connector can implement this without platform support.
   </div>
 </div>
 
