@@ -113,6 +113,14 @@
   [contenteditable="true"]:hover { outline: 2px dashed var(--primary); outline-offset: 2px; border-radius: 4px; }
   [contenteditable="true"]:focus { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: 4px; }
 
+  /* Row action buttons */
+  .row-actions { white-space: nowrap; width: 1px; padding: 4px !important; }
+  .row-actions button { border: none; background: none; cursor: pointer; font-size: 0.72rem; padding: 2px 4px; border-radius: 4px; opacity: 0.3; transition: opacity 0.15s; }
+  .row-actions button:hover { opacity: 1; }
+  .row-actions .btn-add { color: var(--success); }
+  .row-actions .btn-del { color: var(--danger); }
+  @media print { .row-actions { display: none; } }
+
   /* Save button */
   .save-btn { position: fixed; bottom: 24px; right: 24px; z-index: 999; background: var(--primary); color: #fff; border: none; border-radius: 10px; padding: 10px 20px; font-size: 0.82rem; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: background 0.15s, transform 0.1s; }
   .save-btn:hover { background: #0b5ed7; transform: translateY(-1px); }
@@ -266,35 +274,6 @@
     <ul>
       <li><b>Glean:</b> Incremental crawl in minutes. Dedicated hourly ACL full crawl scans all share tables to keep permissions current.</li>
       <li><b>Microsoft:</b> Incremental crawl every 15 min. Permissions only updated during daily full crawl. Hourly ACL crawl is a platform-level gap: neither OOB nor custom connector can implement it today.</li>
-    </ul>
-  </div>
-</div>
-
-<!-- ============ FILES & ATTACHMENTS ============ -->
-<div class="section">
-  <h2 class="section-hdr">File &amp; Attachment Support</h2>
-  <p class="section-desc">Ability to extract and index content from files attached to Salesforce records.</p>
-
-  <div class="gap-table-wrap">
-    <table>
-      <thead>
-        <tr><th>Capability</th><th class="center">Glean</th><th class="center">Microsoft</th><th>Closure Path</th></tr>
-      </thead>
-      <tbody>
-        <tr class="gap-row"><td>File content indexing</td><td class="center"><span class="pill pill-yes">PDF, DOCX, TXT, HTML</span></td><td class="center"><span class="pill pill-no">No</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span> <span class="path-tag path-fcc">FCC</span></td></tr>
-        <tr class="gap-row"><td>Max file size</td><td class="center">64 MB</td><td class="center">N/A</td><td></td></tr>
-        <tr class="gap-row"><td>Text extraction limit</td><td class="center">~16.875 MB</td><td class="center">N/A</td><td></td></tr>
-        <tr class="gap-row"><td>Encrypted / compressed</td><td class="center">Metadata only</td><td class="center">N/A</td><td></td></tr>
-        <tr class="gap-row"><td>Images / video</td><td class="center"><span class="pill pill-no">Not indexed</span></td><td class="center">N/A</td><td></td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="verdict glean-wins">
-    <div class="verdict-title"><span class="verdict-icon">⚠</span> Glean wins: file and attachment indexing</div>
-    <ul>
-      <li><b>Glean:</b> Indexes file content (PDF, DOCX, TXT, HTML) up to 64 MB per file.</li>
-      <li><b>Microsoft:</b> No Salesforce file/attachment indexing at all. Can be closed via OOB crawl engineering or FCC live fetch.</li>
     </ul>
   </div>
 </div>
@@ -602,12 +581,55 @@
   });
   document.querySelectorAll('.verdict, .note-box').forEach(function(el) { el.contentEditable = 'true'; });
 
+  // Row add/delete buttons
+  function addRowActions(tr) {
+    var td = document.createElement('td');
+    td.className = 'row-actions';
+    td.innerHTML = '<button class="btn-add" title="Add row below">+</button><button class="btn-del" title="Delete row">x</button>';
+    tr.appendChild(td);
+    td.querySelector('.btn-add').addEventListener('click', function() {
+      var newTr = tr.cloneNode(true);
+      var firstTd = newTr.querySelector('td:first-child');
+      if (firstTd) { firstTd.textContent = '(new)'; firstTd.contentEditable = 'true'; }
+      newTr.querySelector('.row-actions').remove();
+      tr.parentNode.insertBefore(newTr, tr.nextSibling);
+      initRow(newTr);
+    });
+    td.querySelector('.btn-del').addEventListener('click', function() {
+      if (tr.parentNode.querySelectorAll('tr').length > 1) tr.remove();
+    });
+  }
+
+  function initRow(tr) {
+    var table = tr.closest('table');
+    var headers = [];
+    table.querySelectorAll('thead th').forEach(function(th) { headers.push(th.textContent.trim().toLowerCase()); });
+    var tds = tr.querySelectorAll('td');
+    tds.forEach(function(td, i) {
+      if (i === 0) return;
+      if (td.classList.contains('row-actions')) return;
+      var hdr = headers[i] || '', type = null;
+      if (hdr.includes('closure') || hdr.includes('how microsoft') || hdr === 'closure path') type = 'closure';
+      else if (hdr === 'gap?') type = 'gap';
+      else if (hdr === 'winner') type = 'winner';
+      else if (hdr === 'glean' || hdr === 'microsoft') { if (td.querySelector('.pill') || td.textContent.trim() === '') type = 'status'; }
+      else { var detected = detectCellType(td); if (detected) type = detected; }
+      if (type) makeEditable(td, type);
+    });
+    addRowActions(tr);
+  }
+
+  document.querySelectorAll('.gap-table-wrap table').forEach(function(table) {
+    table.querySelectorAll('tbody tr').forEach(function(tr) { addRowActions(tr); });
+  });
+
   // Save: keeps script + CSS so saved file stays editable
   document.getElementById('saveBtn').addEventListener('click', function() {
     var btn = this;
     document.querySelectorAll('.edit-select, .edit-text').forEach(function(el) { el.blur(); });
     setTimeout(function() {
       var clone = document.documentElement.cloneNode(true);
+      clone.querySelectorAll('.row-actions').forEach(function(el) { el.remove(); });
       clone.querySelectorAll('[contenteditable]').forEach(function(el) { el.removeAttribute('contenteditable'); });
       clone.querySelectorAll('[data-editable]').forEach(function(el) { el.removeAttribute('data-editable'); });
       var html = '<!DOCTYPE html>\n<html lang="en">\n' + clone.innerHTML + '\n</html>';
