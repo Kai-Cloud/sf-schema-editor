@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<<html lang="en"><head></head><body>&lt;&lt;&lt;&lt;&lt;
+<<html lang="en"><head></head><body>&lt;&lt;&lt;&lt;&lt;&lt;
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Salesforce CRM Connector — Schema Editor</title>
@@ -244,7 +244,7 @@
     <thead>
       <tr id="headerRow"><th style="width: 36px; min-width: 36px;">#<span class="sort-arrow">▲</span></th><th style="width: 90px; min-width: 90px;">Section<span class="sort-arrow">▲</span></th><th style="width: 140px; min-width: 140px;">Property<span class="sort-arrow">▲</span></th><th style="width: 90px; min-width: 90px;">Type<span class="sort-arrow">▲</span></th><th style="width: 260px; min-width: 260px;">Description</th><th style="width: 110px; min-width: 110px;">Semantic Label<span class="sort-arrow">▲</span></th><th style="width: 32px; min-width: 32px;">S<span class="info-icon" data-tip="Searchable — value added to full-text index for keyword search. Mutually exclusive with Refinable.">?</span><span class="sort-arrow">▲</span></th><th style="width: 50px; min-width: 50px;">Q<span class="info-icon" data-tip="Queryable — enables KQL property filtering. Q = queryable, — = not queryable.">?</span><span class="sort-arrow">▲</span></th><th style="width: 32px; min-width: 32px;">R<span class="info-icon" data-tip="Retrievable — value returned in search results / Copilot responses.">?</span><span class="sort-arrow">▲</span></th><th style="width: 36px; min-width: 36px;">Ref<span class="info-icon" data-tip="Refinable — adds a UI filter control on search results page. Requires Queryable. Mutually exclusive with Searchable.">?</span><span class="sort-arrow">▲</span></th><th style="width: 180px; min-width: 180px;">Note</th><th style="width: 200px; min-width: 200px;">SF Source</th><th style="width: 200px; min-width: 200px;">Rationale</th></tr>
     </thead>
-    <tbody id="tableBody"><tr class="changed">
+    <tbody id="tableBody"><tr>
       <td style="text-align:right;color:var(--muted)">1</td>
       <td><span class="obj-chip common">Common</span></td>
       <td><code style="font-size:0.8rem">Id</code></td>
@@ -256,9 +256,9 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="0" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="0" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="0" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Exact match required</div></td>
-      <td style="font-size:0.72rem">Id</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="0" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Id</div></td>
       <td style="font-size:0.72rem">Salesforce record ID; used as external item ID</td>
-    </tr><tr class="changed">
+    </tr><tr>
       <td style="text-align:right;color:var(--muted)">2</td>
       <td><span class="obj-chip common">Common</span></td>
       <td><code style="font-size:0.8rem">Url</code></td>
@@ -270,9 +270,9 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="1" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="1" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="1" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)"></div></td>
-      <td style="font-size:0.72rem">Computed: {instanceUrl}/{Id}</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="1" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Computed: {instanceUrl}/{Id}</div></td>
       <td style="font-size:0.72rem">Deep link to the SF record</td>
-    </tr><tr class="changed">
+    </tr><tr>
       <td style="text-align:right;color:var(--muted)">3</td>
       <td><span class="obj-chip common">Common</span></td>
       <td><code style="font-size:0.8rem">IconUrl</code></td>
@@ -284,7 +284,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="2" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="2" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="2" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)"></div></td>
-      <td style="font-size:0.72rem">Computed: per-object icon asset URL</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="2" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Computed: per-object icon asset URL</div></td>
       <td style="font-size:0.72rem">Drives result card icon</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">4</td>
@@ -298,7 +298,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="3" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="3" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="3" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)"></div></td>
-      <td style="font-size:0.72rem">Computed: "Account" / "Contact" / ...</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="3" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Computed: "Account" / "Contact" / ...</div></td>
       <td style="font-size:0.72rem">Entity-type discriminator for filtering</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">5</td>
@@ -312,7 +312,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="4" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="4" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="4" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Null for Lead &amp; Contact</div></td>
-      <td style="font-size:0.72rem">Acct: Type; Opp: Type; Lead: null; Contact: null; Case: Type</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="4" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Acct: Type; Opp: Type; Lead: null; Contact: null; Case: Type</div></td>
       <td style="font-size:0.72rem">Classification label (e.g. "Customer", "Problem")</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">6</td>
@@ -326,7 +326,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="5" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="5" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="5" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Merges Origin (Case) with LeadSource</div></td>
-      <td style="font-size:0.72rem">Acct: AccountSource; Opp: LeadSource; Lead: LeadSource; Contact: LeadSource; Case: Origin</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="5" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Acct: AccountSource; Opp: LeadSource; Lead: LeadSource; Contact: LeadSource; Case: Origin</div></td>
       <td style="font-size:0.72rem">Pipeline attribution — "leads from web form"</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">7</td>
@@ -340,21 +340,21 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="6" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="6" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="6" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Exact match required</div></td>
-      <td style="font-size:0.72rem">Acct: AccountNumber; Case: CaseNumber; Contact: null; Lead: null; Opp: null</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="6" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Acct: AccountNumber; Case: CaseNumber; Contact: null; Lead: null; Opp: null</div></td>
       <td style="font-size:0.72rem">Account or Case number — "find account #12345" / "find case 00001234"</td>
-    </tr><tr>
+    </tr><tr class="changed">
       <td style="text-align:right;color:var(--muted)">8</td>
       <td><span class="obj-chip common">Common</span></td>
       <td><code style="font-size:0.8rem">Name</code></td>
       <td><span class="type-badge">String</span></td>
-      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="7" onfocusout="updateDesc(this)">Primary display name of the record (e.g. account company name, contact full name, opportunity deal name). Mapped to the 'title' semantic label for search result rendering.</div></td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="7" onfocusout="updateDesc(this)">Primary display name of the record (e.g. account company name, contact full name, opportunity deal name, case subject). Mapped to the 'title' semantic label for search result rendering.</div></td>
       <td style="font-size:0.75rem;color:var(--muted)">title</td>
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="7" data-field="searchable" onchange="toggleFlag(this)"></td>
       <td style="text-align:center"><select data-idx="7" onchange="updateQ(this)" style="font-size:0.75rem;font-weight:700;border:1px solid transparent;border-radius:3px;background:none;cursor:pointer;padding:1px 2px;color:var(--success)"><option value="Q" selected="">Q</option><option value="—">—</option></select></td>
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="7" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="7" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="7" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)"></div></td>
-      <td style="font-size:0.72rem">Name</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="7" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Name</div></td>
       <td style="font-size:0.72rem">Primary display name; queryable for name lookups</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">9</td>
@@ -368,9 +368,9 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="8" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="8" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="8" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Mapped to CONTENT; not a property slot in practice</div></td>
-      <td style="font-size:0.72rem">Description</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="8" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Description</div></td>
       <td style="font-size:0.72rem">Rich text description</td>
-    </tr><tr>
+    </tr><tr class="changed">
       <td style="text-align:right;color:var(--muted)">10</td>
       <td><span class="obj-chip common">Common</span></td>
       <td><code style="font-size:0.8rem">Owner</code></td>
@@ -382,7 +382,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="9" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="9" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="9" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)"></div></td>
-      <td style="font-size:0.72rem">Acct: OwnerId; Opp: OwnerId; Lead: OwnerId; Contact: OwnerId; Case: OwnerId → resolve Name + URL</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="9" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Acct: Account Owner; Opp: Opportunity Owner; Lead: Lead Owner; Contact: Contact Owner; Case: Case Owner</div></td>
       <td style="font-size:0.72rem">Record owner — "leads owned by Alice"</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">11</td>
@@ -396,7 +396,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="10" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="10" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="10" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)"></div></td>
-      <td style="font-size:0.72rem">CreatedById → resolve Name + URL</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="10" onfocusout="updateSfSource(this)" style="font-size:0.72rem">CreatedById → resolve Name + URL</div></td>
       <td style="font-size:0.72rem">Audit; semantic label enables platform "created by"</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">12</td>
@@ -410,7 +410,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="11" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="11" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="11" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)"></div></td>
-      <td style="font-size:0.72rem">CreatedDate</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="11" onfocusout="updateSfSource(this)" style="font-size:0.72rem">CreatedDate</div></td>
       <td style="font-size:0.72rem">"Cases opened this week"</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">13</td>
@@ -424,7 +424,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="12" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="12" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="12" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)"></div></td>
-      <td style="font-size:0.72rem">LastModifiedById → resolve Name + URL</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="12" onfocusout="updateSfSource(this)" style="font-size:0.72rem">LastModifiedById → resolve Name + URL</div></td>
       <td style="font-size:0.72rem">Audit field</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">14</td>
@@ -438,7 +438,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="13" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="13" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="13" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)"></div></td>
-      <td style="font-size:0.72rem">LastModifiedDate</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="13" onfocusout="updateSfSource(this)" style="font-size:0.72rem">LastModifiedDate</div></td>
       <td style="font-size:0.72rem">"Recently updated opportunities"</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">15</td>
@@ -452,7 +452,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="14" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="14" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="14" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Lead only populated after conversion; null for unconverted leads</div></td>
-      <td style="font-size:0.72rem">Acct: Name; Opp: Account.Name; Contact: Account.Name; Lead: ConvertedAccount.Name; Case: Account.Name</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="14" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Acct: Name; Opp: Account.Name; Contact: Account.Name; Lead: ConvertedAccount.Name; Case: Account.Name</div></td>
       <td style="font-size:0.72rem">"Find contacts at Acme Corp"</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">16</td>
@@ -466,7 +466,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="15" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="15" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="15" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Changed from AccountUrl to AccountId per Yogesh review 2026-04-09: IDs enable relationship traversal</div></td>
-      <td style="font-size:0.72rem">Acct: Id; Opp: AccountId; Contact: AccountId; Lead: ConvertedAccountId; Case: AccountId</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="15" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Acct: Id; Opp: AccountId; Contact: AccountId; Lead: ConvertedAccountId; Case: AccountId</div></td>
       <td style="font-size:0.72rem">Related Account ID — enables relationship traversal</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">17</td>
@@ -480,7 +480,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="16" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="16" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="16" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">For Contact &amp; Lead: merged from Salutation, FirstName, LastName — concatenated as "{Salutation} {FirstName} {LastName}", trimmed. For Opp &amp; Case: related contact name. Null for Account.</div></td>
-      <td style="font-size:0.72rem">Acct: null; Opp: Contact.Name; Contact: Computed: "{Salutation} {FirstName} {LastName}" (e.g. "Dr. John Smith"); Lead: Computed: "{Salutation} {FirstName} {LastName}"; Case: Contact.Name</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="16" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Acct: null; Opp: Contact.Name; Contact: Computed: "{Salutation} {FirstName} {LastName}" (e.g. "Dr. John Smith"); Lead: Computed: "{Salutation} {FirstName} {LastName}"; Case: Contact.Name</div></td>
       <td style="font-size:0.72rem">Contact's full name with salutation, or related Contact name for other objects</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">18</td>
@@ -494,7 +494,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="17" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="17" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="17" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Merged from Opp ContactId, Lead ConvertedContactId, Case ContactId into Common per Yogesh review 2026-04-09</div></td>
-      <td style="font-size:0.72rem">Acct: null; Opp: ContactId; Contact: null; Lead: ConvertedContactId; Case: ContactId</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="17" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Acct: null; Opp: ContactId; Contact: null; Lead: ConvertedContactId; Case: ContactId</div></td>
       <td style="font-size:0.72rem">Related Contact ID — enables relationship traversal</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">19</td>
@@ -508,7 +508,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="18" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="18" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="18" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Merged from Phone, Email, Fax, MobilePhone, HomePhone, OtherPhone, AssistantPhone. Stored as JSON to preserve field-type labels. (2026-04-10)</div></td>
-      <td style="font-size:0.72rem">Computed: JSON object per object — Contact: {"phone":{work,home,other,mobile,assistant,fax}, "email":Email}; Lead: {"phone":{work,mobile,fax}, "email":Email}; Acct: {"phone":Phone, "fax":Fax}; Opp: null; Case: null</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="18" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Computed: JSON object per object — Contact: {"phone":{work,home,other,mobile,assistant,fax}, "email":Email}; Lead: {"phone":{work,mobile,fax}, "email":Email}; Acct: {"phone":Phone, "fax":Fax}; Opp: null; Case: null</div></td>
       <td style="font-size:0.72rem">Consolidated contact info — searchable for keyword discovery, not queryable (avoids LLM confusion from multiple similar fields)</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">20</td>
@@ -522,7 +522,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="19" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="19" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="19" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Also stored in ContactDetails JSON; this dedicated property enables direct email queries</div></td>
-      <td style="font-size:0.72rem">Acct: null; Contact: Email; Lead: Email; Opp: null; Case: ContactEmail</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="19" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Acct: null; Contact: Email; Lead: Email; Opp: null; Case: ContactEmail</div></td>
       <td style="font-size:0.72rem">"Find lead with email X" — explicit queryable email for exact-match lookups</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">21</td>
@@ -536,7 +536,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="20" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="20" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="20" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Merged from Acct BillingAddress+ShippingAddress, Contact MailingAddress+OtherAddress, Lead Address into Common. Stored as JSON to preserve billing/shipping/mailing/other distinction. (2026-04-10)</div></td>
-      <td style="font-size:0.72rem">Computed: JSON object per object — Acct: {"billing":{street,city,state,postalCode,country}, "shipping":{street,city,state,postalCode,country}}; Contact: {"mailing":{street,city,state,postalCode,country}, "other":{street,city,state,postalCode,country}}; Lead: {"address":{street,city,state,postalCode,country}}; Opp: null; Case: null</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="20" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Computed: JSON object per object — Acct: {"billing":{street,city,state,postalCode,country}, "shipping":{street,city,state,postalCode,country}}; Contact: {"mailing":{street,city,state,postalCode,country}, "other":{street,city,state,postalCode,country}}; Lead: {"address":{street,city,state,postalCode,country}}; Opp: null; Case: null</div></td>
       <td style="font-size:0.72rem">Combined address — searchable for geo discovery, not queryable in Phase 1 per Yogesh review</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">22</td>
@@ -550,7 +550,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="21" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="21" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="21" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Opp StageName duplicated to Opp-specific Stage; Acct &amp; Contact have no native status</div></td>
-      <td style="font-size:0.72rem">Acct: null; Opp: StageName; Lead: Status; Contact: null; Case: Status</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="21" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Acct: null; Opp: StageName; Lead: Status; Contact: null; Case: Status</div></td>
       <td style="font-size:0.72rem">Lifecycle stage — "open cases", "closed-won opps"</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">23</td>
@@ -564,7 +564,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="22" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="22" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="22" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Lead IsConverted ≠ IsClosed semantically</div></td>
-      <td style="font-size:0.72rem">Acct: null; Opp: IsClosed; Lead: IsConverted; Contact: null; Case: IsClosed</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="22" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Acct: null; Opp: IsClosed; Lead: IsConverted; Contact: null; Case: IsClosed</div></td>
       <td style="font-size:0.72rem">Terminal-state flag</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">24</td>
@@ -578,7 +578,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="23" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="23" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="23" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Null for Case</div></td>
-      <td style="font-size:0.72rem">Acct: LastActivityDate; Contact: ...; Lead: ...; Opp: ...; Case: null</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="23" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Acct: LastActivityDate; Contact: ...; Lead: ...; Opp: ...; Case: null</div></td>
       <td style="font-size:0.72rem">Date of last logged activity (call, email, task)</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">25</td>
@@ -592,7 +592,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="24" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="24" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="24" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Picklist; only populated for Account &amp; Lead</div></td>
-      <td style="font-size:0.72rem">Acct: Industry; Lead: Industry; Contact: null; Opp: null; Case: null</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="24" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Acct: Industry; Lead: Industry; Contact: null; Opp: null; Case: null</div></td>
       <td style="font-size:0.72rem">"Show tech industry records"</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">26</td>
@@ -606,7 +606,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="25" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="25" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="25" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Picklist; same values on Account &amp; Lead; null for other objects</div></td>
-      <td style="font-size:0.72rem">Acct: Rating; Lead: Rating; Contact: null; Opp: null; Case: null</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="25" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Acct: Rating; Lead: Rating; Contact: null; Opp: null; Case: null</div></td>
       <td style="font-size:0.72rem">Engagement rating (Hot/Warm/Cold)</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">27</td>
@@ -620,7 +620,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="26" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="26" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="26" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Only populated for Account &amp; Lead; null for other objects</div></td>
-      <td style="font-size:0.72rem">Acct: Website; Lead: Website; Contact: null; Opp: null; Case: null</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="26" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Acct: Website; Lead: Website; Contact: null; Opp: null; Case: null</div></td>
       <td style="font-size:0.72rem">Company website URL</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">28</td>
@@ -634,7 +634,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="27" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="27" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="27" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Normalized to org's base currency; base currency must be specified in Copilot description during Connector setup (2026-04-09 review)</div></td>
-      <td style="font-size:0.72rem">Acct: AnnualRevenue; Lead: AnnualRevenue; Contact: null; Opp: null; Case: null</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="27" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Acct: AnnualRevenue; Lead: AnnualRevenue; Contact: null; Opp: null; Case: null</div></td>
       <td style="font-size:0.72rem">Revenue-based filtering — "accounts over $1M"</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">29</td>
@@ -648,7 +648,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="28" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="28" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="28" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Only Account &amp; Lead</div></td>
-      <td style="font-size:0.72rem">Acct: NumberOfEmployees; Lead: NumberOfEmployees; Contact: null; Opp: null; Case: null</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="28" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Acct: NumberOfEmployees; Lead: NumberOfEmployees; Contact: null; Opp: null; Case: null</div></td>
       <td style="font-size:0.72rem">Size-based filtering — "enterprise accounts with 1000+ employees"</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">30</td>
@@ -662,7 +662,7 @@
       <td class="cb-cell"><input type="checkbox" data-idx="29" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="29" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="29" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Account → parent Account; Case → parent Case; null for other objects</div></td>
-      <td style="font-size:0.72rem">Acct: ParentId; Case: ParentId; Lead: null; Contact: null; Opp: null</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="29" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Acct: ParentId; Case: ParentId; Lead: null; Contact: null; Opp: null</div></td>
       <td style="font-size:0.72rem">FK to parent record; enables hierarchy features</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">31</td>
@@ -676,9 +676,9 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="30" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="30" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="30" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Account uses parent account name; Case uses parent case number</div></td>
-      <td style="font-size:0.72rem">Acct: Parent.Name; Case: Parent.CaseNumber; others: null</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="30" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Acct: Parent.Name; Case: Parent.CaseNumber; others: null</div></td>
       <td style="font-size:0.72rem">Parent record display name — denormalized</td>
-    </tr><tr class="changed">
+    </tr><tr>
       <td style="text-align:right;color:var(--muted)">32</td>
       <td><span class="obj-chip common">Common</span></td>
       <td><code style="font-size:0.8rem">ParentUrl</code></td>
@@ -690,7 +690,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="31" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="31" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="31" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Null when ParentId is empty</div></td>
-      <td style="font-size:0.72rem">Computed: {instanceUrl}/{ParentId}</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="31" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Computed: {instanceUrl}/{ParentId}</div></td>
       <td style="font-size:0.72rem">Deep link to parent record</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">33</td>
@@ -704,7 +704,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="32" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="32" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="32" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Lead duplicates from ConvertedDate; Acct &amp; Contact have no close date</div></td>
-      <td style="font-size:0.72rem">Acct: null; Opp: CloseDate; Lead: ConvertedDate; Contact: null; Case: ClosedDate</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="32" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Acct: null; Opp: CloseDate; Lead: ConvertedDate; Contact: null; Case: ClosedDate</div></td>
       <td style="font-size:0.72rem">Date the record was closed/converted</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">34</td>
@@ -718,7 +718,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="33" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="33" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="33" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Picklist: Public, Private, Subsidiary, etc.</div></td>
-      <td style="font-size:0.72rem">Ownership</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="33" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Ownership</div></td>
       <td style="font-size:0.72rem">"Show publicly traded accounts"</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">35</td>
@@ -732,7 +732,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="34" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="34" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="34" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Null for private companies</div></td>
-      <td style="font-size:0.72rem">TickerSymbol</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="34" onfocusout="updateSfSource(this)" style="font-size:0.72rem">TickerSymbol</div></td>
       <td style="font-size:0.72rem">Stock ticker for public companies</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">36</td>
@@ -746,7 +746,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="35" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="35" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="35" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Complements Industry for fine-grained classification</div></td>
-      <td style="font-size:0.72rem">Sic</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="35" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Sic</div></td>
       <td style="font-size:0.72rem">Standard Industrial Classification code</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">37</td>
@@ -760,7 +760,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="36" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="36" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="36" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Not the website — this is a location descriptor</div></td>
-      <td style="font-size:0.72rem">Site</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="36" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Site</div></td>
       <td style="font-size:0.72rem">Account site/location label (e.g. "HQ", "Branch")</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">38</td>
@@ -774,7 +774,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="37" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="37" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="37" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Renamed from Title to JobTitle to avoid confusion; covers both Contact and Lead Title fields. Searchable-only per Yogesh review 2026-04-09</div></td>
-      <td style="font-size:0.72rem">Contact: Title; Lead: Title</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="37" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Contact: Title</div></td>
       <td style="font-size:0.72rem">Job title — searchable for keyword discovery, not queryable due to inconsistent values (CTO vs Chief Technology Officer)</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">39</td>
@@ -788,7 +788,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="38" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="38" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="38" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Searchable-only per Yogesh review 2026-04-09</div></td>
-      <td style="font-size:0.72rem">Department</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="38" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Department</div></td>
       <td style="font-size:0.72rem">Department — searchable for keyword discovery, not queryable due to inconsistent values</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">40</td>
@@ -802,7 +802,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="39" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="39" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="39" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">PII consideration</div></td>
-      <td style="font-size:0.72rem">Birthdate</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="39" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Birthdate</div></td>
       <td style="font-size:0.72rem">Contact's date of birth</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">41</td>
@@ -816,7 +816,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="40" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="40" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="40" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)"></div></td>
-      <td style="font-size:0.72rem">AssistantName</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="40" onfocusout="updateSfSource(this)" style="font-size:0.72rem">AssistantName</div></td>
       <td style="font-size:0.72rem">Name of contact's assistant</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">42</td>
@@ -830,7 +830,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="41" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="41" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="41" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Enables "who does X report to" queries</div></td>
-      <td style="font-size:0.72rem">ReportsTo.Name</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="41" onfocusout="updateSfSource(this)" style="font-size:0.72rem">ReportsTo.Name</div></td>
       <td style="font-size:0.72rem">Manager/supervisor name — denormalized</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">43</td>
@@ -844,7 +844,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="42" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="42" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="42" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Changed from ReportsToUrl to ReportsToId per Yogesh review 2026-04-09: IDs enable hierarchy traversal</div></td>
-      <td style="font-size:0.72rem">ReportsToId</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="42" onfocusout="updateSfSource(this)" style="font-size:0.72rem">ReportsToId</div></td>
       <td style="font-size:0.72rem">Manager ID — enables hierarchy traversal ("find all contacts reporting to X")</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">44</td>
@@ -858,7 +858,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="43" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="43" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="43" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Null for unconverted leads</div></td>
-      <td style="font-size:0.72rem">ConvertedDate</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="43" onfocusout="updateSfSource(this)" style="font-size:0.72rem">ConvertedDate</div></td>
       <td style="font-size:0.72rem">Date the lead was converted</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">45</td>
@@ -872,7 +872,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="44" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="44" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="44" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Null if no Opp was created during conversion</div></td>
-      <td style="font-size:0.72rem">ConvertedOpportunity.Name</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="44" onfocusout="updateSfSource(this)" style="font-size:0.72rem">ConvertedOpportunity.Name</div></td>
       <td style="font-size:0.72rem">Name of the Opportunity created at conversion</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">46</td>
@@ -886,7 +886,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="45" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="45" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="45" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Changed from ConvertedOpportunityUrl to ConvertedOpportunityId per Yogesh review 2026-04-09</div></td>
-      <td style="font-size:0.72rem">ConvertedOpportunityId</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="45" onfocusout="updateSfSource(this)" style="font-size:0.72rem">ConvertedOpportunityId</div></td>
       <td style="font-size:0.72rem">ID of Opportunity created at conversion — enables relationship traversal</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">47</td>
@@ -900,7 +900,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="46" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="46" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="46" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Free-text field; pre-conversion only</div></td>
-      <td style="font-size:0.72rem">Company</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="46" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Company</div></td>
       <td style="font-size:0.72rem">Lead company name — "leads from Acme"</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">48</td>
@@ -914,7 +914,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="47" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="47" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="47" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Duplicates common Status intentionally</div></td>
-      <td style="font-size:0.72rem">StageName</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="47" onfocusout="updateSfSource(this)" style="font-size:0.72rem">StageName</div></td>
       <td style="font-size:0.72rem">Pipeline stage — "Prospecting", "Closed Won"</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">49</td>
@@ -928,7 +928,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="48" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="48" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="48" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Normalized to org's base currency; base currency must be specified in Copilot description during Connector setup (2026-04-09 review)</div></td>
-      <td style="font-size:0.72rem">Amount</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="48" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Amount</div></td>
       <td style="font-size:0.72rem">Deal value — "opportunities over $100K"</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">50</td>
@@ -942,7 +942,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="49" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="49" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="49" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Normalized to org's base currency; base currency must be specified in Copilot description during Connector setup (2026-04-09 review)</div></td>
-      <td style="font-size:0.72rem">Probability</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="49" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Probability</div></td>
       <td style="font-size:0.72rem">Win probability percentage</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">51</td>
@@ -956,7 +956,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="50" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="50" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="50" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Normalized to org's base currency; base currency must be specified in Copilot description during Connector setup (2026-04-09 review)</div></td>
-      <td style="font-size:0.72rem">ExpectedRevenue</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="50" onfocusout="updateSfSource(this)" style="font-size:0.72rem">ExpectedRevenue</div></td>
       <td style="font-size:0.72rem">Weighted revenue (Amount x Probability)</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">52</td>
@@ -970,7 +970,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="51" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="51" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="51" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)"></div></td>
-      <td style="font-size:0.72rem">NextStep</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="51" onfocusout="updateSfSource(this)" style="font-size:0.72rem">NextStep</div></td>
       <td style="font-size:0.72rem">Free-text next action for the deal</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">53</td>
@@ -984,7 +984,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="52" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="52" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="52" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Complements IsClosed — closed-won vs closed-lost</div></td>
-      <td style="font-size:0.72rem">IsWon</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="52" onfocusout="updateSfSource(this)" style="font-size:0.72rem">IsWon</div></td>
       <td style="font-size:0.72rem">Win/loss flag</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">54</td>
@@ -998,7 +998,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="53" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="53" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="53" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Key for sales forecasting roll-ups</div></td>
-      <td style="font-size:0.72rem">ForecastCategoryName</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="53" onfocusout="updateSfSource(this)" style="font-size:0.72rem">ForecastCategoryName</div></td>
       <td style="font-size:0.72rem">Forecast bucket (Pipeline, Best Case, Commit, Closed)</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">55</td>
@@ -1012,7 +1012,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="54" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="54" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="54" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">SF-computed from CloseDate + org fiscal year settings</div></td>
-      <td style="font-size:0.72rem">FiscalQuarter</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="54" onfocusout="updateSfSource(this)" style="font-size:0.72rem">FiscalQuarter</div></td>
       <td style="font-size:0.72rem">Fiscal quarter (1-4)</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">56</td>
@@ -1026,7 +1026,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="55" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="55" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="55" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">SF-computed</div></td>
-      <td style="font-size:0.72rem">FiscalYear</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="55" onfocusout="updateSfSource(this)" style="font-size:0.72rem">FiscalYear</div></td>
       <td style="font-size:0.72rem">Fiscal year</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">57</td>
@@ -1040,7 +1040,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="56" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="56" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="56" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Combined fiscal quarter + year</div></td>
-      <td style="font-size:0.72rem">Fiscal</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="56" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Fiscal</div></td>
       <td style="font-size:0.72rem">Fiscal period label (e.g. "2026 Q2")</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">58</td>
@@ -1054,7 +1054,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="57" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="57" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="57" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Primary text for case identification beyond CaseNumber</div></td>
-      <td style="font-size:0.72rem">Subject</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="57" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Subject</div></td>
       <td style="font-size:0.72rem">Case headline/summary</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">59</td>
@@ -1068,7 +1068,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="58" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="58" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="58" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Key triage filter</div></td>
-      <td style="font-size:0.72rem">Priority</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="58" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Priority</div></td>
       <td style="font-size:0.72rem">Case priority (High/Medium/Low)</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">60</td>
@@ -1082,7 +1082,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="59" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="59" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="59" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Picklist; categorizes root cause</div></td>
-      <td style="font-size:0.72rem">Reason</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="59" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Reason</div></td>
       <td style="font-size:0.72rem">Case reason (e.g. "Installation", "Performance")</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">61</td>
@@ -1096,7 +1096,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="60" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="60" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="60" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Useful for escalation reporting</div></td>
-      <td style="font-size:0.72rem">IsEscalated</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="60" onfocusout="updateSfSource(this)" style="font-size:0.72rem">IsEscalated</div></td>
       <td style="font-size:0.72rem">Whether the case has been escalated</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">62</td>
@@ -1110,7 +1110,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="61" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="61" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="61" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Mapped to CONTENT alongside Description</div></td>
-      <td style="font-size:0.72rem">Comments</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="61" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Comments</div></td>
       <td style="font-size:0.72rem">Internal comments / case notes</td>
     </tr><tr>
       <td style="text-align:right;color:var(--muted)">63</td>
@@ -1124,7 +1124,7 @@
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="62" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="62" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="62" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">May differ from Contact email</div></td>
-      <td style="font-size:0.72rem">SuppliedEmail</td>
+      <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="62" onfocusout="updateSfSource(this)" style="font-size:0.72rem">SuppliedEmail</div></td>
       <td style="font-size:0.72rem">Email address submitted via Web-to-Case</td>
     </tr></tbody>
   </table>
@@ -1175,9 +1175,9 @@ const SCHEMA = [
   {n:5, section:"Common", property:"Type", type:"String", q:"Q", semanticLabel:"—", sfSource:"Acct: Type; Opp: Type; Lead: null; Contact: null; Case: Type", rationale:"Classification label (e.g. \"Customer\", \"Problem\")", note:"Null for Lead & Contact", description:"Record sub-classification within an object (e.g. 'Customer', 'Partner' for Account; 'Problem', 'Question' for Case). Null for Lead and Contact.", searchable:true, retrievable:true, refinable:false},
   {n:6, section:"Common", property:"Source", type:"String", q:"Q", semanticLabel:"—", sfSource:"Acct: AccountSource; Opp: LeadSource; Lead: LeadSource; Contact: LeadSource; Case: Origin", rationale:"Pipeline attribution — \"leads from web form\"", note:"Merges Origin (Case) with LeadSource", description:"Marketing/lead attribution source indicating how the record entered the pipeline (e.g. 'Web', 'Phone Inquiry', 'Partner Referral'). Merges AccountSource, LeadSource, and Origin into one unified property.", searchable:true, retrievable:true, refinable:false},
   {n:7, section:"Common", property:"Number", type:"String", q:"Q", semanticLabel:"secondaryId", sfSource:"Acct: AccountNumber; Case: CaseNumber; Contact: null; Lead: null; Opp: null", rationale:"Account or Case number — \"find account #12345\" / \"find case 00001234\"", note:"Exact match required", description:"The number assigned to an Account or Case. For Account this is the customer/vendor AccountNumber; for Case this is the auto-generated CaseNumber. Contains null if the record is not an Account or Case.", searchable:true, retrievable:true, refinable:false},
-  {n:8, section:"Common", property:"Name", type:"String", q:"Q", semanticLabel:"title", sfSource:"Name", rationale:"Primary display name; queryable for name lookups", note:"", description:"Primary display name of the record (e.g. account company name, contact full name, opportunity deal name). Mapped to the 'title' semantic label for search result rendering.", searchable:true, retrievable:true, refinable:false},
+  {n:8, section:"Common", property:"Name", type:"String", q:"Q", semanticLabel:"title", sfSource:"Name", rationale:"Primary display name; queryable for name lookups", note:"", description:"Primary display name of the record (e.g. account company name, contact full name, opportunity deal name, case subject). Mapped to the 'title' semantic label for search result rendering.", searchable:true, retrievable:true, refinable:false},
   {n:9, section:"Common", property:"Description", type:"String", q:"—", semanticLabel:"—", sfSource:"Description", rationale:"Rich text description", note:"Mapped to CONTENT; not a property slot in practice", description:"Free-text description field. Mapped to the CONTENT property for semantic search and Copilot summarization rather than as a schema property, to save property budget.", searchable:true, retrievable:true, refinable:false},
-  {n:10, section:"Common", property:"Owner", type:"Principal", q:"Q", semanticLabel:"assignedToPeople", sfSource:"Acct: OwnerId; Opp: OwnerId; Lead: OwnerId; Contact: OwnerId; Case: OwnerId → resolve Name + URL", rationale:"Record owner — \"leads owned by Alice\"", note:"", description:"The user who owns this record, resolved as a Principal type carrying both display name and profile URL. Enables queries like 'show my leads' or 'leads owned by Alice'.", searchable:false, retrievable:true, refinable:false},
+  {n:10, section:"Common", property:"Owner", type:"Principal", q:"Q", semanticLabel:"assignedToPeople", sfSource:"Acct: Account Owner; Opp: Opportunity Owner; Lead: Lead Owner; Contact: Contact Owner; Case: Case Owner", rationale:"Record owner — \"leads owned by Alice\"", note:"", description:"The user who owns this record, resolved as a Principal type carrying both display name and profile URL. Enables queries like 'show my leads' or 'leads owned by Alice'.", searchable:false, retrievable:true, refinable:false},
   {n:11, section:"Common", property:"CreatedBy", type:"Principal", q:"Q", semanticLabel:"createdBy", sfSource:"CreatedById → resolve Name + URL", rationale:"Audit; semantic label enables platform \"created by\"", note:"", description:"The user who created this record, resolved as a Principal type. Semantic label 'createdBy' enables platform-native 'created by' filtering in Microsoft Search.", searchable:false, retrievable:true, refinable:false},
   {n:12, section:"Common", property:"CreatedDate", type:"DateTime", q:"Q", semanticLabel:"createdDateTime", sfSource:"CreatedDate", rationale:"\"Cases opened this week\"", note:"", description:"Timestamp when the record was created. Enables time-based queries like 'cases opened this week' or 'leads created last month'. Semantic label 'createdDateTime'.", searchable:false, retrievable:true, refinable:true},
   {n:13, section:"Common", property:"LastModifiedBy", type:"Principal", q:"Q", semanticLabel:"lastModifiedBy", sfSource:"LastModifiedById → resolve Name + URL", rationale:"Audit field", note:"", description:"The user who last modified this record, resolved as a Principal type. Semantic label 'lastModifiedBy' for platform audit features.", searchable:false, retrievable:true, refinable:false},
@@ -1207,7 +1207,7 @@ const SCHEMA = [
   {n:3, section:"Account", property:"SicCode", type:"String", q:"—", semanticLabel:"—", sfSource:"Sic", rationale:"Standard Industrial Classification code", note:"Complements Industry for fine-grained classification", description:"Standard Industrial Classification (SIC) code for industry categorization. Complements the Industry picklist for more granular classification.", searchable:true, retrievable:true, refinable:false},
   {n:10, section:"Account", property:"Site", type:"String", q:"—", semanticLabel:"—", sfSource:"Site", rationale:"Account site/location label (e.g. \"HQ\", \"Branch\")", note:"Not the website — this is a location descriptor", description:"Location descriptor label for the account (e.g. 'HQ', 'Branch', 'Regional Office'). Not the website URL — purely an organizational location label.", searchable:true, retrievable:true, refinable:false},
   // ── Contact-Specific ──
-  {n:1, section:"Contact", property:"JobTitle", type:"String", q:"—", semanticLabel:"—", sfSource:"Contact: Title; Lead: Title", rationale:"Job title — searchable for keyword discovery, not queryable due to inconsistent values (CTO vs Chief Technology Officer)", note:"Renamed from Title to JobTitle to avoid confusion; covers both Contact and Lead Title fields. Searchable-only per Yogesh review 2026-04-09", description:"Job title of the contact or lead (e.g. 'VP of Engineering', 'CTO'). Free-text field with inconsistent values — better suited as searchable for keyword discovery rather than queryable. Renamed from Title to JobTitle to avoid confusion with Object Type.", searchable:true, retrievable:true, refinable:false},
+  {n:1, section:"Contact", property:"JobTitle", type:"String", q:"—", semanticLabel:"—", sfSource:"Contact: Title", rationale:"Job title — searchable for keyword discovery, not queryable due to inconsistent values (CTO vs Chief Technology Officer)", note:"Renamed from Title to JobTitle to avoid confusion; covers both Contact and Lead Title fields. Searchable-only per Yogesh review 2026-04-09", description:"Job title of the contact or lead (e.g. 'VP of Engineering', 'CTO'). Free-text field with inconsistent values — better suited as searchable for keyword discovery rather than queryable. Renamed from Title to JobTitle to avoid confusion with Object Type.", searchable:true, retrievable:true, refinable:false},
   {n:2, section:"Contact", property:"Department", type:"String", q:"—", semanticLabel:"—", sfSource:"Department", rationale:"Department — searchable for keyword discovery, not queryable due to inconsistent values", note:"Searchable-only per Yogesh review 2026-04-09", description:"Department the contact belongs to (e.g. 'Engineering', 'Sales', 'Marketing'). Free-text field with inconsistent entries — better suited as searchable rather than queryable.", searchable:true, retrievable:true, refinable:false},
   {n:6, section:"Contact", property:"Birthdate", type:"DateTime", q:"Q", semanticLabel:"—", sfSource:"Birthdate", rationale:"Contact's date of birth", note:"PII consideration", description:"Contact's date of birth. PII-sensitive — some organizations may choose not to index this field.", searchable:false, retrievable:true, refinable:true},
   {n:9, section:"Contact", property:"AssistantName", type:"String", q:"—", semanticLabel:"—", sfSource:"AssistantName", rationale:"Name of contact's assistant", note:"", description:"Name of the contact's administrative assistant.", searchable:true, retrievable:true, refinable:false},
