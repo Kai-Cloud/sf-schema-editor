@@ -188,18 +188,15 @@
         <tr><th>Capability</th><th class="center">Glean</th><th class="center">Microsoft</th><th>Closure Path</th></tr>
       </thead>
       <tbody>
-        <tr><td>Org-wide defaults</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td></td></tr>
-        <tr><td>Role hierarchy</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td></td></tr>
-        <tr><td>Sharing rules</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td></td></tr>
-        <tr><td>Manual shares</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td></td></tr>
+        <tr><td>Record-level security (OWD, role hierarchy, sharing rules, manual shares)</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td></td></tr>
         <tr class="gap-row"><td>Territory Management (Territory2)</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td><span class="path-tag path-oob">OOB: add ACL model</span></td></tr>
-        <tr><td>Apex-based sharing</td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">No</span></td><td><span class="path-tag path-fcc">FCC: native SF enforcement</span></td></tr>
-        <tr>
+        <tr class="gap-row">
           <td>Field-Level Security (FLS)</td>
-          <td class="center"><span class="pill pill-no">Not enforced</span></td>
-          <td class="center"><span class="pill pill-partial">Blocks field ingestion</span></td>
-          <td><span class="path-tag path-fcc">FCC: native SF enforcement</span></td>
+          <td class="center"><span class="pill pill-partial">Not enforced</span></td>
+          <td class="center"><span class="pill pill-no">Not ingested</span></td>
+          <td><span class="path-tag path-oob">OOB: MVP</span></td>
         </tr>
+        <tr><td>Apex-based sharing</td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">No</span></td><td><span class="path-tag path-fcc">FCC: native SF enforcement</span></td></tr>
         <tr class="gap-row">
           <td>Lead org-wide defaults</td>
           <td class="center"><span class="pill pill-yes">Yes</span></td>
