@@ -121,6 +121,10 @@
   .row-actions .btn-del { color: var(--danger); }
   @media print { .row-actions { display: none; } }
 
+  /* Gap assessment spotlight */
+  .gap-assessment { background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%); border: 2px solid #3b82f6; border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; box-shadow: 0 2px 12px rgba(59,130,246,0.15); }
+  .gap-assessment-hdr { font-size: 1.1rem; font-weight: 800; color: #1e40af; margin: 0 0 12px; display: flex; align-items: center; gap: 8px; border-bottom: 2px solid #3b82f6; padding-bottom: 8px; }
+
   /* Save button */
   .save-btn { position: fixed; bottom: 24px; right: 24px; z-index: 999; background: var(--primary); color: #fff; border: none; border-radius: 10px; padding: 10px 20px; font-size: 0.82rem; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: background 0.15s, transform 0.1s; }
   .save-btn:hover { background: #0b5ed7; transform: translateY(-1px); }
@@ -278,35 +282,6 @@
   </div>
 </div>
 
-<!-- ============ SCHEMA & CUSTOMIZATION ============ -->
-<div class="section">
-  <h2 class="section-hdr">Schema &amp; Property Customization</h2>
-  <p class="section-desc">How each connector handles field mapping, filtering, and search customization.</p>
-
-  <div class="gap-table-wrap">
-    <table>
-      <thead>
-        <tr><th>Capability</th><th class="center">Glean</th><th class="center">Microsoft</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Custom field mapping</td><td class="center"><span class="pill pill-yes">Title, owner, facets, indexable</span></td><td class="center"><span class="pill pill-yes">Searchable, queryable, retrievable, refinable</span></td></tr>
-        <tr><td>Custom facets / filters</td><td class="center"><span class="pill pill-yes">5 field types</span></td><td class="center"><span class="pill pill-yes">Via schema properties</span></td></tr>
-        <tr class="gap-row"><td>Field exclusion (red-listing)</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">Not documented</span></td><td></td></tr>
-        <tr><td>Semantic labels</td><td class="center"><span class="pill pill-no">Not documented</span></td><td class="center"><span class="pill pill-yes">Title, URL, authors, etc.</span></td></tr>
-        <tr><td>Result type / layout</td><td class="center">Glean's own UI</td><td class="center"><span class="pill pill-yes">Auto-generated result types</span></td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="verdict tie">
-    <div class="verdict-title"><span class="verdict-icon">↔</span> Tie: different strengths</div>
-    <ul>
-      <li><b>Glean:</b> Field-level exclusion (red-listing) for sensitive data control.</li>
-      <li><b>Microsoft:</b> Semantic labeling and result type customization for richer search UX.</li>
-    </ul>
-  </div>
-</div>
-
 <!-- ============ ADDITIONAL CAPABILITIES ============ -->
 <div class="section">
   <h2 class="section-hdr">Additional Capabilities</h2>
@@ -321,69 +296,25 @@
         <tr><td>AI Assistant integration</td><td class="center"><span class="pill pill-yes">Search + write-back</span></td><td class="center"><span class="pill pill-yes">Copilot + Copilot Studio</span></td><td></td></tr>
         <tr><td>Multi-org support</td><td class="center"><span class="pill pill-yes">Each org = data source</span></td><td class="center"><span class="pill pill-yes">Per-connection</span></td><td></td></tr>
         <tr><td>Sandbox support</td><td class="center"><span class="pill pill-yes">Explicit</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td></td></tr>
-        <tr><td>Staged rollout</td><td class="center"><span class="pill pill-no">Not documented</span></td><td class="center"><span class="pill pill-yes">Limited audience</span></td><td></td></tr>
+        <tr><td>Staged rollout</td><td class="center"><span class="pill pill-partial">Not mentioned</span></td><td class="center"><span class="pill pill-yes">Limited audience</span></td><td></td></tr>
       </tbody>
     </table>
+  </div>
+
+  <div class="verdict glean-wins">
+    <div class="verdict-title"><span class="verdict-icon">⚠</span> Glean wins: Live Mode and write-back actions</div>
+    <ul>
+      <li><b>Glean:</b> Live Mode (per-user OAuth) enables real-time fetch and write-back actions. This is a differentiating capability with no Microsoft equivalent today.</li>
+      <li><b>Microsoft:</b> Stronger on staged rollout (limited audience). AI integration and multi-org/sandbox support are at parity.</li>
+    </ul>
   </div>
 </div>
 
 <hr class="divider">
 
-<!-- ============ KEY LIMITATIONS SUMMARY ============ -->
+<!-- ============ OVERALL ============ -->
 <div class="section">
-  <h2 class="section-hdr">Key Limitations Summary</h2>
-  <p class="section-desc">Critical limitations for each connector, with the path to resolution.</p>
-
-  <div class="gap-table-wrap">
-    <table class="lim-table">
-      <thead>
-        <tr><th>Limitation</th><th>Glean</th><th>Microsoft</th><th>Closure Path</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>FLS enforcement</td>
-          <td class="lim-glean"><span class="pill pill-no">Not enforced</span> Risk of over-exposure</td>
-          <td class="lim-msft"><span class="pill pill-partial">Blocks field ingestion</span> if FLS set on any profile</td>
-          <td><span class="path-tag path-fcc">FCC</span></td>
-        </tr>
-        <tr>
-          <td>Hourly ACL full crawl</td>
-          <td class="lim-glean">Hourly full scan of all share tables (AccountShare, CaseShare, etc.)</td>
-          <td class="lim-msft"><span class="pill pill-no">Not supported</span> Permissions only refresh on daily full crawl</td>
-          <td><span class="path-tag path-none">Platform</span></td>
-        </tr>
-        <tr>
-          <td>Territory-based sharing</td>
-          <td class="lim-glean"><span class="pill pill-yes">Supported</span></td>
-          <td class="lim-msft"><span class="pill pill-no">Not supported</span></td>
-          <td><span class="path-tag path-oob">OOB: leverage custom</span></td>
-        </tr>
-        <tr>
-          <td>Lead defaults bug</td>
-          <td class="lim-glean">No known issue</td>
-          <td class="lim-msft"><span class="pill pill-bug">Known bug</span> Not honored</td>
-          <td>Noted as Microsoft restriction</td>
-        </tr>
-        <tr>
-          <td>Custom objects</td>
-          <td class="lim-glean"><span class="pill pill-yes">Fully supported</span></td>
-          <td class="lim-msft"><span class="pill pill-no">Not supported</span></td>
-          <td><span class="path-tag path-oob">OOB: leverage custom</span></td>
-        </tr>
-        <tr>
-          <td>File content search</td>
-          <td class="lim-glean"><span class="pill pill-yes">Supported</span> (with limits)</td>
-          <td class="lim-msft"><span class="pill pill-no">Not supported</span></td>
-          <td><span class="path-tag path-oob">OOB: Post-MVP</span> <span class="path-tag path-fcc">FCC</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- ============ OVERALL VERDICT ============ -->
-<div class="section">
-  <h2 class="section-hdr">Overall Verdict</h2>
+  <h2 class="section-hdr">Overall</h2>
 
   <div class="gap-table-wrap">
     <table>
@@ -391,20 +322,25 @@
         <tr><th>Category</th><th class="center">Winner</th><th>Notes</th><th>Closure Path</th></tr>
       </thead>
       <tbody>
-        <tr><td>Entity coverage</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>18+ objects vs 5 (all schema broken)</td><td><span class="path-tag path-oob">OOB: MVP</span> <span class="path-tag path-oob">OOB: Post-MVP</span> <span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
-        <tr><td>ACL / Permissions</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Territory mgmt, hourly ACL full crawl; but FLS not enforced</td><td><span class="path-tag path-oob">OOB: leverage custom</span> <span class="path-tag path-fcc">FCC</span> <span class="path-tag path-none">Platform</span></td></tr>
-        <tr><td>Crawl freshness</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Minutes vs 15 min incremental</td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
-        <tr><td>File indexing</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Microsoft has no file support</td><td><span class="path-tag path-oob">OOB: Post-MVP</span> <span class="path-tag path-fcc">FCC</span></td></tr>
-        <tr><td>Custom objects</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Microsoft has no custom object support</td><td><span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
-        <tr><td>Ease of setup</td><td class="center"><span class="pill pill-yes">Microsoft</span></td><td>Simpler admin UI, fewer prerequisites</td><td></td></tr>
-        <tr><td>Schema customization</td><td class="center"><span class="pill" style="background:#e0f2fe;color:#0369a1;">Tie</span></td><td>Different strengths (exclusion vs semantic labels)</td><td></td></tr>
-        <tr><td>AI integration</td><td class="center"><span class="pill" style="background:#e0f2fe;color:#0369a1;">Tie</span></td><td>Both support their respective AI platforms</td><td></td></tr>
+        <tr><td>Entity / Object Coverage</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>18+ objects vs 5 (all with schema issues). Custom objects and CPQ supported by Glean only.</td><td><span class="path-tag path-oob">OOB: MVP</span> <span class="path-tag path-oob">OOB: Post-MVP</span> <span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
+        <tr><td>Permissions / ACL</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Territory mgmt, hourly ACL full crawl. FLS not enforced by either. Lead OWD bug on Microsoft side.</td><td><span class="path-tag path-oob">OOB: leverage custom</span> <span class="path-tag path-fcc">FCC</span> <span class="path-tag path-none">Platform</span></td></tr>
+        <tr><td>Crawl &amp; Sync</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Minutes vs 15 min incremental. Dedicated hourly ACL crawl vs daily full crawl only.</td><td><span class="path-tag path-oob">OOB: MVP</span> <span class="path-tag path-none">Platform</span></td></tr>
+        <tr><td>Additional Capabilities</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Glean: Live Mode with real-time fetch and write-back. Microsoft: staged rollout. Parity on AI, multi-org, sandbox.</td><td><span class="path-tag path-fcc">FCC</span></td></tr>
       </tbody>
     </table>
   </div>
 
-  <div class="note-box" contenteditable="true">
-    <strong>Bottom line:</strong> Glean's Salesforce connector is substantially more capable, particularly for organizations needing CRM data beyond the 5 core objects, file/attachment search, territory-based permissions, or near-real-time freshness.
+  <div class="gap-assessment">
+    <h2 class="gap-assessment-hdr">Gap Assessment: Path to Parity</h2>
+    <div contenteditable="true" style="font-size: 0.82rem; line-height: 1.6;">
+    The gap to Glean is significant but not insurmountable. Most gaps fall into well-scoped engineering work rather than fundamental platform limitations.<br><br>
+    <strong>OOB: MVP</strong> (schema fix for 5 core objects): estimated 4-6 weeks. This is the highest-priority work and addresses the most visible quality issues.<br>
+    <strong>OOB: Post-MVP</strong> (Tasks, Events, Case Comments): estimated 2-4 weeks per object. Incremental additions to the existing crawl pipeline.<br>
+    <strong>OOB: leverage custom</strong> (Campaigns, Products, Orders, CPQ, Custom Objects, Territory): estimated 4-8 weeks. Existing custom connector implementations provide proven patterns to accelerate.<br>
+    <strong>FCC</strong> (Live Mode, FLS enforcement): estimated 6-10 weeks. Requires per-user OAuth architecture and query-time API calls. Architectural investment with broad reuse potential.<br>
+    <strong>Platform</strong> (hourly ACL full crawl): timeline TBD. Requires platform team investment in share-table scanning infrastructure. This is the only gap that cannot be closed by the connector team alone.<br><br>
+    <strong>Overall:</strong> With focused execution, the OOB MVP + Post-MVP work (8-14 weeks) closes the most customer-visible gaps. The remaining items (custom object leverage, FCC, Platform ACL) are medium-term investments that progressively close the gap to feature parity.
+    </div>
   </div>
 </div>
 
