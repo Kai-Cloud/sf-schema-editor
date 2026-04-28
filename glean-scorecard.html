@@ -143,7 +143,7 @@
 <h1>Salesforce Connector Gap Analysis: Glean vs Microsoft</h1>
 <p class="subtitle">Data-driven comparison based on documented connector capabilities. April 2026. <a href="index.html">Schema Editor</a></p>
 
-<div class="note-box" contenteditable="true">
+<div class="note-box">
   <strong>Closure strategy:</strong><br>
   • <span class="path-tag path-oob">OOB: MVP</span> Fix the 5 core objects (Account, Contact, Lead, Opportunity, Case) with correct schema in the OOB connector.<br>
   • <span class="path-tag path-oob">OOB: Post-MVP</span> High-priority objects (Tasks, Events, Case Comments, Files) planned for the OOB connector after MVP ships.<br>
@@ -155,7 +155,9 @@
 <!-- ============ ENTITY COVERAGE ============ -->
 <div class="section">
   <h2 class="section-hdr">Entity / Object Coverage</h2>
-  <p class="section-desc">What Salesforce objects each connector can crawl, index, and surface in search results.</p>
+  <p class="section-desc">What Salesforce objects each connector can crawl, index, and surface in search results.
+    <br>Docs: <a href="https://docs.glean.com/connectors/native/salesforce/about#supported-objects-and-content-types" target="_blank">Glean: Supported Objects</a> · <a href="https://docs.glean.com/connectors/native/salesforce/additional-objects" target="_blank">Glean: Additional Objects</a> · <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/salesforce-connector#capabilities" target="_blank">MSFT: Capabilities</a>
+  </p>
 
   <!-- Visual bar comparison -->
   <div class="bar-chart" style="max-width: 400px;">
@@ -189,21 +191,21 @@
         <tr class="gap-row"><td>Cases</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Schema broken</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
 
         <!-- OOB: Post-MVP (high priority) -->
-        <tr class="gap-row"><td>Tasks</td><td class="center"><span class="pill pill-partial">Partial ACL</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Tasks</td><td class="center"><span class="pill pill-partial">Yes - ACL limitation</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
         <tr class="gap-row"><td>Events</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
         <tr class="gap-row"><td>Case Comments</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
         <tr class="gap-row"><td>Files / Attachments</td><td class="center"><span class="pill pill-yes">Content extraction</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
 
         <!-- OOB: leverage custom connector work -->
-        <tr class="gap-row"><td>Campaigns</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
-        <tr class="gap-row"><td>Chatter Feed Items</td><td class="center"><span class="pill pill-yes">Yes (optional)</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
-        <tr class="gap-row"><td>Discussion Forums</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
-        <tr class="gap-row"><td>Products</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
-        <tr class="gap-row"><td>Orders &amp; Order Items</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
-        <tr class="gap-row"><td>Quotes</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
-        <tr class="gap-row"><td>Voice Calls</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
-        <tr class="gap-row"><td>CPQ (SBQQ) Objects</td><td class="center"><span class="pill pill-yes">Yes (3 objects)</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
-        <tr class="gap-row"><td>Custom Objects (__c)</td><td class="center"><span class="pill pill-yes">Any queryable</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
+        <tr class="gap-row"><td>Campaigns</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Chatter Feed Items</td><td class="center"><span class="pill pill-yes">Yes (optional)</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Discussion Forums</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Products</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Orders &amp; Order Items</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Quotes</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Voice Calls</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>CPQ (SBQQ) Objects</td><td class="center"><span class="pill pill-yes">Yes (3 objects)</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Custom Objects (__c)</td><td class="center"><span class="pill pill-yes">Any queryable</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -211,8 +213,8 @@
   <div class="verdict glean-wins">
     <div class="verdict-title"><span class="verdict-icon">⚠</span> Glean wins: 18+ object types vs Microsoft's 5</div>
     <ul>
-      <li><b>Glean:</b> Covers 18+ objects including Tasks, Events, Knowledge, CPQ, custom objects, and file content extraction.</li>
-      <li><b>Microsoft:</b> Only 5 core CRM objects (Account, Contact, Lead, Opportunity, Case), all with known schema quality issues. MVP will fix these 5. Post-MVP OOB adds high-priority objects; remaining gaps leverage custom connector.</li>
+      <li><b>Glean:</b> Covers 18+ objects including Tasks, Events, Case Comments, Files (with content extraction), Campaigns, Chatter, Discussion Forums, Products, Orders, Quotes, Voice Calls, CPQ, and any custom object.</li>
+      <li><b>Microsoft:</b> Only 5 core CRM objects (Account, Contact, Lead, Opportunity, Case), all currently flagged as schema broken. All 13 additional object types are absent. Closure: MVP fixes the 5 core schemas; Post-MVP adds the remaining objects.</li>
     </ul>
   </div>
 </div>
@@ -220,7 +222,9 @@
 <!-- ============ PERMISSIONS / ACL ============ -->
 <div class="section">
   <h2 class="section-hdr">Permissions / ACL</h2>
-  <p class="section-desc">How each connector enforces Salesforce record-level and field-level security.</p>
+  <p class="section-desc">How each connector enforces Salesforce record-level and field-level security.
+    <br>Docs: <a href="https://docs.glean.com/connectors/native/salesforce/about#how-permissions-work" target="_blank">Glean: How Permissions Work</a> · <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/salesforce-connector#limitations" target="_blank">MSFT: Limitations</a> · <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/salesforce-connector#users" target="_blank">MSFT: Users (ACL Setup)</a>
+  </p>
 
   <div class="gap-table-wrap">
     <table>
@@ -236,8 +240,7 @@
           <td class="center"><span class="pill pill-no">Not ingested</span></td>
           <td><span class="path-tag path-oob">OOB: MVP</span></td>
         </tr>
-        <tr class="gap-row"><td>Apex-based sharing</td><td class="center"><span class="pill pill-partial">Not mentioned</span></td><td class="center"><span class="pill pill-no">No</span></td><td><span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
-        <tr class="gap-row"><td>ACL freshness (per hour)</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td><span class="path-tag path-none">Platform</span></td></tr>
+        <tr class="gap-row"><td>Apex-based sharing</td><td class="center"><span class="pill pill-partial">Not mentioned</span></td><td class="center"><span class="pill pill-no">No</span></td><td><span class="path-tag path-oob">OOB: leverage custom</span></td></tr>        
       </tbody>
     </table>
   </div>
@@ -246,8 +249,8 @@
   <div class="verdict glean-wins">
     <div class="verdict-title"><span class="verdict-icon">⚠</span> Glean wins: broader ACL coverage</div>
     <ul>
-      <li><b>Glean:</b> Supports Territory Management, hourly ACL full crawl of all share tables (AccountShare, CaseShare, etc.).</li>
-      <li><b>Microsoft:</b> No Territory Management. Known bug with Lead OWD defaults. FLS blocks field ingestion org-wide. ACL updates only during daily full crawl. Hourly ACL crawl requires platform-level support. FCC resolves FLS gaps via native Salesforce permissions at query time.</li>
+      <li><b>Glean:</b> Full record-level security (OWD, role hierarchy, sharing rules, manual shares) plus Territory Management. FLS is not enforced at query time (sensitive fields must be red-listed).</li>
+      <li><b>Microsoft:</b> Record-level security is restricted. No Territory Management. No Apex-based sharing. FLS blocks field ingestion org-wide rather than per-profile. Known bug with Lead OWD defaults.</li>
     </ul>
   </div>
 </div>
@@ -255,7 +258,9 @@
 <!-- ============ CRAWL & SYNC ============ -->
 <div class="section">
   <h2 class="section-hdr">Crawl &amp; Sync</h2>
-  <p class="section-desc">How frequently each connector crawls data and syncs permission changes.</p>
+  <p class="section-desc">How frequently each connector crawls data and syncs permission changes.
+    <br>Docs: <a href="https://docs.glean.com/connectors/native/salesforce/about#sync-behavior-performance-and-limits" target="_blank">Glean: Sync Behavior</a> · <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/salesforce-connector#sync" target="_blank">MSFT: Sync</a>
+  </p>
 
   <div class="gap-table-wrap">
     <table>
@@ -263,21 +268,21 @@
         <tr><th>Attribute</th><th class="center">Glean</th><th class="center">Microsoft</th><th>Closure Path</th></tr>
       </thead>
       <tbody>
-        <tr class="gap-row"><td>Incremental crawl</td><td class="center">Minutes</td><td class="center">Every 15 min</td><td><span class="path-tag path-none">Platform</span></td></tr>
+        <tr class=""><td>Incremental crawl</td><td class="center">Minutes</td><td class="center">Every 15 min</td><td></td></tr>
         <tr><td>Full crawl</td><td class="center">~Every 28 days</td><td class="center">Daily (default)</td><td></td></tr>
         <tr class="gap-row"><td>Hourly ACL full crawl</td><td class="center">Hourly (dedicated scan of all share tables)</td><td class="center">Full crawl only (daily)</td><td><span class="path-tag path-none">Platform</span></td></tr>
         <tr><td>SOQL filtering</td><td class="center"><span class="pill pill-yes">Via config</span></td><td class="center"><span class="pill pill-yes">WHERE clause</span></td><td></td></tr>
         <tr class="gap-row"><td>Time-based filtering</td><td class="center"><span class="pill pill-partial">Not mentioned</span></td><td class="center"><span class="pill pill-yes">Rolling modified time</span></td><td></td></tr>
-        <tr><td>Admin-configurable schedule</td><td class="center"><span class="pill pill-partial">Via support</span></td><td class="center"><span class="pill pill-yes">Self-service</span></td><td></td></tr>
+        <tr class="gap-row"><td>Admin-configurable schedule</td><td class="center"><span class="pill pill-partial">Via support</span></td><td class="center"><span class="pill pill-yes">Self-service</span></td><td></td></tr>
       </tbody>
     </table>
   </div>
 
   <div class="verdict glean-wins">
-    <div class="verdict-title"><span class="verdict-icon">⚠</span> Glean wins: faster crawl and dedicated permission sync</div>
+    <div class="verdict-title"><span class="verdict-icon">⚠</span> Glean wins on speed; Microsoft wins on admin control</div>
     <ul>
-      <li><b>Glean:</b> Incremental crawl in minutes. Dedicated hourly ACL full crawl scans all share tables to keep permissions current.</li>
-      <li><b>Microsoft:</b> Incremental crawl every 15 min. Permissions only updated during daily full crawl. Hourly ACL crawl is a platform-level gap: neither OOB nor custom connector can implement it today.</li>
+      <li><b>Glean:</b> Incremental crawl in minutes. Dedicated hourly ACL full crawl scans all share tables to keep permissions current. Full crawl roughly every 28 days.</li>
+      <li><b>Microsoft:</b> Incremental crawl every 15 min. Permissions only updated during daily full crawl. Stronger on admin self-service: configurable schedule, time-based filtering, and SOQL WHERE clause. Hourly ACL crawl is a platform-level gap.</li>
     </ul>
   </div>
 </div>
@@ -285,27 +290,29 @@
 <!-- ============ ADDITIONAL CAPABILITIES ============ -->
 <div class="section">
   <h2 class="section-hdr">Additional Capabilities</h2>
-
+  <p class="section-desc">
+    Docs: <a href="https://docs.glean.com/connectors/native/salesforce/use-salesforce-connector" target="_blank">Glean: Use Salesforce Connector</a> · <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/salesforce-connector#capabilities" target="_blank">MSFT: Capabilities</a> · <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/staged-rollout" target="_blank">MSFT: Staged Rollout</a>
+  </p>
   <div class="gap-table-wrap">
     <table>
       <thead>
         <tr><th>Capability</th><th class="center">Glean</th><th class="center">Microsoft</th><th>Closure Path</th></tr>
       </thead>
       <tbody>
-        <tr class="gap-row"><td>Live Mode (real-time fetch)</td><td class="center"><span class="pill pill-yes">Per-user OAuth</span></td><td class="center"><span class="pill pill-no">No</span></td><td><span class="path-tag path-fcc">FCC</span></td></tr>
+        <tr class="gap-row"><td>Live Mode (real-time fetch via API)</td><td class="center"><span class="pill pill-yes">Per-user OAuth</span></td><td class="center"><span class="pill pill-no">No</span></td><td><span class="path-tag path-fcc">FCC</span></td></tr>
         <tr><td>AI Assistant integration</td><td class="center"><span class="pill pill-yes">Search + write-back</span></td><td class="center"><span class="pill pill-yes">Copilot + Copilot Studio</span></td><td></td></tr>
-        <tr><td>Multi-org support</td><td class="center"><span class="pill pill-yes">Each org = data source</span></td><td class="center"><span class="pill pill-yes">Per-connection</span></td><td></td></tr>
-        <tr><td>Sandbox support</td><td class="center"><span class="pill pill-yes">Explicit</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td></td></tr>
+        
+        
         <tr><td>Staged rollout</td><td class="center"><span class="pill pill-partial">Not mentioned</span></td><td class="center"><span class="pill pill-yes">Limited audience</span></td><td></td></tr>
       </tbody>
     </table>
   </div>
 
   <div class="verdict glean-wins">
-    <div class="verdict-title"><span class="verdict-icon">⚠</span> Glean wins: Live Mode and write-back actions</div>
+    <div class="verdict-title"><span class="verdict-icon">⚠</span> Glean wins: Live Mode; Microsoft wins: staged rollout</div>
     <ul>
-      <li><b>Glean:</b> Live Mode (per-user OAuth) enables real-time fetch and write-back actions. This is a differentiating capability with no Microsoft equivalent today.</li>
-      <li><b>Microsoft:</b> Stronger on staged rollout (limited audience). AI integration and multi-org/sandbox support are at parity.</li>
+      <li><b>Glean:</b> Live Mode (per-user OAuth) enables real-time fetch and write-back actions directly from search results. No Microsoft equivalent today.</li>
+      <li><b>Microsoft:</b> Staged rollout (limited audience) for safe validation before broad deployment. AI integration at parity (Copilot + Copilot Studio vs Glean Assistant).</li>
     </ul>
   </div>
 </div>
@@ -322,17 +329,17 @@
         <tr><th>Category</th><th class="center">Winner</th><th>Notes</th><th>Closure Path</th></tr>
       </thead>
       <tbody>
-        <tr><td>Entity / Object Coverage</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>18+ objects vs 5 (all with schema issues). Custom objects and CPQ supported by Glean only.</td><td><span class="path-tag path-oob">OOB: MVP</span> <span class="path-tag path-oob">OOB: Post-MVP</span> <span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
-        <tr><td>Permissions / ACL</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Territory mgmt, hourly ACL full crawl. FLS not enforced by either. Lead OWD bug on Microsoft side.</td><td><span class="path-tag path-oob">OOB: leverage custom</span> <span class="path-tag path-fcc">FCC</span> <span class="path-tag path-none">Platform</span></td></tr>
-        <tr><td>Crawl &amp; Sync</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Minutes vs 15 min incremental. Dedicated hourly ACL crawl vs daily full crawl only.</td><td><span class="path-tag path-none">Platform</span></td></tr>
-        <tr><td>Additional Capabilities</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Glean: Live Mode with real-time fetch and write-back. Microsoft: staged rollout. Parity on AI, multi-org, sandbox.</td><td><span class="path-tag path-fcc">FCC</span></td></tr>
+        <tr><td>Entity / Object Coverage</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>18+ objects vs 5 (all schema broken). Tasks, Events, Files, CPQ, custom objects absent from Microsoft.</td><td><span class="path-tag path-oob">OOB: MVP</span> <span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr><td>Permissions / ACL</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Glean: full record-level + Territory Mgmt. Microsoft: restricted record-level, no Territory, FLS blocks org-wide. Neither enforces FLS at query time.</td><td><span class="path-tag path-oob">OOB: MVP</span> <span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
+        <tr><td>Crawl &amp; Sync</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Glean: minutes + hourly ACL crawl. Microsoft: 15 min + daily only, but better admin controls (self-service schedule, time-based filter).</td><td><span class="path-tag path-none">Platform</span></td></tr>
+        <tr><td>Additional Capabilities</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Glean: Live Mode with write-back. Microsoft: staged rollout. AI integration at parity.</td><td><span class="path-tag path-fcc">FCC</span></td></tr>
       </tbody>
     </table>
   </div>
 
   <div class="gap-assessment">
     <h2 class="gap-assessment-hdr">Gap Assessment: Path to Parity</h2>
-    <div contenteditable="true" style="font-size: 0.82rem; line-height: 1.6;">
+    <div style="font-size: 0.82rem; line-height: 1.6;">
     The gap to Glean is significant but not insurmountable. Most gaps fall into well-scoped engineering work rather than fundamental platform limitations.<br><br>
     <strong>OOB: MVP</strong> (schema fix for 5 core objects): estimated 4-6 weeks. This is the highest-priority work and addresses the most visible quality issues.<br>
     <strong>OOB: Post-MVP</strong> (Tasks, Events, Case Comments): estimated 2-4 weeks per object. Incremental additions to the existing crawl pipeline.<br>
@@ -347,8 +354,8 @@
 <!-- Sources & methodology -->
 <div class="note-box" style="background: #f9fafb; border-color: var(--border);">
   <strong>Sources:</strong>
-  <a href="https://docs.glean.com/connectors/native/salesforce/home" target="_blank">Glean Salesforce Docs</a> ·
-  <a href="https://learn.microsoft.com/en-us/microsoftsearch/salesforce-connector" target="_blank">Microsoft Salesforce Connector Docs</a> ·
+  <a href="https://docs.glean.com/connectors/native/salesforce/about" target="_blank">Glean Salesforce Docs</a> ·
+  <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/salesforce-connector" target="_blank">Microsoft Salesforce Connector Docs</a> ·
   <a href="index.html">Schema Editor</a> ·
   March 2026
 </div>
@@ -510,7 +517,7 @@
   });
 
   // Make text elements contenteditable
-  document.querySelectorAll('.section-hdr, .section-desc').forEach(function(el) { el.contentEditable = 'true'; });
+  document.querySelectorAll('.section-hdr').forEach(function(el) { el.contentEditable = 'true'; });
   document.querySelectorAll('.gap-table-wrap table tbody tr').forEach(function(tr) {
     var firstTd = tr.querySelector('td:first-child');
     if (firstTd) firstTd.contentEditable = 'true';
@@ -578,6 +585,8 @@
   });
 })();
 </script>
+
+
 
 </body>
 </html>
