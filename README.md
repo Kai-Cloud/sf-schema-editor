@@ -24,3 +24,15 @@ Visit: <https://kai-cloud.github.io/sf-schema-editor/>
 | **Total** | **111** | | |
 
 Source: [eval-queryset-111.csv](../10_SSP/20_SalesforceCC/03_Spec/04_Eval/20260427-SF-oob-glean-eval/eval-queryset-111.csv)
+
+### Custom Fields (__c) Queried
+
+5 of the 111 queries reference OOB sample-data-pack custom fields on the **Case** object:
+
+| Query # | Prompt | Custom Field | Object |
+|---|---|---|---|
+| 45 | Show me all cases marked as Potential Liability. | `PotentialLiability__c` | Case |
+| 59 | Which contacts are linked to cases filed on GC5060 products? | `Product__c` | Case |
+| 63 | Which accounts have open cases with a potential liability flag? | `PotentialLiability__c` | Case |
+| 71 | Show me all SLA violation cases. | `SLAViolation__c` | Case |
+| 83 | What are all the cases linked to the GC1020 product? | `Product__c` | Case |

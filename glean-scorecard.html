@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Salesforce Connector Gap Analysis — Glean vs Microsoft</title>
+<title>Salesforce CRM Connector Gap Analysis — Glean vs Microsoft</title>
 <style>
   :root {
     --bg: #f8f9fa; --surface: #fff; --border: #dee2e6; --text: #212529; --muted: #6c757d;
@@ -47,6 +47,7 @@
   .pill-no { background: #fee2e2; color: #991b1b; }
   .pill-partial { background: #fef3c7; color: #92400e; }
   .pill-bug { background: #fce7f3; color: #9d174d; }
+  .pill-count { background: #e9ecef; color: #6c757d; font-size: 0.65rem; padding: 1px 7px; border-radius: 8px; font-weight: 600; white-space: nowrap; }
 
   /* Closure path tags */
   .path-tag { display: inline-flex; align-items: center; gap: 3px; padding: 2px 8px; border-radius: 8px; font-size: 0.68rem; font-weight: 600; white-space: nowrap; }
@@ -140,7 +141,7 @@
 </head>
 <body>
 
-<h1>Salesforce Connector Gap Analysis: Glean vs Microsoft</h1>
+<h1>Salesforce CRM Connector Gap Analysis: Glean vs Microsoft</h1>
 <p class="subtitle">Data-driven comparison based on documented connector capabilities. April 2026. <a href="index.html">Schema Editor</a> · <span id="version-tag" style="color:var(--muted);font-size:0.72rem;"></span></p>
 
 <div class="note-box">
@@ -184,28 +185,28 @@
       </thead>
       <tbody>
         <!-- MVP objects (schema broken, fixing in MVP) -->
-        <tr class="gap-row"><td>Accounts</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Schema broken</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
-        <tr class="gap-row"><td>Contacts</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Schema broken</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
-        <tr class="gap-row"><td>Leads</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Schema broken</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
-        <tr class="gap-row"><td>Opportunities</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Schema broken</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
-        <tr class="gap-row"><td>Cases</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Schema broken</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr class="gap-row"><td>Accounts <span class="pill-count">16 queries</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Schema broken</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr class="gap-row"><td>Contacts <span class="pill-count">14 queries</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Schema broken</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr class="gap-row"><td>Leads <span class="pill-count">9 queries</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Schema broken</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr class="gap-row"><td>Opportunities <span class="pill-count">32 queries</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Schema broken</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr class="gap-row"><td>Cases <span class="pill-count">13 queries</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Schema broken</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
 
         <!-- OOB: Post-MVP (high priority) -->
-        <tr class="gap-row"><td>Tasks</td><td class="center"><span class="pill pill-partial">Yes - ACL limitation</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
-        <tr class="gap-row"><td>Events</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
-        <tr class="gap-row"><td>Case Comments</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
-        <tr class="gap-row"><td>Files / Attachments</td><td class="center"><span class="pill pill-yes">Content extraction</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Tasks <span class="pill-count">1 query</span></td><td class="center"><span class="pill pill-partial"><a href="https://docs.glean.com/connectors/native/salesforce/about#supported-objects-and-content-types" target="_blank" style="color:inherit">Yes - ACL limitation</a></span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Events <span class="pill-count">1 query</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Case Comments <span class="pill-count">3 queries</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Files / Attachments <span class="pill-count">5 queries</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
 
         <!-- OOB: leverage custom connector work -->
-        <tr class="gap-row"><td>Campaigns</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
-        <tr class="gap-row"><td>Chatter Feed Items</td><td class="center"><span class="pill pill-yes">Yes (optional)</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
-        <tr class="gap-row"><td>Discussion Forums</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
-        <tr class="gap-row"><td>Products</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
-        <tr class="gap-row"><td>Orders &amp; Order Items</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
-        <tr class="gap-row"><td>Quotes</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
-        <tr class="gap-row"><td>Voice Calls</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
-        <tr class="gap-row"><td>CPQ (SBQQ) Objects</td><td class="center"><span class="pill pill-yes">Yes (3 objects)</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
-        <tr class="gap-row"><td>Custom Objects (__c)</td><td class="center"><span class="pill pill-yes">Any queryable</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Campaigns <span class="pill-count">1 query</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Chatter Feed Items <span class="pill-count">6 queries</span></td><td class="center"><span class="pill pill-partial"><a href="https://docs.glean.com/connectors/native/salesforce/about#supported-objects-and-content-types" target="_blank" style="color:inherit">Yes - default off</a></span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Discussion Forums <span class="pill-count">0 queries</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Products <span class="pill-count">4 queries</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Orders &amp; Order Items <span class="pill-count">3 queries</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Quotes <span class="pill-count">3 queries</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Voice Calls <span class="pill-count">0 queries</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>CPQ (SBQQ) Objects <span class="pill-count">0 queries</span></td><td class="center"><span class="pill pill-yes">Yes (3 objects)</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Custom Objects (__c) <span class="pill-count">0 queries</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td class="center"><span class="pill pill-no">Gap</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -223,7 +224,7 @@
 <div class="section">
   <h2 class="section-hdr">Supported Scenarios &amp; Query Patterns</h2>
   <p class="section-desc">
-    What user prompt patterns each sync-ed connector can answer from its crawled index. Eval results from an <a href="eval-queryset-111.csv">111-prompt eval set</a> tested against Microsoft OOB/Custom/FCC (74 of 111 tested; 37 require objects not yet in OOB scope).
+    What user prompt patterns each sync-ed connector can answer from its crawled index. Eval results from an <a href="https://microsoft.sharepoint-df.com/:x:/t/GraphConnectors-Core/cQpwsZDsXE1PTY6ODQXX2WJhEgUCu5B8fgFadvJ04zvIwIPSAQ" target="_blank">111-prompt eval set</a> against Microsoft OOB/Custom/FCC (under testing).
     <br>Docs: <a href="https://docs.glean.com/connectors/native/salesforce/use-salesforce-connector" target="_blank">Glean: Use Salesforce Connector</a> · <a href="https://docs.glean.com/connectors/native/salesforce/about#supported-objects-and-content-types" target="_blank">Glean: Supported Objects</a> · <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/salesforce-connector#capabilities" target="_blank">MSFT: Capabilities</a>
   </p>
 
@@ -233,20 +234,20 @@
         <tr><th>Prompt Pattern</th><th class="center">Glean</th><th class="center">Microsoft OOB</th><th class="center">Microsoft Custom</th><th class="center">Microsoft FCC</th><th>Closure Path</th></tr>
       </thead>
       <tbody>
-        <tr><td>List (top-N enumeration, 5)</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">1/5</span></td><td class="center"><span class="pill pill-yes">5/5</span></td><td class="center"><span class="pill pill-yes">5/5</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
-        <tr><td>Lookup (entity by name/number, 5)</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">4/5</span></td><td class="center"><span class="pill pill-yes">4/5</span></td><td class="center"><span class="pill pill-yes">5/5</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
-        <tr><td>Field (single field retrieval, 15)</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">6/15</span></td><td class="center"><span class="pill pill-yes">12/15</span></td><td class="center"><span class="pill pill-yes">15/15</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
-        <tr><td>Filter (single/multi-condition, 26)</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">7/26</span></td><td class="center"><span class="pill pill-partial">14/26</span></td><td class="center"><span class="pill pill-yes">20/26</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
-        <tr><td>Date (date-range filter, 9)</td><td class="center"><span class="pill pill-partial"><a href="https://docs.glean.com/connectors/native/salesforce/use-salesforce-connector" target="_blank" style="color:inherit">Not mentioned</a></span></td><td class="center"><span class="pill pill-no">0/9</span></td><td class="center"><span class="pill pill-yes">7/9</span></td><td class="center"><span class="pill pill-yes">8/9</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
-        <tr><td>Numeric (&gt;, &lt;, range on amount, 8)</td><td class="center"><span class="pill pill-partial"><a href="https://docs.glean.com/connectors/native/salesforce/use-salesforce-connector" target="_blank" style="color:inherit">Not mentioned</a></span></td><td class="center"><span class="pill pill-no">0/8</span></td><td class="center"><span class="pill pill-yes">7/8</span></td><td class="center"><span class="pill pill-yes">7/8</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
-        <tr><td>Aggregation (count, sum, top-N ranked, 5)</td><td class="center"><span class="pill pill-partial"><a href="https://docs.glean.com/connectors/native/salesforce/use-salesforce-connector" target="_blank" style="color:inherit">Not mentioned</a></span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
-        <tr><td>Cross-object (Account→Opp, Contact→Case, 10)</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">6/10</span></td><td class="center"><span class="pill pill-partial">6/10</span></td><td class="center"><span class="pill pill-yes">8/10</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
-        <tr class="gap-row"><td>Extended object (Tasks, Campaigns, Products, Orders, Quotes, 14)</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
-        <tr class="gap-row"><td>Custom objects (0)</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
-        <tr class="gap-row"><td>Unstructured data (Case Comments, Chatter, Files/Attachments, 14)</td><td class="center"><span class="pill pill-partial"><a href="https://docs.glean.com/connectors/native/salesforce/about#supported-objects-and-content-types" target="_blank" style="color:inherit">Restricted</a></span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr><td>List (top-N enumeration) <span class="pill-count">5 queries</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">1/5</span></td><td class="center"><span class="pill pill-yes">5/5</span></td><td class="center"><span class="pill pill-yes">5/5</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr><td>Lookup (entity by name/number) <span class="pill-count">5 queries</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">4/5</span></td><td class="center"><span class="pill pill-yes">4/5</span></td><td class="center"><span class="pill pill-yes">5/5</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr><td>Field (single field retrieval) <span class="pill-count">15 queries</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">6/15</span></td><td class="center"><span class="pill pill-yes">12/15</span></td><td class="center"><span class="pill pill-yes">15/15</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr><td>Filter (single/multi-condition) <span class="pill-count">26 queries</span> <span class="path-tag path-none">2 custom fields</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">7/26</span></td><td class="center"><span class="pill pill-partial">14/26</span></td><td class="center"><span class="pill pill-yes">20/26</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr><td>Date (date-range filter) <span class="pill-count">9 queries</span></td><td class="center"><span class="pill pill-partial"><a href="https://docs.glean.com/connectors/native/salesforce/use-salesforce-connector" target="_blank" style="color:inherit">Not mentioned</a></span></td><td class="center"><span class="pill pill-no">0/9</span></td><td class="center"><span class="pill pill-yes">7/9</span></td><td class="center"><span class="pill pill-yes">8/9</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr><td>Numeric (&gt;, &lt;, range on amount) <span class="pill-count">8 queries</span></td><td class="center"><span class="pill pill-partial"><a href="https://docs.glean.com/connectors/native/salesforce/use-salesforce-connector" target="_blank" style="color:inherit">Not mentioned</a></span></td><td class="center"><span class="pill pill-no">0/8</span></td><td class="center"><span class="pill pill-yes">7/8</span></td><td class="center"><span class="pill pill-yes">7/8</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr><td>Aggregation (count, sum, top-N ranked) <span class="pill-count">5 queries</span></td><td class="center"><span class="pill pill-partial"><a href="https://docs.glean.com/connectors/native/salesforce/use-salesforce-connector" target="_blank" style="color:inherit">Not mentioned</a></span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr><td>Cross-object (Account→Opp, Contact→Case) <span class="pill-count">10 queries</span> <span class="path-tag path-none">3 custom fields</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">6/10</span></td><td class="center"><span class="pill pill-partial">6/10</span></td><td class="center"><span class="pill pill-yes">8/10</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr class="gap-row"><td>Extended object (Tasks, Campaigns, Products, Orders, Quotes) <span class="pill-count">14 queries</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Custom objects <span class="pill-count">0 queries</span></td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Unstructured data (Case Comments, Chatter, Files/Attachments) <span class="pill-count">14 queries</span></td><td class="center"><span class="pill pill-partial"><a href="https://docs.glean.com/connectors/native/salesforce/about#supported-objects-and-content-types" target="_blank" style="color:inherit">Restricted</a></span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td class="center"><span class="pill pill-no">Not tested</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
       </tbody>
       <tfoot>
-        <tr style="font-weight:700; background:#f1f3f5;"><td>Overall (111 queries)</td><td class="center">—</td><td class="center"><span class="pill pill-no">22% (24/111)</span></td><td class="center"><span class="pill pill-partial">50% (55/111)</span></td><td class="center"><span class="pill pill-yes">61% (68/111)</span></td><td></td></tr>
+        <tr style="font-weight:700; background:#f1f3f5;"><td>Overall <span class="pill-count">111 queries</span></td><td class="center">—</td><td class="center"><span class="pill pill-no">22% (24/111)</span></td><td class="center"><span class="pill pill-partial">50% (55/111)</span></td><td class="center"><span class="pill pill-yes">61% (68/111)</span></td><td></td></tr>
       </tfoot>
     </table>
   </div>
@@ -277,11 +278,11 @@
         <tr class="gap-row"><td>Territory Management (Territory2)</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td><span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
         <tr class="gap-row">
           <td>Field-Level Security (FLS)</td>
-          <td class="center"><span class="pill pill-partial">Not enforced</span></td>
+          <td class="center"><span class="pill pill-partial"><a href="https://docs.glean.com/connectors/native/salesforce/about#limitations-and-special-cases" target="_blank" style="color:inherit">Not enforced</a></span></td>
           <td class="center"><span class="pill pill-no">Not ingested</span></td>
           <td><span class="path-tag path-oob">OOB: MVP</span></td>
         </tr>
-        <tr class="gap-row"><td>Apex-based sharing</td><td class="center"><span class="pill pill-partial">Not mentioned</span></td><td class="center"><span class="pill pill-no">No</span></td><td><span class="path-tag path-oob">OOB: leverage custom</span></td></tr>        
+        <tr class="gap-row"><td>Apex-based sharing</td><td class="center"><span class="pill pill-partial"><a href="https://docs.glean.com/connectors/native/salesforce/about#how-permissions-work" target="_blank" style="color:inherit">Not mentioned</a></span></td><td class="center"><span class="pill pill-no">No</span></td><td><span class="path-tag path-oob">OOB: leverage custom</span></td></tr>        
       </tbody>
     </table>
   </div>
@@ -309,21 +310,20 @@
         <tr><th>Attribute</th><th class="center">Glean</th><th class="center">Microsoft</th><th>Closure Path</th></tr>
       </thead>
       <tbody>
-        <tr class=""><td>Incremental crawl</td><td class="center">Minutes</td><td class="center">Every 15 min</td><td></td></tr>
-        <tr><td>Full crawl</td><td class="center">~Every 28 days</td><td class="center">Daily (default)</td><td></td></tr>
-        <tr class="gap-row"><td>Hourly ACL full crawl</td><td class="center">Hourly (dedicated scan of all share tables)</td><td class="center">Full crawl only (daily)</td><td><span class="path-tag path-none">Platform</span></td></tr>
+        <tr><td>Incremental crawl</td><td class="center"><span class="pill pill-yes">Minutes</span></td><td class="center"><span class="pill pill-yes">Every 15 min</span></td><td></td></tr>
+        <tr><td>Full crawl</td><td class="center"><span class="pill pill-yes">~Every 28 days</span></td><td class="center"><span class="pill pill-yes">Daily (default)</span></td><td></td></tr>
+        <tr class="gap-row"><td>Hourly ACL full crawl</td><td class="center"><span class="pill pill-yes">Hourly (dedicated scan of all share tables)</span></td><td class="center"><span class="pill pill-partial">Full crawl only (daily)</span></td><td><span class="path-tag path-none">Platform</span></td></tr>
         <tr><td>SOQL filtering</td><td class="center"><span class="pill pill-yes">Via config</span></td><td class="center"><span class="pill pill-yes">WHERE clause</span></td><td></td></tr>
         <tr class="gap-row"><td>Time-based filtering</td><td class="center"><span class="pill pill-partial">Not mentioned</span></td><td class="center"><span class="pill pill-yes">Rolling modified time</span></td><td></td></tr>
-        <tr class="gap-row"><td>Admin-configurable schedule</td><td class="center"><span class="pill pill-partial">Via support</span></td><td class="center"><span class="pill pill-yes">Self-service</span></td><td></td></tr>
       </tbody>
     </table>
   </div>
 
-  <div class="verdict glean-wins">
-    <div class="verdict-title"><span class="verdict-icon">⚠</span> Glean wins on speed; Microsoft wins on admin control</div>
+  <div class="verdict tie">
+    <div class="verdict-title"><span class="verdict-icon">⚖</span> Tie: different strengths in crawl and sync</div>
     <ul>
       <li><b>Glean:</b> Incremental crawl in minutes. Dedicated hourly ACL full crawl scans all share tables to keep permissions current. Full crawl roughly every 28 days.</li>
-      <li><b>Microsoft:</b> Incremental crawl every 15 min. Permissions only updated during daily full crawl. Stronger on admin self-service: configurable schedule, time-based filtering, and SOQL WHERE clause. Hourly ACL crawl is a platform-level gap.</li>
+      <li><b>Microsoft:</b> Incremental crawl every 15 min. Stronger admin self-service: time-based filtering and SOQL WHERE clause. Permissions only updated during daily full crawl (hourly ACL crawl is a platform-level gap).</li>
     </ul>
   </div>
 </div>
@@ -370,10 +370,10 @@
         <tr><th>Category</th><th class="center">Winner</th><th>Notes</th><th>Closure Path</th></tr>
       </thead>
       <tbody>
-        <tr><td>Entity / Object Coverage</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>18+ objects vs 5 (all schema broken). Tasks, Events, Files, CPQ, custom objects absent from Microsoft.</td><td><span class="path-tag path-oob">OOB: MVP</span> <span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
-        <tr><td>Scenarios &amp; Query Patterns</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>OOB 22% (24/111). Date and Numeric at 0%. 37 queries target objects or data not yet in OOB scope. Glean indexes unstructured data and extended objects.</td><td><span class="path-tag path-oob">OOB: MVP</span> <span class="path-tag path-oob">OOB: Post-MVP</span> <span class="path-tag path-fcc">FCC</span></td></tr>
+        <tr><td>Entity / Object Coverage</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>18+ objects vs 5 (all schema broken). Tasks, Events, Files, CPQ, custom objects absent from Microsoft.</td><td><span class="path-tag path-oob">OOB: MVP</span> <span class="path-tag path-oob">OOB: Post-MVP</span> <span class="path-tag path-none">Platform</span></td></tr>
+        <tr><td>Scenarios &amp; Query Patterns</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>OOB 22% (24/111). Date and Numeric at 0%. 37 queries target objects or data not yet in OOB scope. Glean indexes unstructured data and extended objects.</td><td><span class="path-tag path-oob">OOB: MVP</span> <span class="path-tag path-oob">OOB: Post-MVP</span> <span class="path-tag path-fcc">FCC</span> <span class="path-tag path-none">Platform</span></td></tr>
         <tr><td>Permissions / ACL</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Glean: full record-level + Territory Mgmt. Microsoft: restricted record-level, no Territory, FLS blocks org-wide. Neither enforces FLS at query time.</td><td><span class="path-tag path-oob">OOB: MVP</span> <span class="path-tag path-oob">OOB: leverage custom</span></td></tr>
-        <tr><td>Crawl &amp; Sync</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Glean: minutes + hourly ACL crawl. Microsoft: 15 min + daily only, but better admin controls (self-service schedule, time-based filter).</td><td><span class="path-tag path-none">Platform</span></td></tr>
+        <tr><td>Crawl &amp; Sync</td><td class="center"><span class="pill pill-yes" style="background:#e0f2fe;color:#0369a1;">Tie</span></td><td>Both strong: Glean faster incremental + hourly ACL crawl. Microsoft better admin controls (time-based filter, SOQL WHERE).</td><td><span class="path-tag path-none">Platform</span></td></tr>
         <tr><td>Additional Capabilities</td><td class="center"><span class="pill pill-partial" style="background:#fef3c7;color:#92400e;">Glean</span></td><td>Glean: Live Mode with write-back. Microsoft: staged rollout. AI integration at parity.</td><td><span class="path-tag path-fcc">FCC</span></td></tr>
       </tbody>
     </table>
@@ -384,10 +384,10 @@
     <div style="font-size: 0.82rem; line-height: 1.6;">
     The gap to Glean is significant but not insurmountable. Most gaps fall into well-scoped engineering work rather than fundamental platform limitations.<br><br>
     <strong>OOB: MVP</strong> (schema fix for 5 core objects): estimated 4-6 weeks. This is the highest-priority work and addresses the most visible quality issues.<br>
-    <strong>OOB: Post-MVP</strong> (Tasks, Events, Case Comments): estimated 2-4 weeks per object. Incremental additions to the existing crawl pipeline.<br>
-    <strong>OOB: leverage custom</strong> (Campaigns, Products, Orders, CPQ, Custom Objects, Territory): estimated 4-8 weeks. Existing custom connector implementations provide proven patterns to accelerate.<br>
-    <strong>FCC</strong> (Live Mode, FLS enforcement): estimated 6-10 weeks. Requires per-user OAuth architecture and query-time API calls. Architectural investment with broad reuse potential.<br>
-    <strong>Platform</strong> (hourly ACL full crawl): timeline TBD. Requires platform team investment in share-table scanning infrastructure. This is the only gap that cannot be closed by the connector team alone.<br><br>
+    <strong>OOB: Post-MVP</strong> (Tasks, Events, Case Comments, Campaigns, Products, Orders, CPQ): estimated 2-4 weeks per object. Incremental additions to the existing crawl pipeline.<br>
+    <strong>OOB: leverage custom</strong> (Custom Objects, Territory): estimated 4-8 weeks. Existing custom connector implementations provide proven patterns to accelerate.<br>
+    <strong>Platform</strong> (scalability and response quality): timeline TBD. Handling 18+ objects with hundreds of properties in a single connector requires platform investment in schema scalability and CRM-domain response quality. Hourly ACL full crawl is a lower priority (no customer escalations yet). These gaps cannot be closed by the connector team alone.<br>
+    <strong>FCC</strong> (Live Mode, FLS enforcement): estimated 6-10 weeks. Requires per-user OAuth architecture and query-time API calls. Architectural investment with broad reuse potential.<br><br>
     <strong>Overall:</strong> With focused execution, the OOB MVP + Post-MVP work (8-14 weeks) closes the most customer-visible gaps. The remaining items (custom object leverage, FCC, Platform ACL) are medium-term investments that progressively close the gap to feature parity.
     </div>
   </div>
@@ -403,7 +403,7 @@
 </div>
 
 <div class="footer">
-  Salesforce Connector Gap Analysis: Glean vs Microsoft · Microsoft SSP · April 2026
+  Salesforce CRM Connector Gap Analysis: Glean vs Microsoft · Microsoft SSP · April 2026
 </div>
 
 
