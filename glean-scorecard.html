@@ -141,7 +141,7 @@
 <body>
 
 <h1>Salesforce Connector Gap Analysis: Glean vs Microsoft</h1>
-<p class="subtitle">Data-driven comparison based on documented connector capabilities. April 2026. <a href="index.html">Schema Editor</a></p>
+<p class="subtitle">Data-driven comparison based on documented connector capabilities. April 2026. <a href="index.html">Schema Editor</a> · <span id="version-tag" style="color:var(--muted);font-size:0.72rem;"></span></p>
 
 <div class="note-box">
   <strong>Closure strategy:</strong><br>
@@ -223,7 +223,7 @@
 <div class="section">
   <h2 class="section-hdr">Supported Scenarios &amp; Query Patterns</h2>
   <p class="section-desc">
-    What user prompt patterns each sync-ed connector can answer from its crawled index. Eval results from an <a href="eval-queryset-111.csv">111-prompt eval set</a> tested against Microsoft OOB/Custom/FCC (75 of 111 tested; 36 require objects not yet in OOB scope).
+    What user prompt patterns each sync-ed connector can answer from its crawled index. Eval results from an <a href="eval-queryset-111.csv">111-prompt eval set</a> tested against Microsoft OOB/Custom/FCC (74 of 111 tested; 37 require objects not yet in OOB scope).
     <br>Docs: <a href="https://docs.glean.com/connectors/native/salesforce/use-salesforce-connector" target="_blank">Glean: Use Salesforce Connector</a> · <a href="https://docs.glean.com/connectors/native/salesforce/about#supported-objects-and-content-types" target="_blank">Glean: Supported Objects</a> · <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/salesforce-connector#capabilities" target="_blank">MSFT: Capabilities</a>
   </p>
 
@@ -254,7 +254,7 @@
   <div class="verdict glean-wins">
     <div class="verdict-title"><span class="verdict-icon">⚠</span> Glean wins: broader scenario coverage</div>
     <ul>
-      <li><b>Glean:</b> Documented support for 6 of 10 prompt patterns (list, lookup, field, filter, cross-object, extended objects). Indexes unstructured data (Case Comments, Chatter, Attachments) with opt-in. Date, Numeric, and Aggregation patterns not mentioned in docs.</li>
+      <li><b>Glean:</b> Documented support for 7 of 11 prompt patterns (list, lookup, field, filter, cross-object, extended objects, custom objects). Indexes unstructured data (Case Comments, Chatter, Attachments) with opt-in. Date, Numeric, and Aggregation patterns not mentioned in docs.</li>
       <li><b>Microsoft:</b> OOB passes 22% of the 111-query eval set (24/111). Date and Numeric at 0%. 37 queries (extended objects, unstructured data, aggregation, custom objects) are not yet in OOB scope.</li>
     </ul>
   </div>
@@ -399,11 +399,11 @@
   <a href="https://docs.glean.com/connectors/native/salesforce/about" target="_blank">Glean Salesforce Docs</a> ·
   <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/salesforce-connector" target="_blank">Microsoft Salesforce Connector Docs</a> ·
   <a href="index.html">Schema Editor</a> ·
-  March 2026
+  April 2026
 </div>
 
 <div class="footer">
-  Salesforce Connector Gap Analysis: Glean vs Microsoft · Microsoft SSP · April 2026 · v3.0
+  Salesforce Connector Gap Analysis: Glean vs Microsoft · Microsoft SSP · April 2026
 </div>
 
 
@@ -412,6 +412,16 @@
 
 
 
+
+<script>
+(function() {
+  var tag = document.getElementById('version-tag');
+  fetch('https://api.github.com/repos/Kai-Cloud/sf-schema-editor/commits?path=glean-scorecard.html&per_page=1')
+    .then(function(r) { return r.json(); })
+    .then(function(d) { if (d[0]) tag.textContent = 'v.' + d[0].sha.substring(0, 7); })
+    .catch(function() {});
+})();
+</script>
 
 <button class="save-btn" id="saveBtn" title="Save current page as HTML file">Save to HTML</button>
 
