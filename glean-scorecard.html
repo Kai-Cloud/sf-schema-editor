@@ -390,12 +390,98 @@
   </div>
 </div>
 
+<!-- ============ GLEAN SALESFORCE ACTIONS (BEYOND SYNC) ============ -->
+<div class="section">
+  <h2 class="section-hdr">Appendix: Glean Salesforce Actions</h2>
+  <p class="section-desc">
+    Beyond the sync-ed connector analyzed above, Glean offers 23 Salesforce Actions that enable AI-driven write-back and workflow automation directly from Glean Assistant and Agents. These actions address real CRM user pain points: tedious lead creation, opportunity updates, and email outreach that reps do dozens of times a day. We have collected real action prompts from customers confirming active adoption.
+    <br>This section is included for completeness. Our current scope targets sync-ed parity (search and retrieval). Actions represent a separate capability layer beyond connector engineering.
+    <br>Microsoft offers a separate <a href="https://learn.microsoft.com/en-us/connectors/salesforce/" target="_blank">Power Platform Salesforce connector</a> (PP connector) with generic CRUD, SOQL, SOSL, bulk operations, and an MCP server. Available in Copilot Studio, Power Automate, Power Apps, and Logic Apps. It provides equivalent low-level capabilities but requires configuration rather than offering purpose-built, prompt-ready actions.
+    <br>Docs: <a href="https://docs.glean.com/actions/datasource/salesforce/sf-index" target="_blank">Glean: Salesforce Actions Index</a> · <a href="https://learn.microsoft.com/en-us/connectors/salesforce/" target="_blank">MSFT: PP Salesforce Connector</a>
+  </p>
+
+  <div class="gap-table-wrap">
+    <table>
+      <thead>
+        <tr><th>Action</th><th class="center">Glean</th><th class="center">Microsoft PP Connector</th><th>Sample Prompt (Glean)</th></tr>
+      </thead>
+      <tbody>
+        <!-- Search / Query -->
+        <tr style="background:#f8fafc;"><td colspan="4" style="font-weight:700; font-size:0.8rem; color:#475569;">Search / Query</td></tr>
+        <tr><td>Salesforce search</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Get records (ODATA filter)</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/salesforce-search" target="_blank">"What is the stage of the Acme opportunity?"</a></td></tr>
+        <tr><td>Search with SOQL</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Execute SOQL query</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/search-salesforce-with-soql" target="_blank">"Total ARR of all the opportunities closed from June to August."</a></td></tr>
+
+        <!-- Lead management -->
+        <tr style="background:#f8fafc;"><td colspan="4" style="font-weight:700; font-size:0.8rem; color:#475569;">Lead Management</td></tr>
+        <tr><td>Create lead</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Create record (Lead)</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/create-lead" target="_blank">"Create a new lead for ABC JIM, Director of Engineering at XYZ Inc, email abc@example.com, phone 444-555-1111, located in San Francisco. Set lead source to Trade Show."</a></td></tr>
+        <tr><td>Update lead</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Update record (Lead)</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/update-lead" target="_blank">"Find the lead for ABC at XYZ Inc and update his status to Working - Contacted with a note that says Sent intro email about enterprise product demo."</a></td></tr>
+        <tr><td>Get lead</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Get record (Lead)</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/get-lead" target="_blank">"Get the full details for Salesforce lead ID 00QPZ000001rbt8YAA."</a></td></tr>
+        <tr><td>Add lead to campaign</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Create record (CampaignMember)</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/add-lead-to-campaign" target="_blank">"Add lead ID 00QPZ000001rbt8YAA to the Q1 Product Launch campaign."</a></td></tr>
+
+        <!-- Contact management -->
+        <tr style="background:#f8fafc;"><td colspan="4" style="font-weight:700; font-size:0.8rem; color:#475569;">Contact Management</td></tr>
+        <tr><td>Create contact</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Create record (Contact)</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/create-contact" target="_blank">"Check if a contact exists for abc@example.com. If not found, create a new contact for ABC JIM, Director of Product at XYZ Solutions."</a></td></tr>
+        <tr><td>Update contact</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Update record (Contact)</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/update-contact" target="_blank">"Find the contact for abc@example.com and update her title to VP of Product, department to Product Management."</a></td></tr>
+        <tr><td>Get contact</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Get record (Contact)</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/get-contact" target="_blank">"Get the full details for Salesforce contact ID 003PZ000001rbt8YAA."</a></td></tr>
+        <tr><td>Associate contact to account</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Update record (Contact.AccountId)</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/associate-contact-to-account" target="_blank">"Link contact ID 003PZ000001rbt8YAA to account ID 001PZ000003xyzABC."</a></td></tr>
+
+        <!-- Account management -->
+        <tr style="background:#f8fafc;"><td colspan="4" style="font-weight:700; font-size:0.8rem; color:#475569;">Account Management</td></tr>
+        <tr><td>Create account</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Create record (Account)</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/create-account" target="_blank">"Create a new Salesforce account for Abc Corporation with website abc.com."</a></td></tr>
+        <tr><td>Get account</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Get record (Account)</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/get-account" target="_blank">"Get the full details for Salesforce account ID 001PZ000003xyzABC."</a></td></tr>
+
+        <!-- Opportunity management -->
+        <tr style="background:#f8fafc;"><td colspan="4" style="font-weight:700; font-size:0.8rem; color:#475569;">Opportunity Management</td></tr>
+        <tr><td>Create opportunity</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Create record (Opportunity)</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/create-opportunity" target="_blank">"Create a new opportunity for ABC Corp Enterprise License, amount $150,000, close date March 31, stage Qualification."</a></td></tr>
+        <tr><td>Update opportunity</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Update record (Opportunity)</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/update-salesforce-opportunity" target="_blank">(use-case descriptions only)</a></td></tr>
+        <tr><td>Get opportunity</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Get record (Opportunity)</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/get-opportunity" target="_blank">"Get the full details for Salesforce opportunity ID 006PZ000003xyzABC."</a></td></tr>
+
+        <!-- Campaign management -->
+        <tr style="background:#f8fafc;"><td colspan="4" style="font-weight:700; font-size:0.8rem; color:#475569;">Campaign Management</td></tr>
+        <tr><td>Create campaign</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Create record (Campaign)</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/create-campaign" target="_blank">"Create a new campaign called 'Q1 2024 Product Launch' with type 'Email' and status 'Planned'."</a></td></tr>
+        <tr><td>Add contact to campaign</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Create record (CampaignMember)</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/add-contact-to-campaign" target="_blank">"Add contact ID 003PZ000001rbt8YAA to the Q1 Product Launch campaign."</a></td></tr>
+
+        <!-- Email / Communication -->
+        <tr style="background:#f8fafc;"><td colspan="4" style="font-weight:700; font-size:0.8rem; color:#475569;">Email / Communication</td></tr>
+        <tr><td>Send email</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-no">No</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/send-email" target="_blank">"Find the lead for ABC JIM at XYZ Corp, send her a personalized introduction email with subject Partnership Opportunity, and update her lead status to Working."</a></td></tr>
+        <tr><td>Log email activity</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Create record (EmailMessage)</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/log-email-activity" target="_blank">"Log the follow-up email I sent to abc@example.com about Case 00001234 with subject Re: Technical Issue Resolution."</a></td></tr>
+        <tr><td>Create call log</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Create record (Task)</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/call-log" target="_blank">"Log a call for the Opportunity XYZ Corp Q1 Deal with subject Discovery Call, type Outbound, duration 30 minutes."</a></td></tr>
+
+        <!-- Task management -->
+        <tr style="background:#f8fafc;"><td colspan="4" style="font-weight:700; font-size:0.8rem; color:#475569;">Task Management</td></tr>
+        <tr><td>Complete task</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Update record (Task)</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/complete-tasks" target="_blank">"Mark task 00T5g00007ABCDEFUA2 as completed with notes 'Spoke with prospect, confirmed needs, scheduled demo'."</a></td></tr>
+
+        <!-- Notes -->
+        <tr style="background:#f8fafc;"><td colspan="4" style="font-weight:700; font-size:0.8rem; color:#475569;">Notes</td></tr>
+        <tr><td>Create note</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-partial">Create record (Note/ContentNote)</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/create-note" target="_blank">"Find the Opportunity for XYZ Corp renewal and create a note summarizing the key points from today's call."</a></td></tr>
+
+        <!-- User info -->
+        <tr style="background:#f8fafc;"><td colspan="4" style="font-weight:700; font-size:0.8rem; color:#475569;">User Info</td></tr>
+        <tr><td>Get user info</td><td class="center"><span class="pill pill-yes">Yes</span></td><td class="center"><span class="pill pill-yes">Get record (User)</span></td><td style="font-size:0.78rem"><a href="https://docs.glean.com/actions/datasource/salesforce/get-user-info" target="_blank">"Get information about the current authenticated Salesforce user including their permissions."</a></td></tr>
+      </tbody>
+      <tfoot>
+        <tr style="font-weight:700; background:#f1f3f5;"><td>Total</td><td class="center"><span class="pill pill-yes">23</span></td><td class="center"><span class="pill pill-partial">14 direct + 8 workaround</span></td><td style="font-size:0.78rem"></td></tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="verdict glean-wins">
+    <div class="verdict-title"><span class="verdict-icon">⚠</span> Glean leads: 23 purpose-built actions vs generic CRUD</div>
+    <ul>
+      <li><b>Glean:</b> 23 purpose-built Salesforce Actions with documented sample prompts, covering the full CRM write-back lifecycle. Sales reps create leads, update opportunities, and send emails without leaving the AI assistant. These actions simplify daily CRM workflows that reps find tedious, and we have collected real action prompts from customers confirming active adoption.</li>
+      <li><b>Microsoft:</b> The <a href="https://learn.microsoft.com/en-us/connectors/salesforce/" target="_blank">Power Platform Salesforce connector</a> provides equivalent low-level capabilities (Create/Get/Update/Delete record, SOQL, SOSL, bulk operations, HTTP request, MCP server) available in Copilot Studio, Power Automate, Power Apps, and Logic Apps. However, these are generic operations that require configuration per object type, not prompt-ready CRM actions. No dedicated actions for email send, call logging, or campaign membership. The gap is in UX and time-to-value, not in raw capability.</li>
+    </ul>
+  </div>
+</div>
+
 <!-- Sources & methodology -->
-<div class="note-box" style="background: #f9fafb; border-color: var(--border);">
+<div class="note-box sources-box" style="background: #f9fafb; border-color: var(--border);">
   <strong>Sources:</strong>
   <a href="https://docs.glean.com/connectors/native/salesforce/about" target="_blank">Glean Salesforce Docs</a> ·
   <a href="https://docs.glean.com/actions/datasource/salesforce/salesforce-search" target="_blank">Glean Salesforce Search Action</a> ·
+  <a href="https://docs.glean.com/actions/datasource/salesforce/sf-index" target="_blank">Glean Salesforce Actions Index</a> ·
   <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/salesforce-connector" target="_blank">Microsoft Salesforce Connector Docs</a> ·
+  <a href="https://learn.microsoft.com/en-us/connectors/salesforce/" target="_blank">Microsoft PP Salesforce Connector</a> ·
   <a href="index.html">Schema Editor</a> ·
   April 2026
 </div>
@@ -572,7 +658,7 @@
     var firstTd = tr.querySelector('td:first-child');
     if (firstTd) firstTd.contentEditable = 'true';
   });
-  document.querySelectorAll('.verdict, .note-box').forEach(function(el) { el.contentEditable = 'true'; });
+  document.querySelectorAll('.verdict, .note-box:not(.sources-box)').forEach(function(el) { el.contentEditable = 'true'; });
 
   // Row add/delete buttons
   function addRowActions(tr) {
