@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<<html lang="en"><head></head><body>&lt;&lt;&lt;&lt;&lt;&lt;
+<<html lang="en"><head></head><body>&lt;&lt;&lt;&lt;&lt;&lt;&lt;
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Salesforce CRM Connector — Schema Editor</title>
@@ -138,16 +138,16 @@
 <div class="budget-bar" id="budgetBar" style="border-radius: 8px 8px 0 0; margin-bottom: 0;">
     <div class="budget-item "><span class="num">63</span><span class="lbl">Properties</span></div>
     <div class="budget-sep"></div>
-    <div class="budget-item"><span class="num">33</span><span class="lbl">Queryable</span></div>
+    <div class="budget-item"><span class="num">34</span><span class="lbl">Queryable</span></div>
     <div class="budget-sep"></div>
     <div class="budget-item"><span class="num">35</span><span class="lbl">Searchable</span></div>
-    <div class="budget-item"><span class="num">62</span><span class="lbl">Retrievable</span></div>
-    <div class="budget-item"><span class="num">5</span><span class="lbl">Refinable</span></div>
+    <div class="budget-item"><span class="num">61</span><span class="lbl">Retrievable</span></div>
+    <div class="budget-item"><span class="num">4</span><span class="lbl">Refinable</span></div>
   </div>
 <div class="budget-breakdown" id="budgetBreakdown"><div class="budget-section">
       <span class="sec-name">Common</span>
-      <span class="sec-nums"><b>33</b> props · <b>21</b> Q</span>
-      <span class="sec-nums">S 17 · R 32 · Ref 3</span>
+      <span class="sec-nums"><b>33</b> props · <b>22</b> Q</span>
+      <span class="sec-nums">S 17 · R 31 · Ref 3</span>
     </div><div class="budget-section">
       <span class="sec-name">Account</span>
       <span class="sec-nums"><b>4</b> props · <b>0</b> Q</span>
@@ -159,7 +159,7 @@
     </div><div class="budget-section">
       <span class="sec-name">Lead</span>
       <span class="sec-nums"><b>4</b> props · <b>0</b> Q</span>
-      <span class="sec-nums">S 2 · R 4 · Ref 1</span>
+      <span class="sec-nums">S 2 · R 4 · Ref 0</span>
     </div><div class="budget-section">
       <span class="sec-name">Opportunity</span>
       <span class="sec-nums"><b>10</b> props · <b>8</b> Q</span>
@@ -169,7 +169,7 @@
       <span class="sec-nums"><b>6</b> props · <b>3</b> Q</span>
       <span class="sec-nums">S 4 · R 6 · Ref 0</span>
     </div></div>
-<div class="validation-bar" id="validationBar"><span class="val-badge val-warn">1 Refinable without Queryable (guideline: Refinable requires Queryable): ConvertedDate</span><span class="val-badge val-warn">1 with semantic label but not Retrievable (guideline: labels require Retrievable): ParentId</span></div>
+<div class="validation-bar" id="validationBar"><span class="val-badge val-warn">1 with semantic label but not Retrievable (guideline: labels require Retrievable): ParentId</span><span class="val-badge val-warn">1 Q value changed from reviewed MD: ParentId</span></div>
 
 <div class="toolbar" style="margin-bottom:14px">
   <button class="btn" onclick="resetAll()">Reset All</button>
@@ -342,7 +342,7 @@
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="6" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Exact match required</div></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="6" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Acct: AccountNumber; Case: CaseNumber; Contact: null; Lead: null; Opp: null</div></td>
       <td style="font-size:0.72rem">Account or Case number — "find account #12345" / "find case 00001234"</td>
-    </tr><tr class="changed">
+    </tr><tr>
       <td style="text-align:right;color:var(--muted)">8</td>
       <td><span class="obj-chip common">Common</span></td>
       <td><code style="font-size:0.8rem">Name</code></td>
@@ -356,7 +356,7 @@
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="7" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)"></div></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="7" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Name</div></td>
       <td style="font-size:0.72rem">Primary display name; queryable for name lookups</td>
-    </tr><tr>
+    </tr><tr class="changed">
       <td style="text-align:right;color:var(--muted)">9</td>
       <td><span class="obj-chip common">Common</span></td>
       <td><code style="font-size:0.8rem">Description</code></td>
@@ -365,12 +365,12 @@
       <td style="font-size:0.75rem;color:var(--muted)"></td>
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="8" data-field="searchable" onchange="toggleFlag(this)"></td>
       <td style="text-align:center"><select data-idx="8" onchange="updateQ(this)" style="font-size:0.75rem;font-weight:700;border:1px solid transparent;border-radius:3px;background:none;cursor:pointer;padding:1px 2px;color:var(--muted)"><option value="Q">Q</option><option value="—" selected="">—</option></select></td>
-      <td class="cb-cell"><input type="checkbox" checked="" data-idx="8" data-field="retrievable" onchange="toggleFlag(this)"></td>
+      <td class="cb-cell"><input type="checkbox" data-idx="8" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="8" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="8" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Mapped to CONTENT; not a property slot in practice</div></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="8" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Description</div></td>
       <td style="font-size:0.72rem">Rich text description</td>
-    </tr><tr class="changed">
+    </tr><tr>
       <td style="text-align:right;color:var(--muted)">10</td>
       <td><span class="obj-chip common">Common</span></td>
       <td><code style="font-size:0.8rem">Owner</code></td>
@@ -650,7 +650,7 @@
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="28" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Only Account &amp; Lead</div></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="28" onfocusout="updateSfSource(this)" style="font-size:0.72rem">Acct: NumberOfEmployees; Lead: NumberOfEmployees; Contact: null; Opp: null; Case: null</div></td>
       <td style="font-size:0.72rem">Size-based filtering — "enterprise accounts with 1000+ employees"</td>
-    </tr><tr>
+    </tr><tr class="changed">
       <td style="text-align:right;color:var(--muted)">30</td>
       <td><span class="obj-chip common">Common</span></td>
       <td><code style="font-size:0.8rem">ParentId</code></td>
@@ -658,7 +658,7 @@
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="29" onfocusout="updateDesc(this)">Foreign key to the parent record. Account links to parent Account; Case links to parent Case. The 'parentId' semantic label enables platform hierarchy navigation.</div></td>
       <td style="font-size:0.75rem;color:var(--muted)">parentId</td>
       <td class="cb-cell"><input type="checkbox" data-idx="29" data-field="searchable" onchange="toggleFlag(this)"></td>
-      <td style="text-align:center"><select data-idx="29" onchange="updateQ(this)" style="font-size:0.75rem;font-weight:700;border:1px solid transparent;border-radius:3px;background:none;cursor:pointer;padding:1px 2px;color:var(--muted)"><option value="Q">Q</option><option value="—" selected="">—</option></select></td>
+      <td style="text-align:center"><select data-idx="29" onchange="updateQ(this)" style="font-size:0.75rem;font-weight:700;border:1px solid transparent;border-radius:3px;background:none;cursor:pointer;padding:1px 2px;color:var(--success)"><option value="Q" selected="">Q</option><option value="—">—</option></select></td>
       <td class="cb-cell"><input type="checkbox" data-idx="29" data-field="retrievable" onchange="toggleFlag(this)"></td>
       <td class="cb-cell"><input type="checkbox" data-idx="29" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="29" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Account → parent Account; Case → parent Case; null for other objects</div></td>
@@ -846,7 +846,7 @@
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="42" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Changed from ReportsToUrl to ReportsToId per Yogesh review 2026-04-09: IDs enable hierarchy traversal</div></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="42" onfocusout="updateSfSource(this)" style="font-size:0.72rem">ReportsToId</div></td>
       <td style="font-size:0.72rem">Manager ID — enables hierarchy traversal ("find all contacts reporting to X")</td>
-    </tr><tr>
+    </tr><tr class="changed">
       <td style="text-align:right;color:var(--muted)">44</td>
       <td><span class="obj-chip lead">Lead</span></td>
       <td><code style="font-size:0.8rem">ConvertedDate</code></td>
@@ -856,7 +856,7 @@
       <td class="cb-cell"><input type="checkbox" data-idx="43" data-field="searchable" onchange="toggleFlag(this)"></td>
       <td style="text-align:center"><select data-idx="43" onchange="updateQ(this)" style="font-size:0.75rem;font-weight:700;border:1px solid transparent;border-radius:3px;background:none;cursor:pointer;padding:1px 2px;color:var(--muted)"><option value="Q">Q</option><option value="—" selected="">—</option></select></td>
       <td class="cb-cell"><input type="checkbox" checked="" data-idx="43" data-field="retrievable" onchange="toggleFlag(this)"></td>
-      <td class="cb-cell"><input type="checkbox" checked="" data-idx="43" data-field="refinable" onchange="toggleFlag(this)"></td>
+      <td class="cb-cell"><input type="checkbox" data-idx="43" data-field="refinable" onchange="toggleFlag(this)"></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="43" onfocusout="updateNote(this)" style="font-size:0.72rem;color:var(--muted)">Null for unconverted leads</div></td>
       <td class="desc-cell"><div class="desc-text" contenteditable="true" data-idx="43" onfocusout="updateSfSource(this)" style="font-size:0.72rem">ConvertedDate</div></td>
       <td style="font-size:0.72rem">Date the lead was converted</td>
@@ -1176,7 +1176,7 @@ const SCHEMA = [
   {n:6, section:"Common", property:"Source", type:"String", q:"Q", semanticLabel:"—", sfSource:"Acct: AccountSource; Opp: LeadSource; Lead: LeadSource; Contact: LeadSource; Case: Origin", rationale:"Pipeline attribution — \"leads from web form\"", note:"Merges Origin (Case) with LeadSource", description:"Marketing/lead attribution source indicating how the record entered the pipeline (e.g. 'Web', 'Phone Inquiry', 'Partner Referral'). Merges AccountSource, LeadSource, and Origin into one unified property.", searchable:true, retrievable:true, refinable:false},
   {n:7, section:"Common", property:"Number", type:"String", q:"Q", semanticLabel:"secondaryId", sfSource:"Acct: AccountNumber; Case: CaseNumber; Contact: null; Lead: null; Opp: null", rationale:"Account or Case number — \"find account #12345\" / \"find case 00001234\"", note:"Exact match required", description:"The number assigned to an Account or Case. For Account this is the customer/vendor AccountNumber; for Case this is the auto-generated CaseNumber. Contains null if the record is not an Account or Case.", searchable:true, retrievable:true, refinable:false},
   {n:8, section:"Common", property:"Name", type:"String", q:"Q", semanticLabel:"title", sfSource:"Name", rationale:"Primary display name; queryable for name lookups", note:"", description:"Primary display name of the record (e.g. account company name, contact full name, opportunity deal name, case subject). Mapped to the 'title' semantic label for search result rendering.", searchable:true, retrievable:true, refinable:false},
-  {n:9, section:"Common", property:"Description", type:"String", q:"—", semanticLabel:"—", sfSource:"Description", rationale:"Rich text description", note:"Mapped to CONTENT; not a property slot in practice", description:"Free-text description field. Mapped to the CONTENT property for semantic search and Copilot summarization rather than as a schema property, to save property budget.", searchable:true, retrievable:true, refinable:false},
+  {n:9, section:"Common", property:"Description", type:"String", q:"—", semanticLabel:"—", sfSource:"Description", rationale:"Rich text description", note:"Mapped to CONTENT; not a property slot in practice", description:"Free-text description field. Mapped to the CONTENT property for semantic search and Copilot summarization rather than as a schema property, to save property budget.", searchable:true, retrievable:false, refinable:false},
   {n:10, section:"Common", property:"Owner", type:"Principal", q:"Q", semanticLabel:"assignedToPeople", sfSource:"Acct: Account Owner; Opp: Opportunity Owner; Lead: Lead Owner; Contact: Contact Owner; Case: Case Owner", rationale:"Record owner — \"leads owned by Alice\"", note:"", description:"The user who owns this record, resolved as a Principal type carrying both display name and profile URL. Enables queries like 'show my leads' or 'leads owned by Alice'.", searchable:false, retrievable:true, refinable:false},
   {n:11, section:"Common", property:"CreatedBy", type:"Principal", q:"Q", semanticLabel:"createdBy", sfSource:"CreatedById → resolve Name + URL", rationale:"Audit; semantic label enables platform \"created by\"", note:"", description:"The user who created this record, resolved as a Principal type. Semantic label 'createdBy' enables platform-native 'created by' filtering in Microsoft Search.", searchable:false, retrievable:true, refinable:false},
   {n:12, section:"Common", property:"CreatedDate", type:"DateTime", q:"Q", semanticLabel:"createdDateTime", sfSource:"CreatedDate", rationale:"\"Cases opened this week\"", note:"", description:"Timestamp when the record was created. Enables time-based queries like 'cases opened this week' or 'leads created last month'. Semantic label 'createdDateTime'.", searchable:false, retrievable:true, refinable:true},
@@ -1197,7 +1197,7 @@ const SCHEMA = [
   {n:26, section:"Common", property:"Website", type:"String", q:"—", semanticLabel:"—", sfSource:"Acct: Website; Lead: Website; Contact: null; Opp: null; Case: null", rationale:"Company website URL", note:"Only populated for Account & Lead; null for other objects", description:"Company website URL. Only populated for Account and Lead. Null for Contact, Opportunity, and Case.", searchable:true, retrievable:true, refinable:false},
   {n:27, section:"Common", property:"AnnualRevenue", type:"Int64", q:"Q", semanticLabel:"—", sfSource:"Acct: AnnualRevenue; Lead: AnnualRevenue; Contact: null; Opp: null; Case: null", rationale:"Revenue-based filtering — \"accounts over $1M\"", note:"Normalized to org's base currency; base currency must be specified in Copilot description during Connector setup (2026-04-09 review)", description:"Annual revenue of the company, normalized to the org's base currency. Only populated for Account and Lead. Base currency must be specified in the Copilot description during Connector setup.", searchable:false, retrievable:true, refinable:false},
   {n:28, section:"Common", property:"NumberOfEmployees", type:"Int64", q:"Q", semanticLabel:"—", sfSource:"Acct: NumberOfEmployees; Lead: NumberOfEmployees; Contact: null; Opp: null; Case: null", rationale:"Size-based filtering — \"enterprise accounts with 1000+ employees\"", note:"Only Account & Lead", description:"Number of employees at the company. Only populated for Account and Lead.", searchable:false, retrievable:true, refinable:false},
-  {n:29, section:"Common", property:"ParentId", type:"String", q:"—", semanticLabel:"parentId", sfSource:"Acct: ParentId; Case: ParentId; Lead: null; Contact: null; Opp: null", rationale:"FK to parent record; enables hierarchy features", note:"Account → parent Account; Case → parent Case; null for other objects", description:"Foreign key to the parent record. Account links to parent Account; Case links to parent Case. The 'parentId' semantic label enables platform hierarchy navigation.", searchable:false, retrievable:false, refinable:false},
+  {n:29, section:"Common", property:"ParentId", type:"String", q:"Q", semanticLabel:"parentId", sfSource:"Acct: ParentId; Case: ParentId; Lead: null; Contact: null; Opp: null", rationale:"FK to parent record; enables hierarchy features", note:"Account → parent Account; Case → parent Case; null for other objects", description:"Foreign key to the parent record. Account links to parent Account; Case links to parent Case. The 'parentId' semantic label enables platform hierarchy navigation.", searchable:false, retrievable:false, refinable:false},
   {n:30, section:"Common", property:"ParentName", type:"String", q:"—", semanticLabel:"—", sfSource:"Acct: Parent.Name; Case: Parent.CaseNumber; others: null", rationale:"Parent record display name — denormalized", note:"Account uses parent account name; Case uses parent case number", description:"Display name of the parent record. For Account this is the parent account name; for Case it's the parent case number. Denormalized for display without additional lookups.", searchable:true, retrievable:true, refinable:false},
   {n:31, section:"Common", property:"ParentUrl", type:"String", q:"—", semanticLabel:"parentURL", sfSource:"Computed: {instanceUrl}/{ParentId}", rationale:"Deep link to parent record", note:"Null when ParentId is empty", description:"URL deep link to the parent record in Salesforce. Null when no parent relationship exists.", searchable:false, retrievable:true, refinable:false},
   {n:32, section:"Common", property:"ClosedDate", type:"DateTime", q:"Q", semanticLabel:"—", sfSource:"Acct: null; Opp: CloseDate; Lead: ConvertedDate; Contact: null; Case: ClosedDate", rationale:"Date the record was closed/converted", note:"Lead duplicates from ConvertedDate; Acct & Contact have no close date", description:"Date the record was closed or converted. For Opportunity this is CloseDate; for Lead it's ConvertedDate; for Case it's ClosedDate. Null for Account and Contact.", searchable:false, retrievable:true, refinable:true},
@@ -1214,7 +1214,7 @@ const SCHEMA = [
   {n:13, section:"Contact", property:"ReportsTo", type:"String", q:"—", semanticLabel:"—", sfSource:"ReportsTo.Name", rationale:"Manager/supervisor name — denormalized", note:"Enables \"who does X report to\" queries", description:"Name of the contact's manager/supervisor, denormalized from the ReportsTo relationship. Enables hierarchical queries like 'who does X report to'.", searchable:true, retrievable:true, refinable:false},
   {n:13, section:"Contact", property:"ReportsToId", type:"String", q:"—", semanticLabel:"—", sfSource:"ReportsToId", rationale:"Manager ID — enables hierarchy traversal (\"find all contacts reporting to X\")", note:"Changed from ReportsToUrl to ReportsToId per Yogesh review 2026-04-09: IDs enable hierarchy traversal", description:"Salesforce ID of the contact's manager/supervisor. Enables hierarchy traversal for queries like 'find all contacts reporting to X'. Changed from URL to ID per schema review — IDs are needed for programmatic hierarchy navigation.", searchable:false, retrievable:true, refinable:false},
   // ── Lead-Specific ──
-  {n:2, section:"Lead", property:"ConvertedDate", type:"DateTime", q:"—", semanticLabel:"—", sfSource:"ConvertedDate", rationale:"Date the lead was converted", note:"Null for unconverted leads", description:"Date when the lead was converted to a Contact + Account + Opportunity. Null for unconverted leads.", searchable:false, retrievable:true, refinable:true},
+  {n:2, section:"Lead", property:"ConvertedDate", type:"DateTime", q:"—", semanticLabel:"—", sfSource:"ConvertedDate", rationale:"Date the lead was converted", note:"Null for unconverted leads", description:"Date when the lead was converted to a Contact + Account + Opportunity. Null for unconverted leads.", searchable:false, retrievable:true, refinable:false},
   {n:5, section:"Lead", property:"ConvertedOpportunityName", type:"String", q:"—", semanticLabel:"—", sfSource:"ConvertedOpportunity.Name", rationale:"Name of the Opportunity created at conversion", note:"Null if no Opp was created during conversion", description:"Name of the Opportunity record created during lead conversion. Denormalized from ConvertedOpportunityId for human-readable display. Null if no Opportunity was created.", searchable:true, retrievable:true, refinable:false},
   {n:6, section:"Lead", property:"ConvertedOpportunityId", type:"String", q:"—", semanticLabel:"—", sfSource:"ConvertedOpportunityId", rationale:"ID of Opportunity created at conversion — enables relationship traversal", note:"Changed from ConvertedOpportunityUrl to ConvertedOpportunityId per Yogesh review 2026-04-09", description:"Salesforce ID of the Opportunity record created during lead conversion. Enables relationship traversal to the converted opportunity. Null if no Opportunity was created.", searchable:false, retrievable:true, refinable:false},
   {n:7, section:"Lead", property:"Company", type:"String", q:"—", semanticLabel:"—", sfSource:"Company", rationale:"Lead company name — \"leads from Acme\"", note:"Free-text field; pre-conversion only", description:"Company or organization name for the lead. Free-text field populated before conversion. After conversion, the Account name is available via common AccountName.", searchable:true, retrievable:true, refinable:false},
