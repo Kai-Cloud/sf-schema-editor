@@ -148,6 +148,8 @@
   .view-btn { background: var(--surface); border: 1px solid var(--border); padding: 5px 12px; font-size: 0.74rem; font-weight: 600; color: var(--muted); cursor: pointer; border-radius: 6px; transition: background 0.12s, color 0.12s, border-color 0.12s; }
   .view-btn:hover { color: var(--text); border-color: var(--primary); }
   .view-btn.active { background: var(--primary-light); color: var(--primary); border-color: var(--primary); }
+  .view-btn-wip { opacity: 0.45; font-style: italic; }
+  .view-btn-wip:hover { opacity: 0.85; }
   .view-pane { display: none; }
   .view-pane.active { display: block; }
 
@@ -412,7 +414,7 @@
   <div class="view-toggle" style="display:flex; gap:6px; margin-bottom:10px;">
     <button class="view-btn active" data-view="by-pattern">By prompt pattern</button>
     <button class="view-btn" data-view="by-outcome">By pass/fail outcome</button>
-    <button class="view-btn" data-view="by-feature">By feature roadmap</button>
+    <button class="view-btn view-btn-wip" data-view="by-feature">By feature roadmap (WIP)</button>
   </div>
 
   <div class="view-pane active" id="view-by-pattern">
