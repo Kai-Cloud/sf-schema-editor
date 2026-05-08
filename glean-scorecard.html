@@ -842,6 +842,21 @@ window.SCORECARD_508 = {"list":[{"idx":1,"prompt":"Show me the top 50 accounts."
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closePanel();
   });
+
+  // Re-apply URL fragment scroll after JS has finished mounting tabs/panes.
+  // Without this, the initial browser scroll-to-fragment fires before DOM is
+  // ready, then layout shifts hide the target.
+  if (window.location.hash) {
+    var doScroll = function() {
+      var el = document.getElementById(window.location.hash.slice(1));
+      if (el) el.scrollIntoView({ behavior: 'auto', block: 'start' });
+    };
+    if (document.readyState === 'complete') {
+      setTimeout(doScroll, 0);
+    } else {
+      window.addEventListener('load', function() { setTimeout(doScroll, 0); });
+    }
+  }
 })();
 </script>
 
