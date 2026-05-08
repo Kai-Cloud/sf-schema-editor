@@ -19,8 +19,11 @@
   a:hover { text-decoration: underline; }
 
   /* Section headers */
-  .section { margin-bottom: 32px; }
-  .section-hdr { font-size: 1.05rem; font-weight: 700; margin: 0 0 6px; padding-bottom: 6px; border-bottom: 2px solid var(--border); }
+  .section { margin-bottom: 32px; scroll-margin-top: 16px; }
+  .section-hdr { font-size: 1.05rem; font-weight: 700; margin: 0 0 6px; padding-bottom: 6px; border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 8px; }
+  .section-anchor { font-size: 0.78rem; color: var(--muted); text-decoration: none; opacity: 0; transition: opacity 0.12s; font-weight: 400; }
+  .section-hdr:hover .section-anchor { opacity: 1; }
+  .section-anchor:hover { color: var(--primary); text-decoration: none; }
   .section-desc { font-size: 0.78rem; color: var(--muted); margin: 0 0 14px; line-height: 1.5; }
 
   /* Verdict banner */
@@ -196,8 +199,8 @@
 </div>
 
 <!-- ============ ENTITY COVERAGE ============ -->
-<div class="section">
-  <h2 class="section-hdr">Entity / Object Coverage</h2>
+<div class="section" id="entities">
+  <h2 class="section-hdr">Entity / Object Coverage <a class="section-anchor" href="#entities" title="Link to this section">#</a></h2>
   <p class="section-desc">What Salesforce objects each connector can crawl, index, and surface in search results.
     <br>Docs: <a href="https://docs.glean.com/connectors/native/salesforce/about#supported-objects-and-content-types" target="_blank">Glean: Supported Objects</a> · <a href="https://docs.glean.com/connectors/native/salesforce/additional-objects" target="_blank">Glean: Additional Objects</a> · <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/salesforce-connector#capabilities" target="_blank">MSFT: Capabilities</a>
   </p>
@@ -263,8 +266,8 @@
 </div>
 
 <!-- ============ PERMISSIONS / ACL ============ -->
-<div class="section">
-  <h2 class="section-hdr">Permissions / ACL</h2>
+<div class="section" id="permissions">
+  <h2 class="section-hdr">Permissions / ACL <a class="section-anchor" href="#permissions" title="Link to this section">#</a></h2>
   <p class="section-desc">How each connector enforces Salesforce record-level and field-level security.
     <br>Docs: <a href="https://docs.glean.com/connectors/native/salesforce/about#how-permissions-work" target="_blank">Glean: How Permissions Work</a> · <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/salesforce-connector#limitations" target="_blank">MSFT: Limitations</a> · <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/salesforce-connector#users" target="_blank">MSFT: Users (ACL Setup)</a>
   </p>
@@ -299,8 +302,8 @@
 </div>
 
 <!-- ============ CRAWL & SYNC ============ -->
-<div class="section">
-  <h2 class="section-hdr">Crawl &amp; Sync</h2>
+<div class="section" id="crawl-sync">
+  <h2 class="section-hdr">Crawl &amp; Sync <a class="section-anchor" href="#crawl-sync" title="Link to this section">#</a></h2>
   <p class="section-desc">How frequently each connector crawls data and syncs permission changes.
     <br>Docs: <a href="https://docs.glean.com/connectors/native/salesforce/about#sync-behavior-performance-and-limits" target="_blank">Glean: Sync Behavior</a> · <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/salesforce-connector#sync" target="_blank">MSFT: Sync</a>
   </p>
@@ -330,8 +333,8 @@
 </div>
 
 <!-- ============ ADDITIONAL CAPABILITIES ============ -->
-<div class="section">
-  <h2 class="section-hdr">Additional Capabilities</h2>
+<div class="section" id="additional">
+  <h2 class="section-hdr">Additional Capabilities <a class="section-anchor" href="#additional" title="Link to this section">#</a></h2>
   <p class="section-desc">
     Docs: <a href="https://docs.glean.com/connectors/native/salesforce/use-salesforce-connector" target="_blank">Glean: Use Salesforce Connector</a> · <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/salesforce-connector#capabilities" target="_blank">MSFT: Capabilities</a> · <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/staged-rollout" target="_blank">MSFT: Staged Rollout</a>
   </p>
@@ -358,8 +361,8 @@
 </div>
 
 <!-- ============ SUPPORTED SCENARIOS & QUERY PATTERNS ============ -->
-<div class="section">
-  <h2 class="section-hdr">Supported Scenarios &amp; Query Patterns</h2>
+<div class="section" id="scenarios">
+  <h2 class="section-hdr">Supported Scenarios &amp; Query Patterns <a class="section-anchor" href="#scenarios" title="Link to this section">#</a></h2>
   <p class="section-desc">
     What user prompt patterns each sync-ed connector can answer from its crawled index. Eval results from an <a href="https://microsoft.sharepoint-df.com/:x:/t/GraphConnectors-Core/cQpwsZDsXE1PTY6ODQXX2WJhEgUCu5B8fgFadvJ04zvIwIPSAQ" target="_blank">111-prompt eval set</a> against Microsoft OOB/Custom/FCC (under testing).
     <br>Docs: <a href="https://docs.glean.com/connectors/native/salesforce/use-salesforce-connector" target="_blank">Glean: Use Salesforce Connector</a> &middot; <a href="https://docs.glean.com/connectors/native/salesforce/about#supported-objects-and-content-types" target="_blank">Glean: Supported Objects</a> &middot; <a href="https://docs.glean.com/actions/datasource/salesforce/salesforce-search" target="_blank">Glean: Use Salesforce Search</a> &middot; <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/connectors/salesforce-connector#capabilities" target="_blank">MSFT: Capabilities</a> &middot; <a href="https://github.com/Kai-Cloud/sf-schema-editor/blob/main/glean-hero-prompts.md" target="_blank">Hero Prompts Analysis</a>
@@ -472,8 +475,8 @@
 <hr class="divider">
 
 <!-- ============ OVERALL ============ -->
-<div class="section">
-  <h2 class="section-hdr">Overall</h2>
+<div class="section" id="overall">
+  <h2 class="section-hdr">Overall <a class="section-anchor" href="#overall" title="Link to this section">#</a></h2>
 
   <div class="gap-table-wrap">
     <table>
@@ -504,8 +507,8 @@
 </div>
 
 <!-- ============ GLEAN SALESFORCE ACTIONS (BEYOND SYNC) ============ -->
-<div class="section">
-  <h2 class="section-hdr">Appendix: Glean Salesforce Actions</h2>
+<div class="section" id="actions">
+  <h2 class="section-hdr">Appendix: Glean Salesforce Actions <a class="section-anchor" href="#actions" title="Link to this section">#</a></h2>
   <p class="section-desc">
     Beyond the sync-ed connector analyzed above, Glean offers 23 Salesforce Actions that enable AI-driven write-back and workflow automation directly from Glean Assistant and Agents. These actions address real CRM user pain points: tedious lead creation, opportunity updates, and email outreach that reps do dozens of times a day. We have collected real action prompts from customers confirming active adoption.
     <br>This section is included for completeness. Our current scope targets sync-ed parity (search and retrieval). Actions represent a separate capability layer beyond connector engineering.
