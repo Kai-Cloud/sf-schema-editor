@@ -122,10 +122,9 @@
   </div>
 
   <div class="layer-legend">
-    <div class="layer-legend-item"><span class="swatch" style="background: #f3f4f6;"></span> <strong>Layer 1</strong>. OOB seed (2026-04-15) · frozen</div>
-    <div class="layer-legend-item"><span class="swatch" style="background: #ccfbf1;"></span> <strong>Layer 2</strong>. 4/27 additions · frozen</div>
-    <div class="layer-legend-item"><span class="swatch" style="background: #fed7aa;"></span> <strong>Layer 3</strong>. Contoso protagonists (5/9) · cite</div>
-    <div class="layer-legend-item"><span class="swatch" style="background: #ede9fe;"></span> <strong>Layer 4</strong>. Background noise (5/9) · do not cite</div>
+    <div class="layer-legend-item"><span class="swatch" style="background: #f3f4f6;"></span> <strong>Demo-data (before 4/15)</strong>. OOB seed shipped with the Developer Edition org. frozen.</div>
+    <div class="layer-legend-item"><span class="swatch" style="background: #ccfbf1;"></span> <strong>Add records (4/27)</strong>. Manual top-ups to extended objects (CaseComments, FeedItems, ContentVersions, etc.) for the 4/27 iteration.</div>
+    <div class="layer-legend-item"><span class="swatch" style="background: #fed7aa;"></span> <strong>Large dataset (5/9)</strong>. Contoso seeding: 101 fully-populated protagonists plus ~1,848 sparse background records.</div>
   </div>
 
   <div class="tbl-wrap">
@@ -133,34 +132,33 @@
       <thead>
         <tr>
           <th>Object</th>
-          <th class="right"><span class="pill pill-l1">L1 (4/15)</span></th>
-          <th class="right"><span class="pill pill-l2">L2 (4/27)</span></th>
-          <th class="right"><span class="pill pill-l3">L3 (5/9)</span></th>
-          <th class="right"><span class="pill pill-l4">L4 (5/9)</span></th>
-          <th class="right">Org total</th>
+          <th class="right"><span class="pill pill-l1">Demo-data (before 4/15)</span></th>
+          <th class="right"><span class="pill pill-l2">Add records (4/27)</span></th>
+          <th class="right"><span class="pill pill-l3">Large dataset (5/9)</span></th>
+          <th class="right">Total</th>
           <th>Notes</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>Account</td>            <td class="right">13</td> <td class="right">0</td>  <td class="right">19</td>    <td class="right">80</td>    <td class="right"><strong>112</strong></td>   <td>19 Tier-1 + subsidiaries; 80 Faker noise</td></tr>
-        <tr><td>Contact</td>            <td class="right">20</td> <td class="right">0</td>  <td class="right">20</td>    <td class="right">~197</td>  <td class="right"><strong>237</strong></td>   <td>150 seeded + ~47 auto-created via LeadConvert S4</td></tr>
-        <tr><td>Lead</td>               <td class="right">22</td> <td class="right">0</td>  <td class="right">13</td>    <td class="right">1,000</td> <td class="right"><strong>1,035</strong></td> <td><strong>47 truly converted</strong> (IsConverted=true)</td></tr>
-        <tr><td>Opportunity</td>        <td class="right">31</td> <td class="right">0</td>  <td class="right">22</td>    <td class="right">400</td>   <td class="right"><strong>453</strong></td>   <td>7 closed-won, 3 closed-lost, 12 open (L3)</td></tr>
-        <tr><td>Case</td>               <td class="right">26</td> <td class="right">0</td>  <td class="right">13</td>    <td class="right">150</td>   <td class="right"><strong>189</strong></td>   <td>7 closed + 5 open + 1 child (L3); 70% closed (L4)</td></tr>
-        <tr><td>OpportunityLineItem</td><td class="right">3</td>  <td class="right">0</td>  <td class="right">6</td>     <td class="right">0</td>     <td class="right"><strong>9</strong></td>     <td>L3 only; 2–3 per closed-won deal</td></tr>
-        <tr><td>Order</td>              <td class="right">3</td>  <td class="right">0</td>  <td class="right">2</td>     <td class="right">0</td>     <td class="right"><strong>5</strong></td>     <td>1 activated, 1 draft (L3)</td></tr>
-        <tr><td>OrderItem</td>          <td class="right">5</td>  <td class="right">0</td>  <td class="right">4</td>     <td class="right">0</td>     <td class="right"><strong>9</strong></td>     <td>2 per Order (L3)</td></tr>
-        <tr><td>Task</td>               <td class="right">1</td>  <td class="right">0</td>  <td class="right">1</td>     <td class="right">0</td>     <td class="right"><strong>2</strong></td>     <td>L3 only; L4 skipped (storage)</td></tr>
-        <tr><td>Event</td>              <td class="right">1</td>  <td class="right">0</td>  <td class="right">1</td>     <td class="right">0</td>     <td class="right"><strong>2</strong></td>     <td>L3 only; L4 skipped (storage)</td></tr>
-        <tr><td>Campaign</td>           <td class="right">5</td>  <td class="right">0</td>  <td class="right">0</td>     <td class="right">5</td>     <td class="right"><strong>10</strong></td>    <td>L4 only; Webinar/Email/Conf mix</td></tr>
-        <tr><td>CampaignMember</td>     <td class="right">1</td>  <td class="right">0</td>  <td class="right">0</td>     <td class="right">30</td>    <td class="right"><strong>31</strong></td>    <td>L4 only; ~60/40 Lead/Contact</td></tr>
-        <tr><td>FeedItem</td>           <td class="right">10</td> <td class="right">~18</td><td class="right">0</td>     <td class="right">(auto)</td><td class="right"><strong>290</strong></td>   <td>Mostly auto-tracked on inserts</td></tr>
-        <tr><td>CaseComment</td>        <td class="right">6</td>  <td class="right">0</td>  <td class="right">0</td>     <td class="right">0</td>     <td class="right"><strong>6</strong></td>     <td>Unchanged from L1</td></tr>
-        <tr><td>CollaborationGroup</td> <td class="right">2</td>  <td class="right">0</td>  <td class="right">0</td>     <td class="right">0</td>     <td class="right"><strong>2</strong></td>     <td>Unchanged</td></tr>
-        <tr><td>Product2</td>           <td class="right">22</td> <td class="right">0</td>  <td class="right">0</td>     <td class="right">0</td>     <td class="right"><strong>22</strong></td>    <td>Unchanged; referenced by L3 OLIs</td></tr>
-        <tr><td>PricebookEntry</td>     <td class="right">39</td> <td class="right">0</td>  <td class="right">0</td>     <td class="right">0</td>     <td class="right"><strong>39</strong></td>    <td>Unchanged</td></tr>
-        <tr><td>ContentVersion</td>     <td class="right">8</td>  <td class="right">~8</td> <td class="right">0</td>     <td class="right">0</td>     <td class="right"><strong>16</strong></td>    <td>L2 auto-tracked attachments</td></tr>
-        <tr class="total-row"><td>Total (5/9 added)</td><td class="right">n/a</td><td class="right">n/a</td><td class="right">101</td><td class="right">~1,848</td><td class="right">~1,949</td><td>Across 7 directly-seeded objects</td></tr>
+        <tr><td>Account</td>            <td class="right">13</td> <td class="right">0</td>   <td class="right">99</td>     <td class="right"><strong>112</strong></td>   <td>19 Tier-1 + subsidiaries; 80 Faker noise</td></tr>
+        <tr><td>Contact</td>            <td class="right">20</td> <td class="right">0</td>   <td class="right">~217</td>   <td class="right"><strong>237</strong></td>   <td>20 protagonists + 150 noise + ~47 auto-created via LeadConvert S4</td></tr>
+        <tr><td>Lead</td>               <td class="right">22</td> <td class="right">0</td>   <td class="right">1,013</td>  <td class="right"><strong>1,035</strong></td> <td>13 protagonists + 1,000 Faker; <strong>47 truly converted</strong></td></tr>
+        <tr><td>Opportunity</td>        <td class="right">31</td> <td class="right">0</td>   <td class="right">422</td>    <td class="right"><strong>453</strong></td>   <td>22 protagonists + 400 Faker noise</td></tr>
+        <tr><td>Case</td>               <td class="right">26</td> <td class="right">0</td>   <td class="right">163</td>    <td class="right"><strong>189</strong></td>   <td>13 protagonists + 150 Faker noise</td></tr>
+        <tr><td>OpportunityLineItem</td><td class="right">3</td>  <td class="right">0</td>   <td class="right">6</td>      <td class="right"><strong>9</strong></td>     <td>L3 only; 2–3 per closed-won deal</td></tr>
+        <tr><td>Order</td>              <td class="right">3</td>  <td class="right">0</td>   <td class="right">2</td>      <td class="right"><strong>5</strong></td>     <td>1 activated, 1 draft (L3)</td></tr>
+        <tr><td>OrderItem</td>          <td class="right">5</td>  <td class="right">0</td>   <td class="right">4</td>      <td class="right"><strong>9</strong></td>     <td>2 per Order (L3)</td></tr>
+        <tr><td>Task</td>               <td class="right">1</td>  <td class="right">0</td>   <td class="right">1</td>      <td class="right"><strong>2</strong></td>     <td>L3 only; L4 skipped (storage)</td></tr>
+        <tr><td>Event</td>              <td class="right">1</td>  <td class="right">0</td>   <td class="right">1</td>      <td class="right"><strong>2</strong></td>     <td>L3 only; L4 skipped (storage)</td></tr>
+        <tr><td>Campaign</td>           <td class="right">5</td>  <td class="right">0</td>   <td class="right">5</td>      <td class="right"><strong>10</strong></td>    <td>L4 only; Webinar/Email/Conf mix</td></tr>
+        <tr><td>CampaignMember</td>     <td class="right">1</td>  <td class="right">0</td>   <td class="right">30</td>     <td class="right"><strong>31</strong></td>    <td>L4 only; ~60/40 Lead/Contact</td></tr>
+        <tr><td>FeedItem</td>           <td class="right">10</td> <td class="right">~18</td> <td class="right">(auto)</td> <td class="right"><strong>290</strong></td>   <td>Mostly auto-tracked on inserts</td></tr>
+        <tr><td>CaseComment</td>        <td class="right">6</td>  <td class="right">0</td>   <td class="right">0</td>      <td class="right"><strong>6</strong></td>     <td>Unchanged</td></tr>
+        <tr><td>CollaborationGroup</td> <td class="right">2</td>  <td class="right">0</td>   <td class="right">0</td>      <td class="right"><strong>2</strong></td>     <td>Unchanged</td></tr>
+        <tr><td>Product2</td>           <td class="right">22</td> <td class="right">0</td>   <td class="right">0</td>      <td class="right"><strong>22</strong></td>    <td>Unchanged; referenced by L3 OLIs</td></tr>
+        <tr><td>PricebookEntry</td>     <td class="right">39</td> <td class="right">0</td>   <td class="right">0</td>      <td class="right"><strong>39</strong></td>    <td>Unchanged</td></tr>
+        <tr><td>ContentVersion</td>     <td class="right">8</td>  <td class="right">~8</td>  <td class="right">0</td>      <td class="right"><strong>16</strong></td>    <td>4/27 auto-tracked attachments</td></tr>
+        <tr class="total-row"><td>Total records added</td><td class="right">218</td><td class="right">~26</td><td class="right">~1,949</td><td class="right"><strong>~2,193</strong></td><td>Across all objects, all phases</td></tr>
       </tbody>
     </table>
   </div>
