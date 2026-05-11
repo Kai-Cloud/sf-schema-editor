@@ -122,8 +122,8 @@
   </div>
 
   <div class="layer-legend">
-    <div class="layer-legend-item"><span class="swatch" style="background: #f3f4f6;"></span> <strong>Demo-data (before 4/15)</strong>. OOB seed shipped with the Developer Edition org. frozen.</div>
-    <div class="layer-legend-item"><span class="swatch" style="background: #ccfbf1;"></span> <strong>Add records (4/27)</strong>. Manual top-ups to extended objects (CaseComments, FeedItems, ContentVersions, etc.) for the 4/27 iteration.</div>
+    <div class="layer-legend-item"><span class="swatch" style="background: #f3f4f6;"></span> <strong>Demo-data (before 4/15)</strong>. OOB seed shipped with the Developer Edition org. Only covers the 5 core objects (Account, Contact, Lead, Opportunity, Case). frozen.</div>
+    <div class="layer-legend-item"><span class="swatch" style="background: #ccfbf1;"></span> <strong>Add records (4/27)</strong>. Manual top-ups to seed extended objects (OLI, Order, Task, Event, Campaign, Product2, etc.) so eval scenarios can reach beyond the 5 core objects.</div>
     <div class="layer-legend-item"><span class="swatch" style="background: #fed7aa;"></span> <strong>Large dataset (5/9)</strong>. Contoso seeding: 101 fully-populated protagonists plus ~1,848 sparse background records.</div>
   </div>
 
@@ -145,20 +145,20 @@
         <tr><td>Lead</td>               <td class="right">22</td> <td class="right">0</td>   <td class="right">1,013</td>  <td class="right"><strong>1,035</strong></td> <td>13 protagonists + 1,000 Faker; <strong>47 truly converted</strong></td></tr>
         <tr><td>Opportunity</td>        <td class="right">31</td> <td class="right">0</td>   <td class="right">422</td>    <td class="right"><strong>453</strong></td>   <td>22 protagonists + 400 Faker noise</td></tr>
         <tr><td>Case</td>               <td class="right">26</td> <td class="right">0</td>   <td class="right">163</td>    <td class="right"><strong>189</strong></td>   <td>13 protagonists + 150 Faker noise</td></tr>
-        <tr><td>OpportunityLineItem</td><td class="right">3</td>  <td class="right">0</td>   <td class="right">6</td>      <td class="right"><strong>9</strong></td>     <td>L3 only; 2–3 per closed-won deal</td></tr>
-        <tr><td>Order</td>              <td class="right">3</td>  <td class="right">0</td>   <td class="right">2</td>      <td class="right"><strong>5</strong></td>     <td>1 activated, 1 draft (L3)</td></tr>
-        <tr><td>OrderItem</td>          <td class="right">5</td>  <td class="right">0</td>   <td class="right">4</td>      <td class="right"><strong>9</strong></td>     <td>2 per Order (L3)</td></tr>
-        <tr><td>Task</td>               <td class="right">1</td>  <td class="right">0</td>   <td class="right">1</td>      <td class="right"><strong>2</strong></td>     <td>L3 only; L4 skipped (storage)</td></tr>
-        <tr><td>Event</td>              <td class="right">1</td>  <td class="right">0</td>   <td class="right">1</td>      <td class="right"><strong>2</strong></td>     <td>L3 only; L4 skipped (storage)</td></tr>
-        <tr><td>Campaign</td>           <td class="right">5</td>  <td class="right">0</td>   <td class="right">5</td>      <td class="right"><strong>10</strong></td>    <td>L4 only; Webinar/Email/Conf mix</td></tr>
-        <tr><td>CampaignMember</td>     <td class="right">1</td>  <td class="right">0</td>   <td class="right">30</td>     <td class="right"><strong>31</strong></td>    <td>L4 only; ~60/40 Lead/Contact</td></tr>
-        <tr><td>FeedItem</td>           <td class="right">10</td> <td class="right">~18</td> <td class="right">(auto)</td> <td class="right"><strong>290</strong></td>   <td>Mostly auto-tracked on inserts</td></tr>
-        <tr><td>CaseComment</td>        <td class="right">6</td>  <td class="right">0</td>   <td class="right">0</td>      <td class="right"><strong>6</strong></td>     <td>Unchanged</td></tr>
-        <tr><td>CollaborationGroup</td> <td class="right">2</td>  <td class="right">0</td>   <td class="right">0</td>      <td class="right"><strong>2</strong></td>     <td>Unchanged</td></tr>
-        <tr><td>Product2</td>           <td class="right">22</td> <td class="right">0</td>   <td class="right">0</td>      <td class="right"><strong>22</strong></td>    <td>Unchanged; referenced by L3 OLIs</td></tr>
-        <tr><td>PricebookEntry</td>     <td class="right">39</td> <td class="right">0</td>   <td class="right">0</td>      <td class="right"><strong>39</strong></td>    <td>Unchanged</td></tr>
-        <tr><td>ContentVersion</td>     <td class="right">8</td>  <td class="right">~8</td>  <td class="right">0</td>      <td class="right"><strong>16</strong></td>    <td>4/27 auto-tracked attachments</td></tr>
-        <tr class="total-row"><td>Total records added</td><td class="right">218</td><td class="right">~26</td><td class="right">~1,949</td><td class="right"><strong>~2,193</strong></td><td>Across all objects, all phases</td></tr>
+        <tr><td>OpportunityLineItem</td><td class="right">0</td>  <td class="right">3</td>   <td class="right">6</td>      <td class="right"><strong>9</strong></td>     <td>4/27 added 3 OLIs to seed pricing scenarios; +6 in L3 (2–3 per closed-won)</td></tr>
+        <tr><td>Order</td>              <td class="right">0</td>  <td class="right">3</td>   <td class="right">2</td>      <td class="right"><strong>5</strong></td>     <td>4/27 added 3 Orders for activation flow; +2 in L3 (1 activated, 1 draft)</td></tr>
+        <tr><td>OrderItem</td>          <td class="right">0</td>  <td class="right">5</td>   <td class="right">4</td>      <td class="right"><strong>9</strong></td>     <td>4/27 added 5 OrderItems; +4 in L3 (2 per Order)</td></tr>
+        <tr><td>Task</td>               <td class="right">0</td>  <td class="right">1</td>   <td class="right">1</td>      <td class="right"><strong>2</strong></td>     <td>4/27 added 1 Task to cover activity scenarios; +1 in L3</td></tr>
+        <tr><td>Event</td>              <td class="right">0</td>  <td class="right">1</td>   <td class="right">1</td>      <td class="right"><strong>2</strong></td>     <td>4/27 added 1 Event for calendar scenarios; +1 in L3</td></tr>
+        <tr><td>Campaign</td>           <td class="right">0</td>  <td class="right">5</td>   <td class="right">5</td>      <td class="right"><strong>10</strong></td>    <td>4/27 added 5 Campaigns for marketing-touch coverage; +5 in L4</td></tr>
+        <tr><td>CampaignMember</td>     <td class="right">0</td>  <td class="right">1</td>   <td class="right">30</td>     <td class="right"><strong>31</strong></td>    <td>4/27 added 1 CM; +30 in L4 (~60/40 Lead/Contact)</td></tr>
+        <tr><td>FeedItem</td>           <td class="right">0</td>  <td class="right">~28</td> <td class="right">(auto)</td> <td class="right"><strong>290</strong></td>   <td>4/27 manual chatter posts; 5/9 inserts auto-track ~262 more</td></tr>
+        <tr><td>CaseComment</td>        <td class="right">0</td>  <td class="right">6</td>   <td class="right">0</td>      <td class="right"><strong>6</strong></td>     <td>4/27 added comments for Case-comment scenarios; unchanged 5/9</td></tr>
+        <tr><td>CollaborationGroup</td> <td class="right">0</td>  <td class="right">2</td>   <td class="right">0</td>      <td class="right"><strong>2</strong></td>     <td>4/27 added 2 groups (Energy Sector Field Team, etc.)</td></tr>
+        <tr><td>Product2</td>           <td class="right">0</td>  <td class="right">22</td>  <td class="right">0</td>      <td class="right"><strong>22</strong></td>    <td>4/27 product catalog seed; referenced by L3 OLIs</td></tr>
+        <tr><td>PricebookEntry</td>     <td class="right">0</td>  <td class="right">39</td>  <td class="right">0</td>      <td class="right"><strong>39</strong></td>    <td>4/27 pricebook entries paired with Product2</td></tr>
+        <tr><td>ContentVersion</td>     <td class="right">0</td>  <td class="right">16</td>  <td class="right">0</td>      <td class="right"><strong>16</strong></td>    <td>4/27 file attachments + auto-tracked versions</td></tr>
+        <tr class="total-row"><td>Total records added</td><td class="right">112</td><td class="right">~132</td><td class="right">~1,949</td><td class="right"><strong>~2,193</strong></td><td>Across all objects, all phases</td></tr>
       </tbody>
     </table>
   </div>
