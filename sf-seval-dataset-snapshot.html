@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Salesforce SEVAL Dataset Snapshot — 5/9 Iteration</title>
+<title>Salesforce SEVAL Dataset Snapshot. 5/9 Iteration</title>
 <style>
   :root {
     --bg: #f8f9fa; --surface: #fff; --border: #dee2e6; --text: #212529; --muted: #6c757d;
@@ -90,17 +90,39 @@
 </head>
 <body>
 
-<h1>Salesforce SEVAL Dataset Snapshot — 5/9 Iteration</h1>
+<h1>Salesforce SEVAL Dataset Snapshot. 5/9 Iteration</h1>
 <div class="subtitle">Org: <code>my-sandbox-msft3</code> · Iteration date: 2026-05-09 · Last reconciled: 2026-05-11</div>
-<div class="meta">Companion to the SEVAL queryset (<a href="https://github.com/Kai-Cloud/sf-schema-editor">sf-schema-editor</a>) — source of truth for citation links and prompt grounding in the 20260509 iteration.</div>
+<div class="meta">Companion to the SEVAL queryset. Source of truth for citation links and prompt grounding in the 20260509 iteration.</div>
+
+<!-- TL;DR spotlight (top) -->
+<section class="callout info" style="border-width: 2px; box-shadow: 0 2px 6px rgba(13, 110, 253, 0.12); margin-bottom: 24px;">
+  <div class="callout-title" style="font-size: 0.95rem;">TL;DR for SEVAL prompt authors</div>
+  <ul style="margin-top: 6px;">
+    <li><strong>1,949 Contoso records</strong> seeded on 2026-05-09 across 7 directly-seeded objects. Layer 3 (101 fully-populated protagonists) are the only valid citation targets. Layer 4 (~1,848 sparse records) are noise and must not be cited.</li>
+    <li><strong>2026-05-09 is a "fat date".</strong> Every <code>CreatedDate</code> / <code>LastModifiedDate</code> / <code>ConvertedDate</code> / <code>ClosedDate</code> on seeded records collapses to 5/9. Any prompt filtering on those auto-stamped fields with a window touching 5/9 returns ~1,900 records and busts the 50-record citation cap.</li>
+    <li><strong>Owner-filter prompts must use Kai / Maple / Nitin only.</strong> The 10 narrative role names (Alice, Ben, Claire, etc.) exist only as text in <code>Description</code> / <code>NextStep</code> fields. Full-text search will find them; <code>OwnerId</code> filters will not.</li>
+    <li><strong>Writable date fields are safe to filter on.</strong> <code>Opportunity.CloseDate</code>, <code>Task.ActivityDate</code>, <code>Event.StartDateTime</code>, <code>Campaign.StartDate</code>, <code>Order.EffectiveDate</code> were set per the narrative across 2026-05 to 2026-10.</li>
+  </ul>
+</section>
+
+<!-- Vocabulary legend -->
+<section style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 18px; margin-bottom: 24px; font-size: 0.8rem;">
+  <strong style="display: block; margin-bottom: 8px;">Canonical vocabulary used in this page</strong>
+  <div style="display: grid; grid-template-columns: 160px 1fr; gap: 6px 14px;">
+    <div><span class="pill pill-warn">auto-stamped</span></div><div>Read-only date field set by Salesforce on insert/update. Cannot be overridden by the seed script. All clustered on 2026-05-09.</div>
+    <div><span class="pill pill-ok">writable</span></div><div>Date field set explicitly by the seed script per the narrative timeline. Distributed across 2026-05 to 2026-10.</div>
+    <div><span class="pill pill-l3">Layer 3</span></div><div>Contoso story protagonists. Fully populated. Cite.</div>
+    <div><span class="pill pill-l4">Layer 4</span></div><div>Background noise. Sparse fields. Do not cite.</div>
+  </div>
+</section>
 
 <div class="toc">
   <strong>On this page</strong>
   <ol>
     <li><a href="#story">The Contoso story (why this data exists)</a></li>
     <li><a href="#dates">The 2026-05-09 date effect (read this before authoring prompts)</a></li>
-    <li><a href="#snapshot">Post-seeding snapshot — record totals by layer</a></li>
-    <li><a href="#owners">Owner distribution — threshold-design targets</a></li>
+    <li><a href="#snapshot">Post-seeding snapshot. record totals by layer</a></li>
+    <li><a href="#owners">Owner distribution. threshold-design targets</a></li>
     <li><a href="#prompt-rules">Prompt-authoring rules derived from the dataset</a></li>
   </ol>
 </div>
@@ -117,19 +139,19 @@
   <div class="narrative-list">
     <h4>The cast (Layer 3 protagonists)</h4>
     <ul>
-      <li><strong>Tier-1 customer accounts:</strong> Pinnacle Health Systems (Healthcare, Boston), Meridian Financial Group (Finance, NY), NovaTech Solutions (Tech, San Jose), Clearwater Insurance (Insurance, Chicago) — fully populated with hierarchy (Meridian has Capital + Wealth subsidiaries; NovaTech has a Federal subsidiary).</li>
+      <li><strong>Tier-1 customer accounts:</strong> Pinnacle Health Systems (Healthcare, Boston), Meridian Financial Group (Finance, NY), NovaTech Solutions (Tech, San Jose), Clearwater Insurance (Insurance, Chicago). fully populated with hierarchy (Meridian has Capital + Wealth subsidiaries; NovaTech has a Federal subsidiary).</li>
       <li><strong>Named contacts:</strong> Sarah Mitchell, Robert Tan, Jonathan Reed, Victoria Park, Marcus Webb, Diana Liu, Kevin Walsh, Laura Sanchez, Priya Mehta, etc.</li>
       <li><strong>Pipeline shape:</strong> 7 closed-won Opps (Apr–Jul 2026), 3 closed-lost, 12 open (Jul–Oct 2026). 5 converted Leads, 6 working, 2 closed-not-converted. 7 closed Cases (with RCA in Description), 5 open, 1 child Case.</li>
     </ul>
 
     <h4>The team (recast from 10 narrative roles to 3 real SF users)</h4>
     <ul>
-      <li><span class="pill pill-kai">Kai Liang</span> — <strong>National Strategic Accounts lead.</strong> Manages Alice Chen (VP), Ben Martinez (Sr AE), Henry Lawson (Channel), Grace Kim (Sales Eng). Bulk owner of ~86% of records.</li>
-      <li><span class="pill pill-maple">Maple Nan</span> — <strong>Mid-Market lead.</strong> Manages Claire Dubois, David Park, Emily Zhang. Threshold-target owner (~50/object).</li>
-      <li><span class="pill pill-nitin">Nitin Jaiswal</span> — <strong>Specialist lead (Outbound + Ops).</strong> Manages Frank Rivera, Irene Nakamura, James O'Brien. Sentinel-target owner (1–3/object).</li>
+      <li><span class="pill pill-kai">Kai Liang</span>. <strong>National Strategic Accounts lead.</strong> Manages Alice Chen (VP), Ben Martinez (Sr AE), Henry Lawson (Channel), Grace Kim (Sales Eng). Bulk owner of ~86% of records.</li>
+      <li><span class="pill pill-maple">Maple Nan</span>. <strong>Mid-Market lead.</strong> Manages Claire Dubois, David Park, Emily Zhang. Threshold-target owner (~50/object).</li>
+      <li><span class="pill pill-nitin">Nitin Jaiswal</span>. <strong>Specialist lead (Outbound + Ops).</strong> Manages Frank Rivera, Irene Nakamura, James O'Brien. Sentinel-target owner (1–3/object).</li>
     </ul>
     <div style="font-size: 0.78rem; color: var(--muted); margin-top: 8px;">
-      The 10 narrative role names (Alice, Ben, etc.) appear only as <strong>text</strong> in <code>Description</code> / <code>NextStep</code> / <code>Internal Comments</code> — not as real SF Users. Salesforce Developer Edition has exhausted all 4 SFDC licenses; additional Standard users cannot be created. <strong>Prompts that filter by <code>OwnerId</code> must use Kai / Maple / Nitin by name</strong>; full-text search will still surface text mentions of the sub-team members.
+      The 10 narrative role names (Alice, Ben, etc.) appear only as <strong>text</strong> in <code>Description</code> / <code>NextStep</code> / <code>Internal Comments</code>. not as real SF Users. Salesforce Developer Edition has exhausted all 4 SFDC licenses; additional Standard users cannot be created. <strong>Prompts that filter by <code>OwnerId</code> must use Kai / Maple / Nitin by name</strong>; full-text search will still surface text mentions of the sub-team members.
     </div>
   </div>
 </section>
@@ -147,11 +169,11 @@
     <div class="callout-title">⚠ Read-only date fields clustered on 2026-05-09</div>
     Any prompt that filters on these fields with a window overlapping 5/9 will match ~1,900 records and bust the 50-record citation cap.
     <ul>
-      <li><code>CreatedDate</code> — every Layer 3 + Layer 4 record (~1,900)</li>
-      <li><code>LastModifiedDate</code> — same as above</li>
-      <li><code>SystemModstamp</code> — same as above</li>
-      <li><code>Lead.ConvertedDate</code> — all 47 truly-converted Layer 4 Leads + 5 Layer 3 conversions</li>
-      <li><code>Case.ClosedDate</code> — all ~110 Layer 4 closed Cases + 7 Layer 3 closed Cases</li>
+      <li><code>CreatedDate</code>. every Layer 3 + Layer 4 record (~1,900)</li>
+      <li><code>LastModifiedDate</code>. same as above</li>
+      <li><code>SystemModstamp</code>. same as above</li>
+      <li><code>Lead.ConvertedDate</code>. all 47 truly-converted Layer 4 Leads + 5 Layer 3 conversions</li>
+      <li><code>Case.ClosedDate</code>. all ~110 Layer 4 closed Cases + 7 Layer 3 closed Cases</li>
     </ul>
   </div>
 
@@ -159,19 +181,19 @@
     <div class="callout-title">✓ Writable date fields seeded per narrative (safe to filter on)</div>
     These were set explicitly by the seed scripts to match the simulation timeline. Distributed across 2026-05 to 2026-10.
     <ul>
-      <li><code>Opportunity.CloseDate</code> — 7 closed-won spread Apr–Jul 2026; 12 open Jul–Oct 2026</li>
-      <li><code>Task.ActivityDate</code> — Layer 3 only (1 record); distributed per narrative</li>
-      <li><code>Event.StartDateTime</code> / <code>EndDateTime</code> — Layer 3 only (1 record)</li>
-      <li><code>Campaign.StartDate</code> / <code>EndDate</code> — May 15 – Sep 30 2026</li>
-      <li><code>Order.EffectiveDate</code> / <code>EndDate</code> — Layer 3 only</li>
+      <li><code>Opportunity.CloseDate</code>. 7 closed-won spread Apr–Jul 2026; 12 open Jul–Oct 2026</li>
+      <li><code>Task.ActivityDate</code>. Layer 3 only (1 record); distributed per narrative</li>
+      <li><code>Event.StartDateTime</code> / <code>EndDateTime</code>. Layer 3 only (1 record)</li>
+      <li><code>Campaign.StartDate</code> / <code>EndDate</code>. May 15 – Sep 30 2026</li>
+      <li><code>Order.EffectiveDate</code> / <code>EndDate</code>. Layer 3 only</li>
     </ul>
   </div>
 
   <div class="date-grid">
     <div class="dg-label">Story window</div>           <div class="dg-value"><strong>2026-05-09 to 2026-07-30</strong> (3 months, Q2/Q3 2026 boundary)</div>
-    <div class="dg-label">"As-of-today" date</div>     <div class="dg-value"><strong>2026-05-09</strong> — all "open" records, working leads, active cases are framed relative to this date</div>
-    <div class="dg-label">OOB Layer 1 window</div>     <div class="dg-value">CloseDates 2025-12-26 to 2026-04-16 (does <em>not</em> overlap Contoso window — clean separation)</div>
-    <div class="dg-label">Layer 2 (4/27)</div>         <div class="dg-value">CaseComments, FeedItems, ContentVersions added on 2026-04-27 — frozen, not modified by 5/9 seeding</div>
+    <div class="dg-label">"As-of-today" date</div>     <div class="dg-value"><strong>2026-05-09</strong>. all "open" records, working leads, active cases are framed relative to this date</div>
+    <div class="dg-label">OOB Layer 1 window</div>     <div class="dg-value">CloseDates 2025-12-26 to 2026-04-16 (does <em>not</em> overlap Contoso window. clean separation)</div>
+    <div class="dg-label">Layer 2 (4/27)</div>         <div class="dg-value">CaseComments, FeedItems, ContentVersions added on 2026-04-27. frozen, not modified by 5/9 seeding</div>
     <div class="dg-label">Layer 3 + 4 (5/9)</div>      <div class="dg-value"><strong>All inserted on 2026-05-09</strong>; writable dates distributed per narrative</div>
   </div>
 </section>
@@ -195,7 +217,7 @@
     <div class="summary-card">
       <div class="sc-label">Layer 4 background</div>
       <div class="sc-val">~1,848</div>
-      <div class="sc-detail">Sparse fields per real-CRM patterns. <strong>Not cited</strong> — pure noise for recall/aggregation prompts.</div>
+      <div class="sc-detail">Sparse fields per real-CRM patterns. <strong>Not cited</strong>. pure noise for recall/aggregation prompts.</div>
     </div>
     <div class="summary-card">
       <div class="sc-label">Data Storage used</div>
@@ -205,10 +227,10 @@
   </div>
 
   <div class="layer-legend">
-    <div class="layer-legend-item"><span class="swatch" style="background: #f3f4f6;"></span> <strong>Layer 1</strong> — OOB seed (2026-04-15) · frozen</div>
-    <div class="layer-legend-item"><span class="swatch" style="background: #ccfbf1;"></span> <strong>Layer 2</strong> — 4/27 additions · frozen</div>
-    <div class="layer-legend-item"><span class="swatch" style="background: #fed7aa;"></span> <strong>Layer 3</strong> — Contoso protagonists (5/9) · cite</div>
-    <div class="layer-legend-item"><span class="swatch" style="background: #ede9fe;"></span> <strong>Layer 4</strong> — Background noise (5/9) · do not cite</div>
+    <div class="layer-legend-item"><span class="swatch" style="background: #f3f4f6;"></span> <strong>Layer 1</strong>. OOB seed (2026-04-15) · frozen</div>
+    <div class="layer-legend-item"><span class="swatch" style="background: #ccfbf1;"></span> <strong>Layer 2</strong>. 4/27 additions · frozen</div>
+    <div class="layer-legend-item"><span class="swatch" style="background: #fed7aa;"></span> <strong>Layer 3</strong>. Contoso protagonists (5/9) · cite</div>
+    <div class="layer-legend-item"><span class="swatch" style="background: #ede9fe;"></span> <strong>Layer 4</strong>. Background noise (5/9) · do not cite</div>
   </div>
 
   <div class="tbl-wrap">
@@ -243,7 +265,7 @@
         <tr><td>Product2</td>           <td class="right">22</td> <td class="right">0</td>  <td class="right">0</td>     <td class="right">0</td>     <td class="right"><strong>22</strong></td>    <td>Unchanged; referenced by L3 OLIs</td></tr>
         <tr><td>PricebookEntry</td>     <td class="right">39</td> <td class="right">0</td>  <td class="right">0</td>     <td class="right">0</td>     <td class="right"><strong>39</strong></td>    <td>Unchanged</td></tr>
         <tr><td>ContentVersion</td>     <td class="right">8</td>  <td class="right">~8</td> <td class="right">0</td>     <td class="right">0</td>     <td class="right"><strong>16</strong></td>    <td>L2 auto-tracked attachments</td></tr>
-        <tr class="total-row"><td>Total (5/9 added)</td><td class="right">—</td><td class="right">—</td><td class="right">101</td><td class="right">~1,848</td><td class="right">~1,949</td><td>Across 7 directly-seeded objects</td></tr>
+        <tr class="total-row"><td>Total (5/9 added)</td><td class="right">n/a</td><td class="right">n/a</td><td class="right">101</td><td class="right">~1,848</td><td class="right">~1,949</td><td>Across 7 directly-seeded objects</td></tr>
       </tbody>
     </table>
   </div>
@@ -251,7 +273,7 @@
 
 <!-- ============================================================== -->
 <section class="section" id="owners">
-  <div class="section-hdr">4. Owner distribution — threshold-design targets <a href="#owners" class="section-anchor">#</a></div>
+  <div class="section-hdr">4. Owner distribution. threshold-design targets <a href="#owners" class="section-anchor">#</a></div>
   <p class="section-desc">
     The three real SF Admin users are deliberately assigned to probe three platform thresholds:
     <strong>~1000</strong> (Glean's per-object API ceiling), <strong>~50</strong> (Microsoft's 50-record RAG citation cap), and <strong>~1–3</strong> (minimum owner-filter sentinel).
@@ -271,7 +293,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr><td>Account</td>     <td class="right">69</td>    <td class="right">28</td> <td class="right">2</td> <td class="center"><span class="pill pill-ok">✓</span></td> <td>Maple short — L4 noise concentrated to Kai</td></tr>
+        <tr><td>Account</td>     <td class="right">69</td>    <td class="right">28</td> <td class="right">2</td> <td class="center"><span class="pill pill-ok">✓</span></td> <td>Maple short. L4 noise concentrated to Kai</td></tr>
         <tr><td>Contact</td>     <td class="right">183</td>   <td class="right">32</td> <td class="right">2</td> <td class="center"><span class="pill pill-ok">✓</span></td> <td>LeadConvert auto-creates inherit Lead owner → all Kai</td></tr>
         <tr><td>Lead</td>        <td class="right">1,001</td> <td class="right">11</td> <td class="right">1</td> <td class="center"><span class="pill pill-ok">✓</span></td> <td><strong>Kai &gt; 1000-ceiling; Nitin = sentinel</strong></td></tr>
         <tr><td>Opportunity</td> <td class="right">369</td>   <td class="right">50</td> <td class="right">3</td> <td class="center"><span class="pill pill-ok">✓</span></td> <td>Maple = exact 50-cap</td></tr>
@@ -282,7 +304,7 @@
 
   <div class="callout info">
     <div class="callout-title">ℹ Why Account / Contact Maple counts are under target</div>
-    The LeadConvert Step-3c S4 strategy auto-assigns each created Contact to the converting Lead's <em>existing</em> owner (Kai). Owner re-balance was deliberately skipped — we accepted the asymmetry to avoid post-conversion mutations. Future iterations needing balanced Contact ownership must run a separate <code>UPDATE Contact SET OwnerId=...</code> pass after LeadConvert.
+    The LeadConvert Step-3c S4 strategy auto-assigns each created Contact to the converting Lead's <em>existing</em> owner (Kai). Owner re-balance was deliberately skipped. we accepted the asymmetry to avoid post-conversion mutations. Future iterations needing balanced Contact ownership must run a separate <code>UPDATE Contact SET OwnerId=...</code> pass after LeadConvert.
   </div>
 </section>
 
@@ -323,7 +345,7 @@
         <tr>
           <td><strong>Owner</strong> Filter by <code>OwnerId</code> only via Kai / Maple / Nitin</td>
           <td>"Ben's open opportunities", "deals owned by Alice"</td>
-          <td>"Kai Liang's open opportunities" — Ben/Alice surface via full-text search</td>
+          <td>"Kai Liang's open opportunities". Ben/Alice surface via full-text search</td>
         </tr>
       </tbody>
     </table>
@@ -335,8 +357,57 @@
   </div>
 </section>
 
+<!-- ============================================================== -->
+<section class="section" id="readiness" style="margin-top: 40px;">
+  <div class="section-hdr" style="border-bottom-color: #0d6efd;">Dataset readiness for SEVAL <a href="#readiness" class="section-anchor">#</a></div>
+  <p class="section-desc">The screenshot box. What is ready now, what is blocking, and what to plan around.</p>
+
+  <div style="background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%); border: 2px solid #38bdf8; border-radius: 10px; padding: 18px 22px; box-shadow: 0 4px 12px rgba(13, 110, 253, 0.12);">
+    <div style="font-weight: 700; font-size: 0.95rem; color: #075985; margin-bottom: 10px;">Readiness assessment, 2026-05-11</div>
+    <p style="font-size: 0.85rem; line-height: 1.6; margin: 0 0 12px; color: #0c4a6e;">
+      The dataset is ready for v2 SEVAL execution against the 116-prompt seval-guided queryset, subject to one known data hazard (the 5/9 date cluster) and one open task (citation-link refresh against Layer 3 IDs).
+    </p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; font-size: 0.82rem;">
+      <div style="background: rgba(255,255,255,0.7); border-radius: 6px; padding: 10px 12px;">
+        <div style="font-weight: 700; color: #065f46; margin-bottom: 4px;">Ready now</div>
+        <ul style="margin: 0 0 0 16px; padding: 0; color: #064e3b;">
+          <li>101 Layer 3 protagonists, fully populated, owner-balanced</li>
+          <li>Owner thresholds 1000 / 50 / 1 hit on all 5 core objects (post 5/11 Case rebalance)</li>
+          <li>1 MB storage headroom (~700 records) for future top-ups</li>
+        </ul>
+      </div>
+      <div style="background: rgba(255,255,255,0.7); border-radius: 6px; padding: 10px 12px;">
+        <div style="font-weight: 700; color: #92400e; margin-bottom: 4px;">Open</div>
+        <ul style="margin: 0 0 0 16px; padding: 0; color: #78350f;">
+          <li>Refresh <code>Expected Result IDs / URLs</code> in both CSVs against the Layer 3 manifest (~3h)</li>
+          <li>Verify §3.3 result-set size for prompts #33 and #67 after 5/9 seeding</li>
+          <li>Add the 5 CIBC-driven prompts (C, D, F, I, J)</li>
+        </ul>
+      </div>
+      <div style="background: rgba(255,255,255,0.7); border-radius: 6px; padding: 10px 12px;">
+        <div style="font-weight: 700; color: #7f1d1d; margin-bottom: 4px;">Plan around</div>
+        <ul style="margin: 0 0 0 16px; padding: 0; color: #7f1d1d;">
+          <li>2026-05-09 date cluster on auto-stamped fields (rules 7.3.a-e apply)</li>
+          <li>10 narrative roles (Alice, Ben, etc.) are text-only, not real Users</li>
+          <li>5 Layer 3 Leads have <code>Status='Closed - Converted'</code> but <code>IsConverted=false</code> (dup-rule collision; left as-is)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
-  Generated 2026-05-11 · Sources: <code>20260509-SF-oob-glean-eval/demo-data/README.md</code>, <code>data-plan.md</code>, <code>contoso-sales-simulation-20260509.md</code>
+  <strong style="display: block; margin-bottom: 6px; color: var(--text);">Sources</strong>
+  <div style="text-align: left; max-width: 720px; margin: 0 auto;">
+    <ul style="margin: 0; padding: 0 0 0 18px;">
+      <li><a href="https://github.com/Kai-Cloud/sf-schema-editor/blob/main/contoso-sales-simulation-20260509.md"><code>contoso-sales-simulation-20260509.md</code></a>. Narrative source. Cast, time window, team-lead recasting.</li>
+      <li><code>SSP/20_SalesforceCC/03_Spec/04_Eval/20260509-SF-oob-glean-eval/demo-data/data-plan.md</code>. Seeding plan §2, §6 owner thresholds, §7 date-cluster rules 7.3.a-e.</li>
+      <li><code>SSP/20_SalesforceCC/03_Spec/04_Eval/20260509-SF-oob-glean-eval/demo-data/README.md</code>. Post-seeding snapshot, owner distribution, lessons learned.</li>
+      <li><code>SSP/20_SalesforceCC/03_Spec/04_Eval/20260509-SF-oob-glean-eval/query/111-query-update-guidance.md</code>. Track 1/2 edit rules, CIBC §7 gap analysis.</li>
+      <li><a href="https://github.com/Kai-Cloud/sf-schema-editor/blob/main/glean-scorecard.html">glean-scorecard.html</a>. Companion artifact; SEVAL pass/fail by prompt.</li>
+    </ul>
+    <div style="margin-top: 10px; font-size: 0.7rem;">Generated 2026-05-11. Last validated against <code>my-sandbox-msft3</code> via SOQL same day.</div>
+  </div>
 </footer>
 
 </body>
