@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salesforce SEVAL Dataset Snapshot — 5/9 Iteration</title>
+<style>
+  :root {
+    --bg: #f8f9fa; --surface: #fff; --border: #dee2e6; --text: #212529; --muted: #6c757d;
+    --primary: #0d6efd; --primary-light: #e7f1ff; --success: #198754; --warning: #ffc107;
+    --danger: #dc3545; --info: #0dcaf0;
+    --l1: #6b7280; --l2: #14b8a6; --l3: #d97706; --l4: #7c3aed;
+    --kai: #0d6efd; --maple: #d97706; --nitin: #6b7280;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 24px; font-size: 13px; max-width: 1080px; margin: 0 auto; line-height: 1.45; }
+  h1 { font-size: 1.55rem; margin: 0 0 2px; }
+  .subtitle { color: var(--muted); font-size: 0.82rem; margin-bottom: 6px; }
+  .meta { color: var(--muted); font-size: 0.75rem; margin-bottom: 20px; }
+  a { color: var(--primary); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .section { margin-bottom: 32px; scroll-margin-top: 16px; }
+  .section-hdr { font-size: 1.05rem; font-weight: 700; margin: 0 0 6px; padding-bottom: 6px; border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 8px; }
+  .section-anchor { font-size: 0.78rem; color: var(--muted); text-decoration: none; opacity: 0; transition: opacity 0.12s; font-weight: 400; }
+  .section-hdr:hover .section-anchor { opacity: 1; }
+  .section-desc { font-size: 0.82rem; color: var(--muted); margin: 0 0 14px; line-height: 1.55; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.8rem; background: var(--surface); }
+  .tbl-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); margin-bottom: 16px; }
+  thead th { background: #f1f3f5; border-bottom: 2px solid var(--border); padding: 8px 10px; text-align: left; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  tbody td { padding: 7px 10px; border-bottom: 1px solid #f1f3f5; vertical-align: middle; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: #f8f9ff; }
+  thead th.right, tbody td.right { text-align: right; }
+  thead th.center, tbody td.center { text-align: center; }
+  tbody tr.total-row { font-weight: 700; background: #f8f9fa; }
+  tbody tr.total-row:hover { background: #e9ecef; }
+
+  .pill { display: inline-flex; align-items: center; gap: 4px; padding: 2px 9px; border-radius: 10px; font-size: 0.7rem; font-weight: 600; white-space: nowrap; }
+  .pill-ok { background: #d1fae5; color: #065f46; }
+  .pill-warn { background: #fef3c7; color: #92400e; }
+  .pill-info { background: #dbeafe; color: #1e40af; }
+  .pill-l1 { background: #f3f4f6; color: #374151; }
+  .pill-l2 { background: #ccfbf1; color: #115e59; }
+  .pill-l3 { background: #fed7aa; color: #9a3412; }
+  .pill-l4 { background: #ede9fe; color: #5b21b6; }
+  .pill-kai { background: #dbeafe; color: #1e40af; }
+  .pill-maple { background: #fed7aa; color: #9a3412; }
+  .pill-nitin { background: #e5e7eb; color: #374151; }
+
+  .callout { padding: 12px 16px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 16px; line-height: 1.55; border: 1px solid; }
+  .callout-title { font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
+  .callout.warn { background: #fef3c7; border-color: #f59e0b; color: #78350f; }
+  .callout.info { background: #e0f2fe; border-color: #38bdf8; color: #075985; }
+  .callout.danger { background: #fee2e2; border-color: #ef4444; color: #7f1d1d; }
+  .callout ul { margin: 4px 0 0 18px; padding: 0; }
+  .callout li { margin-bottom: 3px; }
+  .callout code { background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 3px; font-size: 0.78rem; }
+
+  .summary-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .summary-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .summary-card .sc-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
+  .summary-card .sc-val { font-size: 1.5rem; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+  .summary-card .sc-detail { font-size: 0.72rem; color: var(--muted); line-height: 1.4; }
+
+  .layer-legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.75rem; margin-bottom: 14px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+  .layer-legend-item { display: flex; align-items: center; gap: 6px; }
+  .swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+
+  .narrative-list { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; font-size: 0.82rem; }
+  .narrative-list h4 { margin: 0 0 6px; font-size: 0.85rem; color: var(--primary); }
+  .narrative-list ul { margin: 0 0 10px 16px; padding: 0; }
+  .narrative-list li { margin-bottom: 4px; line-height: 1.5; }
+  .narrative-list li:last-child { margin-bottom: 0; }
+
+  .date-grid { display: grid; grid-template-columns: 130px 1fr; gap: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--surface); margin-bottom: 14px; font-size: 0.8rem; }
+  .date-grid .dg-label { background: #f1f3f5; padding: 9px 12px; font-weight: 600; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .date-grid .dg-value { padding: 9px 12px; border-bottom: 1px solid var(--border); }
+  .date-grid > div:nth-last-child(2), .date-grid > div:nth-last-child(1) { border-bottom: none; }
+
+  .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 18px; margin-bottom: 24px; font-size: 0.8rem; }
+  .toc ol { margin: 4px 0 0 18px; padding: 0; }
+  .toc li { margin-bottom: 3px; }
+
+  code { background: #f1f3f5; padding: 1px 5px; border-radius: 3px; font-size: 0.8em; font-family: 'Consolas', 'Monaco', monospace; }
+
+  footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.72rem; text-align: center; }
+</style>
+</head>
+<body>
+
+<h1>Salesforce SEVAL Dataset Snapshot — 5/9 Iteration</h1>
+<div class="subtitle">Org: <code>my-sandbox-msft3</code> · Iteration date: 2026-05-09 · Last reconciled: 2026-05-11</div>
+<div class="meta">Companion to the SEVAL queryset (<a href="https://github.com/Kai-Cloud/sf-schema-editor">sf-schema-editor</a>) — source of truth for citation links and prompt grounding in the 20260509 iteration.</div>
+
+<div class="toc">
+  <strong>On this page</strong>
+  <ol>
+    <li><a href="#story">The Contoso story (why this data exists)</a></li>
+    <li><a href="#dates">The 2026-05-09 date effect (read this before authoring prompts)</a></li>
+    <li><a href="#snapshot">Post-seeding snapshot — record totals by layer</a></li>
+    <li><a href="#owners">Owner distribution — threshold-design targets</a></li>
+    <li><a href="#prompt-rules">Prompt-authoring rules derived from the dataset</a></li>
+  </ol>
+</div>
+
+<!-- ============================================================== -->
+<section class="section" id="story">
+  <div class="section-hdr">1. The Contoso story (why this data exists) <a href="#story" class="section-anchor">#</a></div>
+  <p class="section-desc">
+    The 5/9 iteration seeds a Contoso B2B-SaaS sales-team narrative on top of the existing OOB Layer 1 + 4/27 Layer 2 records.
+    Narrative source: <a href="https://github.com/Kai-Cloud/sf-schema-editor/blob/main/contoso-sales-simulation-20260509.md"><code>contoso-sales-simulation-20260509.md</code></a>.
+    Two layers, two purposes, no overlap with prior layers.
+  </p>
+
+  <div class="narrative-list">
+    <h4>The cast (Layer 3 protagonists)</h4>
+    <ul>
+      <li><strong>Tier-1 customer accounts:</strong> Pinnacle Health Systems (Healthcare, Boston), Meridian Financial Group (Finance, NY), NovaTech Solutions (Tech, San Jose), Clearwater Insurance (Insurance, Chicago) — fully populated with hierarchy (Meridian has Capital + Wealth subsidiaries; NovaTech has a Federal subsidiary).</li>
+      <li><strong>Named contacts:</strong> Sarah Mitchell, Robert Tan, Jonathan Reed, Victoria Park, Marcus Webb, Diana Liu, Kevin Walsh, Laura Sanchez, Priya Mehta, etc.</li>
+      <li><strong>Pipeline shape:</strong> 7 closed-won Opps (Apr–Jul 2026), 3 closed-lost, 12 open (Jul–Oct 2026). 5 converted Leads, 6 working, 2 closed-not-converted. 7 closed Cases (with RCA in Description), 5 open, 1 child Case.</li>
+    </ul>
+
+    <h4>The team (recast from 10 narrative roles to 3 real SF users)</h4>
+    <ul>
+      <li><span class="pill pill-kai">Kai Liang</span> — <strong>National Strategic Accounts lead.</strong> Manages Alice Chen (VP), Ben Martinez (Sr AE), Henry Lawson (Channel), Grace Kim (Sales Eng). Bulk owner of ~86% of records.</li>
+      <li><span class="pill pill-maple">Maple Nan</span> — <strong>Mid-Market lead.</strong> Manages Claire Dubois, David Park, Emily Zhang. Threshold-target owner (~50/object).</li>
+      <li><span class="pill pill-nitin">Nitin Jaiswal</span> — <strong>Specialist lead (Outbound + Ops).</strong> Manages Frank Rivera, Irene Nakamura, James O'Brien. Sentinel-target owner (1–3/object).</li>
+    </ul>
+    <div style="font-size: 0.78rem; color: var(--muted); margin-top: 8px;">
+      The 10 narrative role names (Alice, Ben, etc.) appear only as <strong>text</strong> in <code>Description</code> / <code>NextStep</code> / <code>Internal Comments</code> — not as real SF Users. Salesforce Developer Edition has exhausted all 4 SFDC licenses; additional Standard users cannot be created. <strong>Prompts that filter by <code>OwnerId</code> must use Kai / Maple / Nitin by name</strong>; full-text search will still surface text mentions of the sub-team members.
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<section class="section" id="dates">
+  <div class="section-hdr">2. The 2026-05-09 date effect <a href="#dates" class="section-anchor">#</a></div>
+  <p class="section-desc">
+    All seeding happened on <strong>2026-05-09</strong>. Salesforce auto-stamps several read-only date fields with the seeding-run timestamp.
+    Some fields the narrative describes as 5/18, 6/12, 6/23, etc. <strong>actually all collapsed to 2026-05-09</strong> in the org.
+    This is the most important fact for prompt authors to internalize.
+  </p>
+
+  <div class="callout warn">
+    <div class="callout-title">⚠ Read-only date fields clustered on 2026-05-09</div>
+    Any prompt that filters on these fields with a window overlapping 5/9 will match ~1,900 records and bust the 50-record citation cap.
+    <ul>
+      <li><code>CreatedDate</code> — every Layer 3 + Layer 4 record (~1,900)</li>
+      <li><code>LastModifiedDate</code> — same as above</li>
+      <li><code>SystemModstamp</code> — same as above</li>
+      <li><code>Lead.ConvertedDate</code> — all 47 truly-converted Layer 4 Leads + 5 Layer 3 conversions</li>
+      <li><code>Case.ClosedDate</code> — all ~110 Layer 4 closed Cases + 7 Layer 3 closed Cases</li>
+    </ul>
+  </div>
+
+  <div class="callout info">
+    <div class="callout-title">✓ Writable date fields seeded per narrative (safe to filter on)</div>
+    These were set explicitly by the seed scripts to match the simulation timeline. Distributed across 2026-05 to 2026-10.
+    <ul>
+      <li><code>Opportunity.CloseDate</code> — 7 closed-won spread Apr–Jul 2026; 12 open Jul–Oct 2026</li>
+      <li><code>Task.ActivityDate</code> — Layer 3 only (1 record); distributed per narrative</li>
+      <li><code>Event.StartDateTime</code> / <code>EndDateTime</code> — Layer 3 only (1 record)</li>
+      <li><code>Campaign.StartDate</code> / <code>EndDate</code> — May 15 – Sep 30 2026</li>
+      <li><code>Order.EffectiveDate</code> / <code>EndDate</code> — Layer 3 only</li>
+    </ul>
+  </div>
+
+  <div class="date-grid">
+    <div class="dg-label">Story window</div>           <div class="dg-value"><strong>2026-05-09 to 2026-07-30</strong> (3 months, Q2/Q3 2026 boundary)</div>
+    <div class="dg-label">"As-of-today" date</div>     <div class="dg-value"><strong>2026-05-09</strong> — all "open" records, working leads, active cases are framed relative to this date</div>
+    <div class="dg-label">OOB Layer 1 window</div>     <div class="dg-value">CloseDates 2025-12-26 to 2026-04-16 (does <em>not</em> overlap Contoso window — clean separation)</div>
+    <div class="dg-label">Layer 2 (4/27)</div>         <div class="dg-value">CaseComments, FeedItems, ContentVersions added on 2026-04-27 — frozen, not modified by 5/9 seeding</div>
+    <div class="dg-label">Layer 3 + 4 (5/9)</div>      <div class="dg-value"><strong>All inserted on 2026-05-09</strong>; writable dates distributed per narrative</div>
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<section class="section" id="snapshot">
+  <div class="section-hdr">3. Post-seeding snapshot <a href="#snapshot" class="section-anchor">#</a></div>
+  <p class="section-desc">Org-wide totals after 5/9 seeding completed. Verified via SOQL on 2026-05-11.</p>
+
+  <div class="summary-strip">
+    <div class="summary-card">
+      <div class="sc-label">Records seeded (5/9)</div>
+      <div class="sc-val">1,949</div>
+      <div class="sc-detail">Across 7 directly-seeded objects, plus ~50 auto-created Contacts from LeadConvert</div>
+    </div>
+    <div class="summary-card">
+      <div class="sc-label">Layer 3 protagonists</div>
+      <div class="sc-val">101</div>
+      <div class="sc-detail">Fully populated. <strong>Primary citation targets</strong> for v2 querysets.</div>
+    </div>
+    <div class="summary-card">
+      <div class="sc-label">Layer 4 background</div>
+      <div class="sc-val">~1,848</div>
+      <div class="sc-detail">Sparse fields per real-CRM patterns. <strong>Not cited</strong> — pure noise for recall/aggregation prompts.</div>
+    </div>
+    <div class="summary-card">
+      <div class="sc-label">Data Storage used</div>
+      <div class="sc-val">4 MB / 5 MB</div>
+      <div class="sc-detail">~1 MB / ~700 records of headroom for future top-ups</div>
+    </div>
+  </div>
+
+  <div class="layer-legend">
+    <div class="layer-legend-item"><span class="swatch" style="background: #f3f4f6;"></span> <strong>Layer 1</strong> — OOB seed (2026-04-15) · frozen</div>
+    <div class="layer-legend-item"><span class="swatch" style="background: #ccfbf1;"></span> <strong>Layer 2</strong> — 4/27 additions · frozen</div>
+    <div class="layer-legend-item"><span class="swatch" style="background: #fed7aa;"></span> <strong>Layer 3</strong> — Contoso protagonists (5/9) · cite</div>
+    <div class="layer-legend-item"><span class="swatch" style="background: #ede9fe;"></span> <strong>Layer 4</strong> — Background noise (5/9) · do not cite</div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Object</th>
+          <th class="right"><span class="pill pill-l1">L1 (4/15)</span></th>
+          <th class="right"><span class="pill pill-l2">L2 (4/27)</span></th>
+          <th class="right"><span class="pill pill-l3">L3 (5/9)</span></th>
+          <th class="right"><span class="pill pill-l4">L4 (5/9)</span></th>
+          <th class="right">Org total</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Account</td>            <td class="right">13</td> <td class="right">0</td>  <td class="right">19</td>    <td class="right">80</td>    <td class="right"><strong>112</strong></td>   <td>19 Tier-1 + subsidiaries; 80 Faker noise</td></tr>
+        <tr><td>Contact</td>            <td class="right">20</td> <td class="right">0</td>  <td class="right">20</td>    <td class="right">~197</td>  <td class="right"><strong>237</strong></td>   <td>150 seeded + ~47 auto-created via LeadConvert S4</td></tr>
+        <tr><td>Lead</td>               <td class="right">22</td> <td class="right">0</td>  <td class="right">13</td>    <td class="right">1,000</td> <td class="right"><strong>1,035</strong></td> <td><strong>47 truly converted</strong> (IsConverted=true)</td></tr>
+        <tr><td>Opportunity</td>        <td class="right">31</td> <td class="right">0</td>  <td class="right">22</td>    <td class="right">400</td>   <td class="right"><strong>453</strong></td>   <td>7 closed-won, 3 closed-lost, 12 open (L3)</td></tr>
+        <tr><td>Case</td>               <td class="right">26</td> <td class="right">0</td>  <td class="right">13</td>    <td class="right">150</td>   <td class="right"><strong>189</strong></td>   <td>7 closed + 5 open + 1 child (L3); 70% closed (L4)</td></tr>
+        <tr><td>OpportunityLineItem</td><td class="right">3</td>  <td class="right">0</td>  <td class="right">6</td>     <td class="right">0</td>     <td class="right"><strong>9</strong></td>     <td>L3 only; 2–3 per closed-won deal</td></tr>
+        <tr><td>Order</td>              <td class="right">3</td>  <td class="right">0</td>  <td class="right">2</td>     <td class="right">0</td>     <td class="right"><strong>5</strong></td>     <td>1 activated, 1 draft (L3)</td></tr>
+        <tr><td>OrderItem</td>          <td class="right">5</td>  <td class="right">0</td>  <td class="right">4</td>     <td class="right">0</td>     <td class="right"><strong>9</strong></td>     <td>2 per Order (L3)</td></tr>
+        <tr><td>Task</td>               <td class="right">1</td>  <td class="right">0</td>  <td class="right">1</td>     <td class="right">0</td>     <td class="right"><strong>2</strong></td>     <td>L3 only; L4 skipped (storage)</td></tr>
+        <tr><td>Event</td>              <td class="right">1</td>  <td class="right">0</td>  <td class="right">1</td>     <td class="right">0</td>     <td class="right"><strong>2</strong></td>     <td>L3 only; L4 skipped (storage)</td></tr>
+        <tr><td>Campaign</td>           <td class="right">5</td>  <td class="right">0</td>  <td class="right">0</td>     <td class="right">5</td>     <td class="right"><strong>10</strong></td>    <td>L4 only; Webinar/Email/Conf mix</td></tr>
+        <tr><td>CampaignMember</td>     <td class="right">1</td>  <td class="right">0</td>  <td class="right">0</td>     <td class="right">30</td>    <td class="right"><strong>31</strong></td>    <td>L4 only; ~60/40 Lead/Contact</td></tr>
+        <tr><td>FeedItem</td>           <td class="right">10</td> <td class="right">~18</td><td class="right">0</td>     <td class="right">(auto)</td><td class="right"><strong>290</strong></td>   <td>Mostly auto-tracked on inserts</td></tr>
+        <tr><td>CaseComment</td>        <td class="right">6</td>  <td class="right">0</td>  <td class="right">0</td>     <td class="right">0</td>     <td class="right"><strong>6</strong></td>     <td>Unchanged from L1</td></tr>
+        <tr><td>CollaborationGroup</td> <td class="right">2</td>  <td class="right">0</td>  <td class="right">0</td>     <td class="right">0</td>     <td class="right"><strong>2</strong></td>     <td>Unchanged</td></tr>
+        <tr><td>Product2</td>           <td class="right">22</td> <td class="right">0</td>  <td class="right">0</td>     <td class="right">0</td>     <td class="right"><strong>22</strong></td>    <td>Unchanged; referenced by L3 OLIs</td></tr>
+        <tr><td>PricebookEntry</td>     <td class="right">39</td> <td class="right">0</td>  <td class="right">0</td>     <td class="right">0</td>     <td class="right"><strong>39</strong></td>    <td>Unchanged</td></tr>
+        <tr><td>ContentVersion</td>     <td class="right">8</td>  <td class="right">~8</td> <td class="right">0</td>     <td class="right">0</td>     <td class="right"><strong>16</strong></td>    <td>L2 auto-tracked attachments</td></tr>
+        <tr class="total-row"><td>Total (5/9 added)</td><td class="right">—</td><td class="right">—</td><td class="right">101</td><td class="right">~1,848</td><td class="right">~1,949</td><td>Across 7 directly-seeded objects</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<section class="section" id="owners">
+  <div class="section-hdr">4. Owner distribution — threshold-design targets <a href="#owners" class="section-anchor">#</a></div>
+  <p class="section-desc">
+    The three real SF Admin users are deliberately assigned to probe three platform thresholds:
+    <strong>~1000</strong> (Glean's per-object API ceiling), <strong>~50</strong> (Microsoft's 50-record RAG citation cap), and <strong>~1–3</strong> (minimum owner-filter sentinel).
+    Owner-filtered prompts must use these three names.
+  </p>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Object</th>
+          <th class="right"><span class="pill pill-kai">Kai</span> bulk</th>
+          <th class="right"><span class="pill pill-maple">Maple</span> ≤ 50</th>
+          <th class="right"><span class="pill pill-nitin">Nitin</span> ≤ 3</th>
+          <th class="center">Threshold hit?</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Account</td>     <td class="right">69</td>    <td class="right">28</td> <td class="right">2</td> <td class="center"><span class="pill pill-ok">✓</span></td> <td>Maple short — L4 noise concentrated to Kai</td></tr>
+        <tr><td>Contact</td>     <td class="right">183</td>   <td class="right">32</td> <td class="right">2</td> <td class="center"><span class="pill pill-ok">✓</span></td> <td>LeadConvert auto-creates inherit Lead owner → all Kai</td></tr>
+        <tr><td>Lead</td>        <td class="right">1,001</td> <td class="right">11</td> <td class="right">1</td> <td class="center"><span class="pill pill-ok">✓</span></td> <td><strong>Kai &gt; 1000-ceiling; Nitin = sentinel</strong></td></tr>
+        <tr><td>Opportunity</td> <td class="right">369</td>   <td class="right">50</td> <td class="right">3</td> <td class="center"><span class="pill pill-ok">✓</span></td> <td>Maple = exact 50-cap</td></tr>
+        <tr><td>Case</td>        <td class="right">112</td>   <td class="right">48</td> <td class="right">3</td> <td class="center"><span class="pill pill-ok">✓</span></td> <td>8 Cases reassigned from Maple → Kai on 2026-05-11 to bring Maple under 50</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout info">
+    <div class="callout-title">ℹ Why Account / Contact Maple counts are under target</div>
+    The LeadConvert Step-3c S4 strategy auto-assigns each created Contact to the converting Lead's <em>existing</em> owner (Kai). Owner re-balance was deliberately skipped — we accepted the asymmetry to avoid post-conversion mutations. Future iterations needing balanced Contact ownership must run a separate <code>UPDATE Contact SET OwnerId=...</code> pass after LeadConvert.
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<section class="section" id="prompt-rules">
+  <div class="section-hdr">5. Prompt-authoring rules derived from the dataset <a href="#prompt-rules" class="section-anchor">#</a></div>
+  <p class="section-desc">Hard rules for the SEVAL queryset (both <code>cape-collect-glean-parity-queryset.csv</code> and <code>seval-guided-queryset.csv</code>). Source: <a href="https://github.com/Kai-Cloud/sf-schema-editor/blob/main/contoso-sales-simulation-20260509.md">simulation doc</a> §7 and <code>demo-data/data-plan.md</code> §7.</p>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Rule</th><th>Avoid</th><th>Use instead</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>7.3.a</strong> Do not filter on auto-stamped dates with a window overlapping 5/9</td>
+          <td>"leads converted on May 9 2026" (returns ~52)</td>
+          <td>"leads with status Closed - Converted"</td>
+        </tr>
+        <tr>
+          <td><strong>7.3.b</strong> Use writable date fields when a date filter is needed</td>
+          <td><code>CreatedDate</code>, <code>LastModifiedDate</code>, <code>ConvertedDate</code>, <code>ClosedDate</code></td>
+          <td><code>Opportunity.CloseDate</code>, <code>Task.ActivityDate</code>, <code>Event.StartDateTime</code>, <code>Campaign.StartDate</code></td>
+        </tr>
+        <tr>
+          <td><strong>7.3.c</strong> Reuse the existing absolute-date phrasings from the 111-set</td>
+          <td>relative dates ("past 7 days") run shortly after 5/9</td>
+          <td>"Q1 2026", "April 2026", "between March 21 and April 20"</td>
+        </tr>
+        <tr>
+          <td><strong>7.3.d</strong> Aggregation prompts bound by <em>writable</em> date, not auto-stamped</td>
+          <td>"largest opp created in May 2026"</td>
+          <td>"largest opp <em>closed</em> in May 2026"</td>
+        </tr>
+        <tr>
+          <td><strong>7.3.e</strong> Treat 5/9 as "do-not-touch" in prompt phrasing</td>
+          <td>"on May 9", "this week" (run shortly after 5/9), "in the second week of May"</td>
+          <td>Use later distributed dates (5/12, 5/18, 5/26, 6/3, etc.)</td>
+        </tr>
+        <tr>
+          <td><strong>Owner</strong> Filter by <code>OwnerId</code> only via Kai / Maple / Nitin</td>
+          <td>"Ben's open opportunities", "deals owned by Alice"</td>
+          <td>"Kai Liang's open opportunities" — Ben/Alice surface via full-text search</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-title">⚠ Symptom of an accidental 5/9 filter</div>
+    If a SEVAL prompt unexpectedly returns ~1,900 records (or 5 / 47 / 110 for ConvertedDate / ClosedDate), the prompt is filtering on an auto-stamped date that clusters on 2026-05-09. <strong>This is a queryset bug, not a connector bug.</strong>
+  </div>
+</section>
+
+<footer>
+  Generated 2026-05-11 · Sources: <code>20260509-SF-oob-glean-eval/demo-data/README.md</code>, <code>data-plan.md</code>, <code>contoso-sales-simulation-20260509.md</code>
+</footer>
+
+</body>
+</html>
