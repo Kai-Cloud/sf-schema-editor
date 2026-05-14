@@ -504,7 +504,7 @@
   <div class="view-toggle" style="display:flex; gap:6px; margin-bottom:10px;">
     <button class="view-btn active" data-view="by-feature-512">By feature roadmap</button>
     <button class="view-btn" data-view="by-pattern-512">By prompt pattern</button>
-    <button class="view-btn" data-view="by-level-512">By criticality level</button>
+    <button class="view-btn" data-view="by-outcome-512">By pass/fail outcome</button>
   </div>
 
   <div class="view-pane active" id="view-by-feature-512">
@@ -567,20 +567,23 @@
   </div>
   </div>
 
-  <div class="view-pane" id="view-by-level-512">
-  <p style="font-size:0.78rem; color:var(--muted); margin:0 0 10px;">Same 143 prompts grouped by criticality label assigned in the source query set.</p>
+  <div class="view-pane" id="view-by-outcome-512">
+  <p style="font-size:0.78rem; color:var(--muted); margin:0 0 10px;">Same 143 prompts grouped by outcome combo. OOB column shows May 12 results (post-audit, with 5 false-positive reclassifications). Custom column carries the May 8 results positionally aligned: Q1-Q111 come from the May 8 111-query run; Q112-Q123 are new CIBC/Nokia queries not yet run on Custom; Q124-Q143 are the 20 Custom-only additions from May 8 (Custom 17 pass / 3 fail).</p>
   <div class="gap-table-wrap">
     <table>
       <thead>
-        <tr><th>Criticality level</th><th class="center">Total</th><th class="center">OOB (May 12)</th><th>Description</th></tr>
+        <tr><th>Outcome</th><th class="center">Total</th><th class="center">OOB (May 12)</th><th class="center">Custom (May 8)</th><th>Analysis</th></tr>
       </thead>
       <tbody>
-        <tr><td>Critical <span class="pill-count">75 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">75</span></td><td class="center"><span class="pill pill-partial">40/75 (53%)</span></td><td>Core search scenarios that must work.</td></tr>
-        <tr><td>Expected <span class="pill-count">41 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">41</span></td><td class="center"><span class="pill pill-partial">20/41 (49%)</span></td><td>Common scenarios expected to work.</td></tr>
-        <tr class="gap-row"><td>Aspirational <span class="pill-count">27 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">27</span></td><td class="center"><span class="pill pill-no">0/27 (0%)</span></td><td>Stretch scenarios: chatter, notes, transcripts, extended objects.</td></tr>
+        <tr data-combo="both_pass_512"><td>Both pass <span class="pill-count">37 queries</span></td><td class="center"><span class="pill pill-count" style="background:#e9ecef;">37</span></td><td class="center"><span class="pill pill-yes score-pill" data-arm="oob">37 pass</span></td><td class="center"><span class="pill pill-yes score-pill" data-arm="custom">37 pass</span></td><td>Core retrieval that both connectors serve: named-entity lookup, indexed-picklist filters (Stage, Status), $-amount inequalities, and most cross-object joins through Account name. This is the stable shared baseline.</td></tr>
+        <tr data-combo="oob_pass_cus_fail_512"><td>OOB pass &amp; Custom fail <span class="pill-count">18 queries</span></td><td class="center"><span class="pill pill-count" style="background:#e9ecef;">18</span></td><td class="center"><span class="pill pill-yes score-pill" data-arm="oob">18 pass</span></td><td class="center"><span class="pill pill-no score-pill" data-arm="custom">18 fail</span></td><td>Net OOB improvement vs May 8 Custom baseline: 18 queries where OOB-12 now passes but Custom-8 was failing. Includes Q17/Q19/Q21 (assertion tightening exposed truly correct OOB behavior), and a number of single-field / picklist queries (Q22-Q35, Q41-Q42, Q60, Q71, Q75, Q81) that May 12 connector schema now handles. Custom rerun should close these. Actions: <span class="path-tag path-oob">Rerun Custom</span></td></tr>
+        <tr class="gap-row" data-combo="cus_pass_oob_fail_512"><td>Custom pass &amp; OOB fail <span class="pill-count">50 queries</span></td><td class="center"><span class="pill pill-count" style="background:#e9ecef;">50</span></td><td class="center"><span class="pill pill-no score-pill" data-arm="oob">50 fail</span></td><td class="center"><span class="pill pill-yes score-pill" data-arm="custom">50 pass</span></td><td>Largest single bucket. OOB still lags Custom on date-range filters (<code>ClosedDate</code> type bug, 11 queries), aggregation, name-based lookup, and custom-field discriminator (Product__c / SLAViolation__c / PotentialLiability__c, after assertion tightening). Closure path: <span class="path-tag path-oob">OOB: MVP</span> <span class="path-tag path-oob">Fill content gap in existing objects</span></td></tr>
+        <tr class="gap-row" data-combo="both_fail_512"><td>Both fail <span class="pill-count">26 queries</span></td><td class="center"><span class="pill pill-count" style="background:#e9ecef;">26</span></td><td class="center"><span class="pill pill-no score-pill" data-arm="oob">26 fail</span></td><td class="center"><span class="pill pill-no score-pill" data-arm="custom">26 fail</span></td><td>Hard gaps neither connector handles today: extended objects (Tasks/Events, Campaign, Chatter, Order, Product+Quote), unstructured data (Case Comments, attachments), and a residual cluster of 3S platform limits. Closure path: <span class="path-tag path-oob">OOB: Post-MVP</span> <span class="path-tag path-oob">Fill content gap for additional objects</span> <span class="path-tag path-hybrid">Hybrid mode</span></td></tr>
+        <tr data-combo="custom_not_run_pass_512"><td>OOB pass &mdash; Custom not run (new CIBC/Nokia queries) <span class="pill-count">5 queries</span></td><td class="center"><span class="pill pill-count" style="background:#e9ecef;">5</span></td><td class="center"><span class="pill pill-yes score-pill" data-arm="oob">5 pass</span></td><td class="center"><span class="pill" style="background:#f3f4f6;color:#6b7280;">not run</span></td><td>Q112, Q114, Q121, Q122, Q123. Net new queries from CIBC/Nokia where OOB-12 already passes. Rerun Custom to confirm baseline parity.</td></tr>
+        <tr class="gap-row" data-combo="custom_not_run_fail_512"><td>OOB fail &mdash; Custom not run (new CIBC/Nokia queries) <span class="pill-count">7 queries</span></td><td class="center"><span class="pill pill-count" style="background:#e9ecef;">7</span></td><td class="center"><span class="pill pill-no score-pill" data-arm="oob">7 fail</span></td><td class="center"><span class="pill" style="background:#f3f4f6;color:#6b7280;">not run</span></td><td>Q113, Q115, Q116-Q120. Includes the Q116/Q120 audit reclassifications (Task / CaseComment), plus Q113/Q117 cross-object 3S gaps and Q115/Q118/Q119 mixed-object scenarios. Rerun Custom to see if Custom schema crosses these.</td></tr>
       </tbody>
       <tfoot>
-        <tr style="font-weight:700; background:#f1f3f5;"><td>Overall <span class="pill-count">143 queries</span></td><td class="center">143</td><td class="center"><span class="pill pill-no">42% (60/143)</span></td><td></td></tr>
+        <tr style="font-weight:700; background:#f1f3f5;"><td>Overall <span class="pill-count">143 queries</span></td><td class="center">143</td><td class="center"><span class="pill pill-no">42% (60/143)</span></td><td class="center"><span class="pill pill-partial">66% (87/131 on Q1-Q111 + Q124-Q143)</span></td><td></td></tr>
       </tfoot>
     </table>
   </div>
