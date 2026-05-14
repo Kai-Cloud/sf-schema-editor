@@ -373,7 +373,8 @@
 
   <div class="eval-tabs" role="tablist" aria-label="Eval run">
     <button class="eval-tab" data-pane="eval-420" role="tab" aria-selected="false">Apr 20 run</button>
-    <button class="eval-tab active" data-pane="eval-508" role="tab" aria-selected="true">May 8 run</button>
+    <button class="eval-tab" data-pane="eval-508" role="tab" aria-selected="false">May 8 run</button>
+    <button class="eval-tab active" data-pane="eval-512" role="tab" aria-selected="true">May 12 run</button>
   </div>
 
   <div class="eval-pane" id="eval-420" role="tabpanel">
@@ -410,7 +411,7 @@
   </div>
   </div>
 
-  <div class="eval-pane active" id="eval-508" role="tabpanel">
+  <div class="eval-pane" id="eval-508" role="tabpanel">
   <div class="view-toggle" style="display:flex; gap:6px; margin-bottom:10px;">
     <button class="view-btn active" data-view="by-pattern">By prompt pattern</button>
     <button class="view-btn" data-view="by-outcome">By pass/fail outcome</button>
@@ -490,6 +491,96 @@
       </tbody>
       <tfoot>
         <tr style="font-weight:700; background:#f1f3f5;"><td>Overall <span class="pill-count">131 queries</span></td><td class="center">131</td><td class="center"><span class="pill pill-no">37% (41/111)</span></td><td class="center"><span class="pill pill-partial">66% (87/131)</span></td><td></td></tr>
+      </tfoot>
+    </table>
+  </div>
+  </div>
+
+  </div>
+
+  <div class="eval-pane active" id="eval-512" role="tabpanel">
+  <p style="font-size:0.78rem; color:var(--muted); margin:0 0 10px;">SEVAL run against the expanded <a href="https://github.com/Kai-Cloud/sf-schema-editor/blob/main/README.md#eval-query-set-143-prompts" target="_blank">143-prompt eval set</a>. OOB results from the May 12 run. Custom &amp; FCC arms not yet rerun.<br><b>Note:</b> Four queries (Q116, Q120, Q137, Q139) were originally marked Pass but reclassified to Fail after audit &mdash; the assertions accepted M1 standard-field substitutes (Case.Description, sourceJson exposure of Product__c) instead of testing the actual M2/M3/M4 feature. Assertions tightened in source TSV.</p>
+
+  <div class="view-toggle" style="display:flex; gap:6px; margin-bottom:10px;">
+    <button class="view-btn active" data-view="by-feature-512">By feature roadmap</button>
+    <button class="view-btn" data-view="by-pattern-512">By prompt pattern</button>
+    <button class="view-btn" data-view="by-level-512">By criticality level</button>
+  </div>
+
+  <div class="view-pane active" id="view-by-feature-512">
+  <p style="font-size:0.78rem; color:var(--muted); margin:0 0 10px;">143 prompts grouped by which delivery milestone unlocks them, in roadmap order. A query that needs multiple features is counted only in the latest milestone row.</p>
+  <div class="gap-table-wrap">
+    <table>
+      <thead>
+        <tr><th>Milestone</th><th>Feature delivery</th><th class="center">Total</th><th class="center">OOB (May 12)</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><b>M1</b></td><td>Standard fields on Account, Lead, Contact, Opportunity, Case <span class="pill-count">89 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">89</span></td><td class="center"><span class="pill pill-partial">60/89 (67%)</span></td><td>The largest unlock. Covers name lookup, std-field retrieval, picklist/numeric filters, cross-object joins on the 5 core objects. Closure path: <span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr><td><b>M2</b></td><td>Custom fields (`__c`) on the 5 core objects <span class="pill-count">13 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">13</span></td><td class="center"><span class="pill pill-no">0/13 (0%)</span></td><td>Case <code>Product__c</code>, <code>PotentialLiability__c</code>, <code>SLAViolation__c</code>. Q137/Q139 originally passed via sourceJson exposure; reclassified to Fail after assertion tightening. Closure path: <span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr class="gap-row"><td><b>M3</b></td><td>Case comments, attachments <span class="pill-count">10 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">10</span></td><td class="center"><span class="pill pill-no">0/10 (0%)</span></td><td>Public / private case comments, notes, file content (SLA docs, transcripts, spec sheets). Q120 originally passed via Case.Description fallback; reclassified to Fail after pointing assertion at a real CaseComment. Closure path: <span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td><b>M4</b></td><td>Events, Tasks (Activities) <span class="pill-count">3 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">3</span></td><td class="center"><span class="pill pill-no">0/3 (0%)</span></td><td>Open tasks for an account, scheduled meetings. Q116 originally passed because the assertion accepted Cases as a stand-in for Tasks; reclassified to Fail after pointing at a real Task. Closure path: <span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td><b>M5</b></td><td>Campaign, Campaign Member <span class="pill-count">11 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">11</span></td><td class="center"><span class="pill pill-no">0/11 (0%)</span></td><td>Marketing campaigns, member rosters, campaign-to-lead links. Closure path: <span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td><b>M6</b></td><td>Chatter feed item, Discussion forum <span class="pill-count">6 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">6</span></td><td class="center"><span class="pill pill-no">0/6 (0%)</span></td><td>Chatter posts on accounts / opps, group activity, activity feeds. Closure path: <span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td><b>M7</b></td><td>Order, Order items <span class="pill-count">3 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">3</span></td><td class="center"><span class="pill pill-no">0/3 (0%)</span></td><td>Activated orders by account, order line items, order shipping/value filters. Closure path: <span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td><b>M8</b></td><td>Product, Quote <span class="pill-count">8 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">8</span></td><td class="center"><span class="pill pill-no">1/8 (12%)</span></td><td>Product catalog, opp line items, quote discounts, quote line items. Closure path: <span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td><b>M9</b></td><td>CPQ <span class="pill-count">0 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">0</span></td><td class="center"><span class="pill" style="background:#f3f4f6;color:#6b7280;">&mdash;</span></td><td>No queries in this set hit CPQ-specific objects. Closure path: <span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td><b>M10</b></td><td>Custom Objects <span class="pill-count">0 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">0</span></td><td class="center"><span class="pill" style="background:#f3f4f6;color:#6b7280;">&mdash;</span></td><td>No fully-custom objects in this eval set. Closure path: <span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+      </tbody>
+      <tfoot>
+        <tr style="font-weight:700; background:#f1f3f5;"><td colspan="2">Overall <span class="pill-count">143 queries</span></td><td class="center">143</td><td class="center"><span class="pill pill-no">43% (61/143)</span></td><td></td></tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="verdict glean-wins">
+    <div class="verdict-title"><span class="verdict-icon">&#9888;</span> Where the May 12 OOB run lands</div>
+    <ul>
+      <li><b>M1 standard-field foundation</b> already carries 60 passes (67% of M1). Closing the remaining M1 gaps (date-range filters, picklist multi-conditions, aggregation) compounds with every later milestone.</li>
+      <li><b>M2 / M3 / M4 are 0%</b> after assertion-tightening. The 4 prior passes (Q116, Q120, Q137, Q139) were eval-hygiene artifacts &mdash; assertions accepted M1 standard-field substitutes instead of testing the actual feature. With assertions tightened, no real M2-M8 capability is delivered yet.</li>
+      <li><b>M5-M8 extended objects</b> remain at zero: Campaign (0/11), Chatter (0/6), Order (0/3), Product+Quote (1/8). All Post-MVP scope.</li>
+    </ul>
+  </div>
+  </div>
+
+  <div class="view-pane" id="view-by-pattern-512">
+  <p style="font-size:0.78rem; color:var(--muted); margin:0 0 10px;">Same 143 prompts grouped by prompt-pattern bucket.</p>
+  <div class="gap-table-wrap">
+    <table>
+      <thead>
+        <tr><th>Prompt Pattern</th><th class="center">Total</th><th class="center">OOB (May 12)</th><th>Closure Path</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Lookup (entity by name/number) <span class="pill-count">7 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">7</span></td><td class="center"><span class="pill pill-yes">6/7 (86%)</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr><td>Field (single field retrieval) <span class="pill-count">20 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">20</span></td><td class="center"><span class="pill pill-yes">14/20 (70%)</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr><td>Filter (single/multi-condition) <span class="pill-count">27 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">27</span></td><td class="center"><span class="pill pill-partial">12/27 (44%)</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr><td>Date (date-range filter) <span class="pill-count">9 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">9</span></td><td class="center"><span class="pill pill-no">0/9 (0%)</span></td><td><span class="path-tag path-hybrid">Hybrid mode</span></td></tr>
+        <tr><td>Numeric (&gt;, &lt;, range on amount) <span class="pill-count">8 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">8</span></td><td class="center"><span class="pill pill-yes">6/8 (75%)</span></td><td><span class="path-tag path-hybrid">Hybrid mode</span></td></tr>
+        <tr><td>Aggregation (count, sum, top-N ranked) <span class="pill-count">5 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">5</span></td><td class="center"><span class="pill pill-no">1/5 (20%)</span></td><td><span class="path-tag path-hybrid">Hybrid mode</span></td></tr>
+        <tr><td>Cross-object (Account&rarr;Opp, Contact&rarr;Case) <span class="pill-count">28 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">28</span></td><td class="center"><span class="pill pill-yes">21/28 (75%)</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
+        <tr class="gap-row"><td>Extended object (Campaigns, Products, Orders, Quotes, Tasks) <span class="pill-count">24 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">24</span></td><td class="center"><span class="pill pill-no">1/24 (4%)</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Unstructured data (Case Comments, Chatter, Files/Attachments) <span class="pill-count">15 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">15</span></td><td class="center"><span class="pill pill-no">0/15 (0%)</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+      </tbody>
+      <tfoot>
+        <tr style="font-weight:700; background:#f1f3f5;"><td>Overall <span class="pill-count">143 queries</span></td><td class="center">143</td><td class="center"><span class="pill pill-no">43% (61/143)</span></td><td></td></tr>
+      </tfoot>
+    </table>
+  </div>
+  </div>
+
+  <div class="view-pane" id="view-by-level-512">
+  <p style="font-size:0.78rem; color:var(--muted); margin:0 0 10px;">Same 143 prompts grouped by criticality label assigned in the source query set.</p>
+  <div class="gap-table-wrap">
+    <table>
+      <thead>
+        <tr><th>Criticality level</th><th class="center">Total</th><th class="center">OOB (May 12)</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Critical <span class="pill-count">75 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">75</span></td><td class="center"><span class="pill pill-partial">40/75 (53%)</span></td><td>Core search scenarios that must work.</td></tr>
+        <tr><td>Expected <span class="pill-count">41 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">41</span></td><td class="center"><span class="pill pill-partial">20/41 (49%)</span></td><td>Common scenarios expected to work.</td></tr>
+        <tr class="gap-row"><td>Aspirational <span class="pill-count">27 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">27</span></td><td class="center"><span class="pill pill-no">1/27 (4%)</span></td><td>Stretch scenarios: chatter, notes, transcripts, extended objects.</td></tr>
+      </tbody>
+      <tfoot>
+        <tr style="font-weight:700; background:#f1f3f5;"><td>Overall <span class="pill-count">143 queries</span></td><td class="center">143</td><td class="center"><span class="pill pill-no">43% (61/143)</span></td><td></td></tr>
       </tfoot>
     </table>
   </div>
@@ -782,11 +873,11 @@ window.SCORECARD_508 = {"list":[{"idx":1,"prompt":"Show me the top 50 accounts."
     });
   });
 
-  // View toggle (Pattern / Outcome) within May 8 pane
-  document.querySelectorAll('#eval-508 .view-btn').forEach(function(btn) {
+  // View toggle (Pattern / Outcome / Feature) within whichever eval-pane the button lives in
+  document.querySelectorAll('.eval-pane .view-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {
       var view = btn.getAttribute('data-view');
-      var pane = document.getElementById('eval-508');
+      var pane = btn.closest('.eval-pane');
       pane.querySelectorAll('.view-btn').forEach(function(b) { b.classList.remove('active'); });
       pane.querySelectorAll('.view-pane').forEach(function(p) { p.classList.remove('active'); });
       btn.classList.add('active');
