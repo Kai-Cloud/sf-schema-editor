@@ -499,7 +499,7 @@
   </div>
 
   <div class="eval-pane active" id="eval-512" role="tabpanel">
-  <p style="font-size:0.78rem; color:var(--muted); margin:0 0 10px;">SEVAL run against the expanded <a href="https://github.com/Kai-Cloud/sf-schema-editor/blob/main/README.md#eval-query-set-143-prompts" target="_blank">143-prompt eval set</a>. OOB results from the May 12 run. Custom &amp; FCC arms not yet rerun.<br><b>Note:</b> Four queries (Q116, Q120, Q137, Q139) were originally marked Pass but reclassified to Fail after audit &mdash; the assertions accepted M1 standard-field substitutes (Case.Description, sourceJson exposure of Product__c) instead of testing the actual M2/M3/M4 feature. Assertions tightened in source TSV.</p>
+  <p style="font-size:0.78rem; color:var(--muted); margin:0 0 10px;">SEVAL run against the expanded <a href="https://github.com/Kai-Cloud/sf-schema-editor/blob/main/README.md#eval-query-set-143-prompts" target="_blank">143-prompt eval set</a>. OOB results from the May 12 run. Custom &amp; FCC arms not yet rerun.<br><b>Note:</b> Five queries (Q103, Q116, Q120, Q137, Q139) were originally marked Pass but reclassified to Fail after audit &mdash; the assertions accepted M1 standard-field substitutes, sourceJson exposure, or ungrounded numeric echoes instead of testing the actual M2/M3/M4/M8 feature. Assertions tightened in source TSV.</p>
 
   <div class="view-toggle" style="display:flex; gap:6px; margin-bottom:10px;">
     <button class="view-btn active" data-view="by-feature-512">By feature roadmap</button>
@@ -522,12 +522,12 @@
         <tr class="gap-row"><td><b>M5</b></td><td>Campaign, Campaign Member <span class="pill-count">11 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">11</span></td><td class="center"><span class="pill pill-no">0/11 (0%)</span></td><td>Marketing campaigns, member rosters, campaign-to-lead links. Closure path: <span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
         <tr class="gap-row"><td><b>M6</b></td><td>Chatter feed item, Discussion forum <span class="pill-count">6 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">6</span></td><td class="center"><span class="pill pill-no">0/6 (0%)</span></td><td>Chatter posts on accounts / opps, group activity, activity feeds. Closure path: <span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
         <tr class="gap-row"><td><b>M7</b></td><td>Order, Order items <span class="pill-count">3 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">3</span></td><td class="center"><span class="pill pill-no">0/3 (0%)</span></td><td>Activated orders by account, order line items, order shipping/value filters. Closure path: <span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
-        <tr class="gap-row"><td><b>M8</b></td><td>Product, Quote <span class="pill-count">8 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">8</span></td><td class="center"><span class="pill pill-no">1/8 (12%)</span></td><td>Product catalog, opp line items, quote discounts, quote line items. Closure path: <span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td><b>M8</b></td><td>Product, Quote <span class="pill-count">8 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">8</span></td><td class="center"><span class="pill pill-no">0/8 (0%)</span></td><td>Product catalog, opp line items, quote discounts, quote line items. Q103 originally passed via ungrounded numeric echo; reclassified to Fail after requiring Quote record citation. Closure path: <span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
         <tr class="gap-row"><td><b>M9</b></td><td>CPQ <span class="pill-count">0 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">0</span></td><td class="center"><span class="pill" style="background:#f3f4f6;color:#6b7280;">&mdash;</span></td><td>No queries in this set hit CPQ-specific objects. Closure path: <span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
         <tr class="gap-row"><td><b>M10</b></td><td>Custom Objects <span class="pill-count">0 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">0</span></td><td class="center"><span class="pill" style="background:#f3f4f6;color:#6b7280;">&mdash;</span></td><td>No fully-custom objects in this eval set. Closure path: <span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
       </tbody>
       <tfoot>
-        <tr style="font-weight:700; background:#f1f3f5;"><td colspan="2">Overall <span class="pill-count">143 queries</span></td><td class="center">143</td><td class="center"><span class="pill pill-no">43% (61/143)</span></td><td></td></tr>
+        <tr style="font-weight:700; background:#f1f3f5;"><td colspan="2">Overall <span class="pill-count">143 queries</span></td><td class="center">143</td><td class="center"><span class="pill pill-no">42% (60/143)</span></td><td></td></tr>
       </tfoot>
     </table>
   </div>
@@ -537,7 +537,7 @@
     <ul>
       <li><b>M1 standard-field foundation</b> already carries 60 passes (67% of M1). Closing the remaining M1 gaps (date-range filters, picklist multi-conditions, aggregation) compounds with every later milestone.</li>
       <li><b>M2 / M3 / M4 are 0%</b> after assertion-tightening. The 4 prior passes (Q116, Q120, Q137, Q139) were eval-hygiene artifacts &mdash; assertions accepted M1 standard-field substitutes instead of testing the actual feature. With assertions tightened, no real M2-M8 capability is delivered yet.</li>
-      <li><b>M5-M8 extended objects</b> remain at zero: Campaign (0/11), Chatter (0/6), Order (0/3), Product+Quote (1/8). All Post-MVP scope.</li>
+      <li><b>M5-M8 extended objects</b> remain at zero: Campaign (0/11), Chatter (0/6), Order (0/3), Product+Quote (0/8). All Post-MVP scope.</li>
     </ul>
   </div>
   </div>
@@ -557,11 +557,11 @@
         <tr><td>Numeric (&gt;, &lt;, range on amount) <span class="pill-count">8 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">8</span></td><td class="center"><span class="pill pill-yes">6/8 (75%)</span></td><td><span class="path-tag path-hybrid">Hybrid mode</span></td></tr>
         <tr><td>Aggregation (count, sum, top-N ranked) <span class="pill-count">5 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">5</span></td><td class="center"><span class="pill pill-no">1/5 (20%)</span></td><td><span class="path-tag path-hybrid">Hybrid mode</span></td></tr>
         <tr><td>Cross-object (Account&rarr;Opp, Contact&rarr;Case) <span class="pill-count">28 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">28</span></td><td class="center"><span class="pill pill-yes">21/28 (75%)</span></td><td><span class="path-tag path-oob">OOB: MVP</span></td></tr>
-        <tr class="gap-row"><td>Extended object (Campaigns, Products, Orders, Quotes, Tasks) <span class="pill-count">24 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">24</span></td><td class="center"><span class="pill pill-no">1/24 (4%)</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
+        <tr class="gap-row"><td>Extended object (Campaigns, Products, Orders, Quotes, Tasks) <span class="pill-count">24 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">24</span></td><td class="center"><span class="pill pill-no">0/24 (0%)</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
         <tr class="gap-row"><td>Unstructured data (Case Comments, Chatter, Files/Attachments) <span class="pill-count">15 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">15</span></td><td class="center"><span class="pill pill-no">0/15 (0%)</span></td><td><span class="path-tag path-oob">OOB: Post-MVP</span></td></tr>
       </tbody>
       <tfoot>
-        <tr style="font-weight:700; background:#f1f3f5;"><td>Overall <span class="pill-count">143 queries</span></td><td class="center">143</td><td class="center"><span class="pill pill-no">43% (61/143)</span></td><td></td></tr>
+        <tr style="font-weight:700; background:#f1f3f5;"><td>Overall <span class="pill-count">143 queries</span></td><td class="center">143</td><td class="center"><span class="pill pill-no">42% (60/143)</span></td><td></td></tr>
       </tfoot>
     </table>
   </div>
@@ -577,10 +577,10 @@
       <tbody>
         <tr><td>Critical <span class="pill-count">75 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">75</span></td><td class="center"><span class="pill pill-partial">40/75 (53%)</span></td><td>Core search scenarios that must work.</td></tr>
         <tr><td>Expected <span class="pill-count">41 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">41</span></td><td class="center"><span class="pill pill-partial">20/41 (49%)</span></td><td>Common scenarios expected to work.</td></tr>
-        <tr class="gap-row"><td>Aspirational <span class="pill-count">27 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">27</span></td><td class="center"><span class="pill pill-no">1/27 (4%)</span></td><td>Stretch scenarios: chatter, notes, transcripts, extended objects.</td></tr>
+        <tr class="gap-row"><td>Aspirational <span class="pill-count">27 queries</span></td><td class="center"><span class="pill" style="background:#e9ecef;">27</span></td><td class="center"><span class="pill pill-no">0/27 (0%)</span></td><td>Stretch scenarios: chatter, notes, transcripts, extended objects.</td></tr>
       </tbody>
       <tfoot>
-        <tr style="font-weight:700; background:#f1f3f5;"><td>Overall <span class="pill-count">143 queries</span></td><td class="center">143</td><td class="center"><span class="pill pill-no">43% (61/143)</span></td><td></td></tr>
+        <tr style="font-weight:700; background:#f1f3f5;"><td>Overall <span class="pill-count">143 queries</span></td><td class="center">143</td><td class="center"><span class="pill pill-no">42% (60/143)</span></td><td></td></tr>
       </tfoot>
     </table>
   </div>
