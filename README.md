@@ -32,6 +32,24 @@ Visit: <https://kai-cloud.github.io/sf-schema-editor/>
 | Unstructured data | 15 | 88-95, 105, 107-111, 115 | What chatter posts mention the United Oil renewal? |
 | **Total** | **143** | | |
 
+### By Feature Delivery
+
+Counted by the latest feature each query depends on. Queries needing multiple features are counted only in the latest milestone row.
+
+| Milestone | Feature | # | Query Index |
+|---|---|---|---|
+| M1 | Standard fields on Account, Lead, Contact, Opportunity, Case | 89 | 1-58, 60-62, 64-82, 84, 112-114, 117-118, 121-123 |
+| M2 | Custom fields (`__c`) on the 5 core objects | 13 | 59, 63, 83, 134-143 |
+| M3 | Case comments, attachments | 10 | 88-90, 107-111, 115, 120 |
+| M4 | Events, Tasks (Activities) | 3 | 86-87, 116 |
+| M5 | Campaign, Campaign Member | 11 | 85, 124-133 |
+| M6 | Chatter feed item, Discussion forum | 6 | 91-95, 105 |
+| M7 | Order, Order items | 3 | 99-101 |
+| M8 | Product, Quote | 8 | 96-98, 102-104, 106, 119 |
+| M9 | CPQ | 0 | — |
+| M10 | Custom Objects | 0 | — |
+| **Total** | | **143** | |
+
 Source: [143-0512-seval-friendly-queryset.tsv](../SSP/20_SalesforceCC/03_Spec/04_Eval/20260512-SF-oob-custom-fcc-eval/143-0512-seval-friendly-queryset.tsv)
 
 ### Custom Fields (__c) Queried
