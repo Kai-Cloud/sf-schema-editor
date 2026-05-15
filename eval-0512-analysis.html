@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Salesforce OOB Eval — May 12 Run Analysis & Action Items</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; color: #1f2328; line-height: 1.55; }
+  h1 { border-bottom: 1px solid #d0d7de; padding-bottom: 0.3em; }
+  h2 { border-bottom: 1px solid #d0d7de; padding-bottom: 0.3em; margin-top: 2.2em; }
+  h3 { margin-top: 1.6em; }
+  table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 0.93em; }
+  th, td { border: 1px solid #d0d7de; padding: 6px 10px; vertical-align: top; text-align: left; }
+  th { background: #f6f8fa; }
+  code { background: #f6f8fa; padding: 1px 5px; border-radius: 4px; font-size: 0.9em; }
+  a { color: #0969da; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  hr { border: 0; border-top: 1px solid #d0d7de; margin: 2em 0; }
+  ul { padding-left: 1.4em; }
+  li { margin: 0.25em 0; }
+  .toc { background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 6px; padding: 0.8em 1.4em; }
+  .toc ol { margin: 0.3em 0; }
+  .done { color: #1a7f37; }
+  .pending { color: #9a6700; }
+</style>
+</head>
+<body>
+
+<h1>Salesforce OOB Eval — May 12 Run Analysis &amp; Action Items</h1>
+
+<p>
+<strong>Eval set:</strong> 143-0512-seval-friendly-queryset.tsv<br>
+<strong>Result CSV:</strong> Salesforce SEVAL Result Analysis-0512.csv<br>
+<strong>OOB pass rate (raw):</strong> 65/143 (45%)<br>
+<strong>OOB pass rate (post-audit):</strong> 60/143 (42%) — see <a href="#sec5">False-positive audit</a>
+</p>
+
+<div class="toc">
+<strong>Contents</strong>
+<ol>
+  <li><a href="#sec1">Stakeholder comment response log</a></li>
+  <li><a href="#sec2">Pass / fail summary by feature milestone</a></li>
+  <li><a href="#sec3">M1 failures by root cause — 29 queries</a>
+    <ol>
+      <li><a href="#sec3-1">ClosedDate property type bug</a></li>
+      <li><a href="#sec3-2">3S API result-count cap (50 records)</a></li>
+      <li><a href="#sec3-3">3S feature gaps</a></li>
+      <li><a href="#sec3-4">Plugin invocation issues</a></li>
+      <li><a href="#sec3-5">Ambiguous property choice</a></li>
+      <li><a href="#sec3-6">Aggregation result count too high</a></li>
+      <li><a href="#sec3-7">Data inconsistency</a></li>
+      <li><a href="#sec3-8">Assertion or expected-result issues</a></li>
+    </ol>
+  </li>
+  <li><a href="#sec4">Bonus: wrong-assertion queries surfaced separately</a></li>
+  <li><a href="#sec5">False-positive audit — 5 queries reclassified</a></li>
+  <li><a href="#sec6">Scorecard updates (companion repo)</a></li>
+  <li><a href="#sec7">Action-Type roll-up for M1</a></li>
+  <li><a href="#sec8">Outstanding to-dos</a></li>
+</ol>
+</div>
+
+<hr>
+
+<h2 id="sec1">1. Stakeholder comment response log</h2>
+
+<p>Tracks the May-12 follow-up comments received from stakeholders and where each one is addressed in this document.</p>
+
+<table>
+<thead><tr><th>#</th><th>Q#</th><th>Query</th><th>Comments / Feedback / Issue</th><th>Action (suggested refined query / data update)</th><th>Assertion</th><th>Citation</th><th>Last SEVAL result</th><th>Location</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Q11</td><td>What industry is Grand Hotels &amp; Resorts Ltd in?</td><td>Salesforce plugin not triggered; query too generic</td><td>Refined query: <em>"What industry is the account Grand Hotels &amp; Resorts Ltd in Salesforce?"</em> (or add Salesforce disambiguation hints in the connection description)</td><td>The response should state the industry is Hospitality</td><td><a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/001dM00003gYPC1QAO">Grand Hotels &amp; Resorts Ltd</a></td><td>Fail</td><td><a href="#sec3-4">§3.4</a>, <a href="#sec8">§8</a></td></tr>
+<tr><td>2</td><td>Q17</td><td>What is the billing city for Pyramid Construction Inc.?</td><td>Old assertion only checked record name, not field value</td><td>Assertion tightened to <code>Paris</code> (live sandbox value) — <span class="done"><strong>done</strong></span></td><td><code>Paris</code></td><td><a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/001dM00003gYPBzQAO">Pyramid Construction Inc.</a></td><td>Pass (lucky)</td><td><a href="#sec4">§4</a></td></tr>
+<tr><td>3</td><td>Q19</td><td>What is Tim Barr's title at Grand Hotels?</td><td>Old assertion only checked record name</td><td>Assertion tightened to <code>SVP, Administration and Finance</code> — <span class="done"><strong>done</strong></span></td><td><code>SVP, Administration and Finance</code></td><td><a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/003dM00001tYGVGQA4">Tim Barr</a></td><td>Pass (lucky)</td><td><a href="#sec4">§4</a></td></tr>
+<tr><td>4</td><td>Q21</td><td>What is the lead source for Jeff Glimpse?</td><td>Old assertion only checked record name</td><td>Assertion tightened to <code>Phone Inquiry</code> — <span class="done"><strong>done</strong></span></td><td><code>Phone Inquiry</code></td><td><a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/00QdM00000biPqGUAU">Jeff Glimpse</a></td><td>Pass (lucky)</td><td><a href="#sec4">§4</a></td></tr>
+<tr><td>5</td><td>Q27</td><td>Which opportunities are in the Closed Won stage?</td><td>Matched result &gt; 100, exceeds 3S 50-record cap</td><td>Refined query: <em>"Show me the latest 5 closed-won opportunities."</em> (single query in this set that intentionally tests LU recency/date-field disambiguation)</td><td>Response should include the 5 most recently closed-won opportunities (by CloseDate desc)</td><td>1. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/006dM00000NGmpqQAD">Sterling Consulting - Professional</a><br>2. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/006dM00000NGnE1QAL">Clearwater Insurance - Enterprise</a><br>3. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/006dM00000NGnCPQA1">Summit Education - Professional</a><br>4. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/006dM00000NGnAnQAL">NovaTech Enterprise Expansion</a><br>5. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/006dM00000NGs0nQAD">Pena PLC - Renewal</a></td><td>Fail</td><td><a href="#sec3-2">§3.2</a></td></tr>
+<tr><td>6</td><td>Q29</td><td>Which leads have a status of Working - Contacted?</td><td>405 matches; 3S returns only 50</td><td>Refined query: <em>"Show me Hot-rated leads with status Working - Contacted in the Energy industry."</em></td><td>Response should list Hot-rated Working - Contacted leads in Energy</td><td>1. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/00QdM00000d2MuHUAU">Brianna Peterson</a><br>2. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/00QdM00000d2OuDUAU">Renee Smith</a><br>3. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/00QdM00000d2cynUAA">Sylvia Rivera</a><br>4. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/00QdM00000d2l9FUAQ">Alejandra Baldwin</a></td><td>Fail</td><td><a href="#sec3-2">§3.2</a></td></tr>
+<tr><td>7</td><td>Q46</td><td>Which leads came in through a partner referral?</td><td>127 matches; 3S returns only 50</td><td>Refined query: <em>"Which Hot-rated leads in the Healthcare industry came in through a partner referral?"</em></td><td>Response should list Hot-rated partner-referral leads in Healthcare</td><td>1. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/00QdM00000d2SHuUAM">Kayla Baker</a><br>2. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/00QdM00000d2bxtUAA">Sharon Melton</a><br>3. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/00QdM00000d2c2jUAA">Jessica Arnold</a></td><td>Fail</td><td><a href="#sec3-2">§3.2</a></td></tr>
+<tr><td>8</td><td>Q51</td><td>Which opportunities have a probability greater than 50%?</td><td>168 matches; assertion fails because too many cited</td><td>Refined query: <em>"Which opportunities have a probability greater than 80%?"</em></td><td>Response should list opportunities with Probability &gt; 80%</td><td>1. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/006dM00000NFThCQAX">Hampton-Huang - Standard</a><br>2. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/006dM00000NGf8QQAT">Beard, Trujillo and Cardenas - Enterprise</a></td><td>Fail</td><td><a href="#sec3-6">§3.6</a>, <a href="#sec8">§8</a></td></tr>
+<tr><td>9</td><td>Q53</td><td>Which opportunities have an amount over $200,000?</td><td>56 matches; too many cited</td><td>Refined query: <em>"Which opportunities have an amount over $500,000?"</em></td><td>Response should list opportunities with Amount &gt; $500,000</td><td>1. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/006dM00000MM0ZSQA1">United Oil Refinery Generators</a><br>2. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/006dM00000MM0ZqQAL">United Oil Plant Standby Generators</a></td><td>Fail</td><td><a href="#sec3-6">§3.6</a>, <a href="#sec8">§8</a></td></tr>
+<tr><td>10</td><td>Q58</td><td>Show me the top 3 largest open opportunities.</td><td>Ambiguity between <code>Amount</code> and <code>ExpectedRevenue</code></td><td>Refined query: <em>"Show me the top 3 open opportunities with the highest Amount."</em></td><td>Response should list the 3 open opportunities with the largest Amount</td><td>1. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/006dM00000MM0ZSQA1">United Oil Refinery Generators</a><br>2. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/006dM00000MM0ZqQAL">United Oil Plant Standby Generators</a><br>3. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/006dM00000NGrG1QAL">Washington-Johnson - Professional</a></td><td>Fail</td><td><a href="#sec3-5">§3.5</a>, <a href="#sec8">§8</a></td></tr>
+<tr><td>11</td><td>Q71</td><td>Show me SLA-related cases.</td><td>Ambiguous: "SLA-related" was effectively matched against the Subject keyword "SLA", which also pulled in #00001108 "Slack notification not firing". Distinct from the structured <code>SLAViolation__c</code> custom field used by Q141/Q143.</td><td>Refined query: <em>"Show me cases where the subject contains 'SLA report'."</em> (makes the Subject-keyword intent explicit; keeps Q71 separate from <code>SLAViolation__c</code> queries)</td><td>Response should list cases whose Subject contains "SLA report"</td><td>1. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/500dM00003HCafoQAD">#00001084 SLA report customization request</a><br>2. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/500dM00003HCk2HQAT">#00001097 SLA report customization request</a><br>3. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/500dM00003HCxXGQA1">#00001163 SLA report customization request</a><br>4. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/500dM00003HCitDQAT">#00001169 SLA report customization request</a><br>5. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/500dM00003HDMozQAH">#00001195 SLA report customization request</a></td><td>Pass (lucky)</td><td><a href="#sec4">§4</a>, <a href="#sec8">§8</a></td></tr>
+<tr><td>12</td><td>Q77</td><td>Show me open opportunities in the Value Proposition or Needs Analysis stage with amount above $50,000.</td><td>42 matches; 3S returns only 10 — citation drops</td><td>Refined query: <em>"Show me open opportunities in the Value Proposition or Needs Analysis stage with amount above $200,000."</em></td><td>Response should list opportunities in Value Proposition or Needs Analysis with Amount &gt; $200,000</td><td>1. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/006dM00000MM0ZUQA1">Grand Hotels Guest Portable Generators</a><br>2. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/006dM00000MM0ZqQAL">United Oil Plant Standby Generators</a></td><td>Fail</td><td><a href="#sec3-2">§3.2</a></td></tr>
+<tr><td>13</td><td>Q80</td><td>Show me leads with status "Open - Not Contacted".</td><td>283 matches; 3S returns only 50</td><td>Refined query: <em>"Show me Hot-rated leads in the Education industry with status 'Open - Not Contacted'."</em></td><td>Response should list Hot-rated Open - Not Contacted leads in Education</td><td>1. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/00QdM00000d2TM2UAM">David Young</a><br>2. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/00QdM00000d2csLUAQ">Ronald Cox</a></td><td>Fail</td><td><a href="#sec3-2">§3.2</a></td></tr>
+<tr><td>14</td><td>Q118</td><td>Find cases with the same Type and Reason as Case #00001002.</td><td>Expected-citation list was wrong</td><td>Update expected citations to <code>#00001057</code> (API rate limit exceeded during bulk sync), <code>#00001137</code> (API rate limit exceeded), <code>#00001055</code> (Dashboard load time exceeds 30 seconds)</td><td>Response should reference cases with the same Type and Reason as #00001002</td><td>1. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/500dM00003HCR2JQAX">#00001057 API rate limit exceeded during bulk sync</a><br>2. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/500dM00003HCjmGQAT">#00001137 API rate limit exceeded</a><br>3. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/500dM00003HCp3RQAT">#00001055 Dashboard load time exceeds 30 seconds</a></td><td>Fail</td><td><a href="#sec3-8">§3.8</a>, <a href="#sec4">§4</a></td></tr>
+</tbody>
+</table>
+
+<h3>Additional to-be-refined queries (not raised by stakeholders, surfaced from our own audit)</h3>
+
+<p>These queries also need eval-author action but were not part of the stakeholder comment batch. Listed here so they are not lost when we report back.</p>
+
+<table>
+<thead><tr><th>#</th><th>Q#</th><th>Query</th><th>Comments / Feedback / Issue</th><th>Action (suggested refined query / data update)</th><th>Assertion</th><th>Citation</th><th>Last SEVAL result</th><th>Location</th></tr></thead>
+<tbody>
+<tr><td>15</td><td>Q28</td><td>Find all high-priority escalated cases owned by Maple Nan.</td><td>14 records have <code>Status = Escalated</code> but <code>IsEscalated = false</code></td><td>Data update: set <code>IsEscalated = true</code> on the 14 sandbox Case records where <code>Status = 'Escalated'</code></td><td>Response should include high-priority escalated cases owned by Maple Nan</td><td><a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/500dM00003HD3j7QAD">#00001123 Data sync delays from upstream</a></td><td>Fail</td><td><a href="#sec3-7">§3.7</a>, <a href="#sec8">§8</a></td></tr>
+<tr><td>16</td><td>Q43</td><td>Which contacts work in the Finance department?</td><td>Citation was present in response; assertion mistake</td><td>Re-investigate assertion against the May 12 response; if citation present, reclassify Pass</td><td>Response should list contacts in the Finance department</td><td>1. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/003dM00001tYGVCQA4">Sean Forbes</a><br>2. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/003dM00001tYGVGQA4">Tim Barr</a><br>3. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/003dM00001tYGVSQA4">Avi Green</a></td><td>Fail (suspected false negative)</td><td><a href="#sec3-8">§3.8</a>, <a href="#sec8">§8</a></td></tr>
+<tr><td>17</td><td>Q70</td><td>Which Energy-industry accounts have no open cases?</td><td>Assertion mistake</td><td>Re-investigate assertion against the May 12 response; if citation present, reclassify Pass</td><td>Response should list Energy-industry accounts with no open cases</td><td>1. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/001dM00003gYPC6QAO">United Oil &amp; Gas, Singapore</a><br>2. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/001dM00003gYPC5QAO">United Oil &amp; Gas, UK</a></td><td>Fail (suspected false negative)</td><td><a href="#sec3-8">§3.8</a>, <a href="#sec8">§8</a></td></tr>
+<tr><td>18</td><td>Q72</td><td>Which leads came from industries other than Agriculture or Apparel?</td><td>3S NOT-EQUAL on enum not supported</td><td>Refined query: <em>"Which leads came from the Manufacturing, Energy, or Healthcare industries?"</em> (rewrite NOT-EQUAL as positive enum list); long-term: report 3S feature gap</td><td>Response should list leads outside Agriculture/Apparel</td><td>1. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/00QdM00000biPqFUAU">Jack Rogers</a><br>2. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/00QdM00000biPqGUAU">Jeff Glimpse</a><br>3. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/00QdM00000biPqHUAU">Phyllis Cotton</a></td><td>Fail</td><td><a href="#sec3-3">§3.3</a>, <a href="#sec8">§8</a></td></tr>
+<tr><td>19</td><td>Q74</td><td>Tell me about Case #00001061 (Pinnacle Health Systems).</td><td>Plugin invocation issue</td><td>Refined query: <em>"In Salesforce, tell me about Case #00001061 for Pinnacle Health Systems."</em> (add Salesforce hint); or update connection description for LU disambiguation</td><td>Response should describe Case #00001061 (Intermittent timeout on real-time analytics dashboard, Escalated)</td><td><a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/500dM00003HCXpiQAH">#00001061 Intermittent timeout on real-time analytics dashboard</a></td><td>Fail</td><td><a href="#sec3-4">§3.4</a>, <a href="#sec8">§8</a></td></tr>
+<tr><td>20</td><td>Q103</td><td>What is the discount percentage on the most recently created GenePoint quote?</td><td>Old assertion accepted ungrounded "8.0%" echo; M8 Quote not crawled</td><td>Assertion now requires Quote citation <code>0Q0dM000002JaHxSAK</code> AND the 8% value — <span class="done"><strong>done</strong></span></td><td>Response must state 8% AND cite the Quote record</td><td><a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/0Q0dM000002JaHxSAK">GenePoint Lab Q2 Quote</a></td><td>Fail (was Pass; reclassified)</td><td><a href="#sec5">§5</a></td></tr>
+<tr><td>21</td><td>Q113</td><td>Find the lead for Clearwater Insurance.</td><td>3S cross-object join gap</td><td>Report to 3S team as feature gap (cross-object join); no short-term query refinement</td><td>Response should reference the lead for Clearwater Insurance</td><td><a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/00QdM00000d2MnZUAU">Karen Foster (Clearwater Insurance)</a></td><td>Fail</td><td><a href="#sec3-3">§3.3</a>, <a href="#sec8">§8</a></td></tr>
+<tr><td>22</td><td>Q116</td><td>Show me all unresolved action items and open tasks for the Pinnacle Health Systems account.</td><td>Old assertion pointed at Cases as stand-in for Tasks (M4 false positive)</td><td>Assertion now cites real Task <code>00TdM00000BXyVJUA1</code> ("Send revised pricing for Pinnacle Enterprise upgrade", due 2026-07-29) — <span class="done"><strong>done</strong></span></td><td>Response must cite a real Task record (not a Case)</td><td><a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/00TdM00000BXyVJUA1">Send revised pricing for Pinnacle Enterprise upgrade (due 2026-07-29)</a></td><td>Fail (was Pass; reclassified)</td><td><a href="#sec5">§5</a></td></tr>
+<tr><td>23</td><td>Q117</td><td>Who is the contact and owner on Case #00001002?</td><td>3S cross-object join gap</td><td>Report to 3S team as feature gap (cross-object join); no short-term query refinement</td><td>Response should state the contact and owner of Case #00001002</td><td>1. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/003dM00001wlL2HQAU">Robert Chen (contact)</a><br>2. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/005dM00000ZixhmQAB">005dM00000ZixhmQAB (owner)</a></td><td>Fail</td><td><a href="#sec3-3">§3.3</a>, <a href="#sec8">§8</a></td></tr>
+<tr><td>24</td><td>Q120</td><td>Show me all closed cases for Pinnacle Health Systems with their resolution comments.</td><td>M3 false positive: resolution lived in Case fields, not CaseComment</td><td>Data update: seeded new CaseComment <code>00adM00000LELIDQA5</code> on Case #00001054 (body: "stale SAML certificate, renewed and re-tested"); assertion now cites Case + CaseComment — <span class="done"><strong>done</strong></span></td><td>Response must cite both the Case AND the CaseComment</td><td>1. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/500dM00003HCp1pQAD">#00001054 SSO login failure after platform update</a><br>2. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/00adM00000LELIDQA5">CaseComment 00adM00000LELIDQA5</a></td><td>Fail (was Pass; reclassified)</td><td><a href="#sec5">§5</a></td></tr>
+<tr><td>25</td><td>Q137</td><td>What is the product on case 00001019?</td><td>M2 false positive: <code>GC5060</code> echoed from sourceJson, not queried <code>Product__c</code></td><td>Assertion now requires the value to come from <code>Product__c</code> (notes Subject + Description do not contain "GC5060") — <span class="done"><strong>done</strong></span></td><td>Response must state the product is GC5060 sourced from <code>Product__c</code> (not Subject)</td><td><a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/500dM00003BHYLAQA5">#00001019 Structural failure of generator base</a></td><td>Fail (was Pass; reclassified)</td><td><a href="#sec5">§5</a></td></tr>
+<tr><td>26</td><td>Q139</td><td>Show me all cases on the GC3060 product.</td><td>M2 false positive: "most of these" wording allowed Subject-keyword retrieval</td><td>Assertion now requires <strong>all four</strong> cases (00001002, 00001015, 00001020, 00001021) AND excludes Subject-only matches — <span class="done"><strong>done</strong></span></td><td>Response must include all four cases with <code>Product__c = GC3060</code>; Subject-only matches must NOT be returned</td><td>1. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/500dM00003BHYKtQAP">#00001002</a><br>2. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/500dM00003BHYL6QAP">#00001015</a><br>3. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/500dM00003BHYLBQA5">#00001020</a><br>4. <a href="https://orgfarm-6203d9c15e-dev-ed.develop.my.salesforce.com/500dM00003BHYLCQA5">#00001021</a></td><td>Fail (was Pass; reclassified)</td><td><a href="#sec5">§5</a></td></tr>
+</tbody>
+</table>
+
+<hr>
+
+<h2 id="sec2">2. Pass / fail summary by feature milestone</h2>
+
+<table>
+<thead><tr><th>Milestone</th><th>Feature</th><th>Designed</th><th>Raw Pass</th><th>Post-Audit Pass</th></tr></thead>
+<tbody>
+<tr><td>M1</td><td>Standard fields on Account, Lead, Contact, Opportunity, Case</td><td>89</td><td>60 (67%)</td><td>60 (67%)</td></tr>
+<tr><td>M2</td><td>Custom fields (<code>__c</code>) on the 5 core objects</td><td>13</td><td>2 (15%)</td><td><strong>0 (0%)</strong></td></tr>
+<tr><td>M3</td><td>Case comments, attachments</td><td>10</td><td>1 (10%)</td><td><strong>0 (0%)</strong></td></tr>
+<tr><td>M4</td><td>Events, Tasks (Activities)</td><td>3</td><td>1 (33%)</td><td><strong>0 (0%)</strong></td></tr>
+<tr><td>M5</td><td>Campaign, Campaign Member</td><td>11</td><td>0 (0%)</td><td>0 (0%)</td></tr>
+<tr><td>M6</td><td>Chatter feed item, Discussion forum</td><td>6</td><td>0 (0%)</td><td>0 (0%)</td></tr>
+<tr><td>M7</td><td>Order, Order items</td><td>3</td><td>0 (0%)</td><td>0 (0%)</td></tr>
+<tr><td>M8</td><td>Product, Quote</td><td>8</td><td>1 (12%)</td><td><strong>0 (0%)</strong></td></tr>
+<tr><td>M9</td><td>CPQ</td><td>0</td><td>—</td><td>—</td></tr>
+<tr><td>M10</td><td>Custom Objects</td><td>0</td><td>—</td><td>—</td></tr>
+<tr><td><strong>Total</strong></td><td></td><td><strong>143</strong></td><td><strong>65 (45%)</strong></td><td><strong>60 (42%)</strong></td></tr>
+</tbody>
+</table>
+
+<hr>
+
+<h2 id="sec3">3. M1 failures by root cause — 29 queries</h2>
+
+<h3 id="sec3-1">3.1 ClosedDate property type bug — 11 queries (38% of M1 failures)</h3>
+
+<p><strong>The single biggest M1 gap.</strong> <code>ClosedDate</code> is stored as <code>String</code> in the connector schema instead of <code>DateTime</code>, so all date-range filters and date-based aggregations on Opportunity fail.</p>
+
+<ul>
+<li>Q36 — Opps closing April 2026</li>
+<li>Q37 — Deals closed Jan 2026</li>
+<li>Q38 — Close date before Feb 2026</li>
+<li>Q39 — Closing April 2026 (duplicate of Q36 phrasing)</li>
+<li>Q40 — Closed March 21 to April 20</li>
+<li>Q47 — Deals Q1 2026</li>
+<li>Q48 — Close date Dec 2025</li>
+<li>Q54 — Largest opp June 2026</li>
+<li>Q57 — Account most opps July 2026</li>
+<li>Q65 — Close date before April 1</li>
+<li>Q78 — Highest revenue March 2026</li>
+<li>Q82 — Close date April 1-30</li>
+</ul>
+
+<p><strong>Action:</strong> Code fix — update <code>ClosedDate</code> property type to <code>DateTime</code> in <a href="https://o365exchange.visualstudio.com/O365%20Core/_git/GraphConnectors?path=/sources/dev/GCS/Services/OOBConnectors/Connectors/Salesforce/salesforcesourceschema/SalesforceSchemaCommon.json&version=GBmaster&line=169&lineEnd=171&lineStartColumn=1&lineEndColumn=35&lineStyle=plain&_a=contents">SalesforceSchemaCommon.json:169-171</a>.</p>
+
+<p><strong>Owner:</strong> Connector team.</p>
+
+<h3 id="sec3-2">3.2 3S API result-count cap (50 records) — 5 queries (17%)</h3>
+
+<p>3S returns at most 10-50 items when the matched set is larger, dropping the expected citation outside the returned window.</p>
+
+<table>
+<thead><tr><th>Q#</th><th>Query</th><th>Org match count</th><th>3S returns</th></tr></thead>
+<tbody>
+<tr><td>Q27</td><td>Closed Won opps</td><td>100+</td><td>50</td></tr>
+<tr><td>Q29</td><td>Leads status Working-Contacted</td><td>405</td><td>50</td></tr>
+<tr><td>Q46</td><td>Partner referral leads</td><td>127</td><td>50</td></tr>
+<tr><td>Q77</td><td>Value Prop/Needs Analysis &gt; $50K</td><td>42</td><td>10</td></tr>
+<tr><td>Q80</td><td>Leads Open-Not Contacted</td><td>283</td><td>50</td></tr>
+</tbody>
+</table>
+
+<p><strong>Action:</strong> Short-term, tighten query phrasing to narrow the matched set. Long-term, raise the 3S result-count cap or page through results.</p>
+
+<p><strong>Owner:</strong> 3S platform team (long-term), eval-set author (short-term phrasing).</p>
+
+<h3 id="sec3-3">3.3 3S feature gaps — 3 queries (10%)</h3>
+
+<ul>
+<li>Q72 — "industries other than Agri/Apparel" → 3S does not support <strong>NOT-EQUAL on enum</strong> conditions</li>
+<li>Q113 — Cases linked to contact via account → 3S <strong>cross-object join</strong> gap</li>
+<li>Q117 — Contact + owner on Case → 3S <strong>cross-object join</strong> gap</li>
+</ul>
+
+<p><strong>Action:</strong> Reported to 3S team as feature gaps.</p>
+<p><strong>Owner:</strong> 3S platform team.</p>
+
+<h3 id="sec3-4">3.4 Plugin invocation issues — 2 queries (7%)</h3>
+
+<ul>
+<li>Q11 — "What industry is Grand Hotels &amp; Resorts Ltd in?" (Salesforce plugin not triggered; query too generic)</li>
+<li>Q74 — "Tell me about Case #00001061" (plugin invocation issue)</li>
+</ul>
+
+<p><strong>Action:</strong> Update connection description to improve LU disambiguation, or report to LU team.</p>
+<p><strong>Owner:</strong> PM (connection description) / LU team.</p>
+
+<h3 id="sec3-5">3.5 Ambiguous property choice — 1 query (3%)</h3>
+
+<ul>
+<li>Q58 — "Top 3 largest open opportunities" → ambiguity between <code>Amount</code> and <code>ExpectedRevenue</code></li>
+</ul>
+
+<p><strong>Action:</strong> Update query to specify which property defines "largest". Alternatively, document a default in the connection description.</p>
+<p><strong>Owner:</strong> Eval-set author / PM.</p>
+
+<h3 id="sec3-6">3.6 Aggregation result count too high — 2 queries (7%)</h3>
+
+<ul>
+<li>Q51 — Probability &gt; 50% (168 matches; assertion fails because too many cited)</li>
+<li>Q53 — Amount &gt; $200K (56 matches)</li>
+</ul>
+
+<p><strong>Action:</strong> Update query with stricter threshold (e.g. Probability &gt; 80%, Amount &gt; $500K).</p>
+<p><strong>Owner:</strong> Eval-set author.</p>
+
+<h3 id="sec3-7">3.7 Data inconsistency — 1 query (3%)</h3>
+
+<ul>
+<li>Q28 — High-priority escalated cases → 14 records have <code>Status = Escalated</code> but <code>IsEscalated = false</code></li>
+</ul>
+
+<p><strong>Action:</strong> Update the 14 inconsistent records in the sandbox to <code>IsEscalated = true</code>.</p>
+<p><strong>Owner:</strong> Sandbox data steward.</p>
+
+<h3 id="sec3-8">3.8 Assertion or expected-result issues (not real connector failures) — 3 queries (10%)</h3>
+
+<ul>
+<li>Q43 — Contacts in Finance dept (citation was present in response; assertion mistake)</li>
+<li>Q70 — Energy accounts no open cases (assertion mistake)</li>
+<li>Q118 — Cases same Type + Reason as #00001002 (expected citation links wrong; correct list is #00001057 API rate limit exceeded during bulk sync, #00001137 API rate limit exceeded, #00001055 Dashboard load time exceeds 30 seconds)</li>
+</ul>
+
+<p><strong>Action:</strong> Fix assertion or update expected citation.</p>
+<p><strong>Owner:</strong> Eval-set author.</p>
+
+<hr>
+
+<h2 id="sec4">4. Bonus: wrong-assertion queries surfaced separately (all passed by luck)</h2>
+
+<p>These queries reached <strong>Pass</strong> in the May 12 run, but their assertions or expected citations did not actually test the question. They are tightened in this session.</p>
+
+<table>
+<thead><tr><th>Q#</th><th>Query</th><th>Old assertion / citation</th><th>New assertion / citation (live sandbox value)</th></tr></thead>
+<tbody>
+<tr><td>Q17</td><td>What is the billing city for Pyramid Construction Inc.?</td><td><code>Pyramid Construction Inc.</code></td><td><strong><code>Paris</code></strong></td></tr>
+<tr><td>Q19</td><td>What is Tim Barr's title at Grand Hotels?</td><td><code>Tim Barr</code></td><td><strong><code>SVP, Administration and Finance</code></strong></td></tr>
+<tr><td>Q21</td><td>What is the lead source for Jeff Glimpse?</td><td><code>Jeff Glimpse (Jackson Controls)</code></td><td><strong><code>Phone Inquiry</code></strong></td></tr>
+<tr><td>Q71</td><td>Show me SLA-related cases.</td><td>Included <code>#00001108 Slack notification not firing</code> — "Slack" is not "SLA"</td><td>Remove #00001108 from expected citations; retain only true SLA-related cases (#00001084, #00001169 SLA report customization request)</td></tr>
+</tbody>
+</table>
+
+<p><strong>Status:</strong> Q17/Q19/Q21 done (values pulled live from sandbox via Salesforce MCP). Q71 citation correction pending TSV update.</p>
+
+<hr>
+
+<h2 id="sec5">5. False-positive audit — 5 queries reclassified Pass → Fail</h2>
+
+<p>These five queries were originally marked Pass in the May 12 run, but on audit the assertions accepted <strong>M1 standard-field substitutes, sourceJson exposure, or ungrounded numeric echoes</strong> instead of testing the actual M2/M3/M4/M8 feature. After tightening, the milestone pass rates dropped to 0% for M2, M3, M4, and M8.</p>
+
+<h3 id="sec5-q103">Q103 (M8 — Quote) — Pass → Fail</h3>
+<ul>
+<li><strong>Query:</strong> What is the discount percentage on the most recently created GenePoint quote?</li>
+<li><strong>Why it passed without M8:</strong> Old assertion was <code>"GenePoint Lab Q2 Quote (Discount 8.0%)"</code> — the assertion only checked whether "8.0%" appeared anywhere in the response. The Quote object is not crawled by OOB, so the assistant most likely produced "8.0%" as an ungrounded numeric echo (training-data knowledge of Salesforce sample data, or hallucinated from the question framing). No Quote citation was required.</li>
+<li><strong>Diagnostic detail:</strong> In the May 12 CSV, the Control run failed with <code>3s_args_issue</code> (the connector path didn't actually retrieve the Quote), while the Experiment run was marked Pass with no failure-analysis fields populated. This pattern of "Control fails, Experiment passes with empty diagnostics" is a strong false-positive signal.</li>
+<li><strong>Fix applied:</strong> Assertion now requires both the "8%" value AND a citation of the Quote record <code>0Q0dM000002JaHxSAK</code> (GenePoint Lab Q2 Quote). Without M8 Quote crawling there is no path to a sourced answer.</li>
+</ul>
+
+<h3 id="sec5-q116">Q116 (M4 — Tasks) — Pass → Fail</h3>
+<ul>
+<li><strong>Query:</strong> Show me all unresolved action items and open tasks for the Pinnacle Health Systems account.</li>
+<li><strong>Why it passed without M4:</strong> Old assertion pointed at 2 Cases as a stand-in for Tasks. The connector returned open Cases for Pinnacle (an M1 capability), satisfying the assertion. Tasks were never retrieved.</li>
+<li><strong>Fix applied:</strong> Assertion now points at real Task ID <code>00TdM00000BXyVJUA1</code> ("Send revised pricing for Pinnacle Enterprise upgrade", due 2026-07-29). The Task already existed in the sandbox.</li>
+</ul>
+
+<h3 id="sec5-q120">Q120 (M3 — Case Comments) — Pass → Fail</h3>
+<ul>
+<li><strong>Query:</strong> Show me all closed cases for Pinnacle Health Systems with their resolution comments.</li>
+<li><strong>Why it passed without M3:</strong> Old assertion only cited the closed Case #00001054. The "resolution comment" text the user wants lives in standard Case fields (<code>Description</code> / status notes), already crawled in M1. No real <code>CaseComment</code> object was queried.</li>
+<li><strong>Fix applied:</strong>
+  <ol>
+    <li>Seeded a new CaseComment <code>00adM00000LELIDQA5</code> on closed Case #00001054 in the sandbox (body: "stale SAML certificate, renewed and re-tested").</li>
+    <li>Assertion now cites both the Case and the CaseComment, so the query can only pass when <code>CaseComment</code> is crawled.</li>
+  </ol>
+</li>
+</ul>
+
+<h3 id="sec5-q137">Q137 (M2 — Custom fields) — Pass → Fail</h3>
+<ul>
+<li><strong>Query:</strong> What is the product on case 00001019?</li>
+<li><strong>Why it passed without M2:</strong> Old assertion was <code>"the response should state the product is GC5060"</code>. Even though Case #00001019's Subject does not contain "GC5060", the connector likely retrieves <code>Product__c</code> in the response's sourceJson payload, even without it being a queryable / searchable property. The assistant could then echo "GC5060" from sourceJson.</li>
+<li><strong>Fix applied:</strong> Assertion now explicitly says the value must come from <code>Product__c</code> (and notes that Subject + Description do not contain "GC5060"), so any future regression in the sourceJson exposure surfaces as a fail.</li>
+</ul>
+
+<h3 id="sec5-q139">Q139 (M2 — Custom fields) — Pass → Fail</h3>
+<ul>
+<li><strong>Query:</strong> Show me all cases on the GC3060 product.</li>
+<li><strong>Why it passed without M2:</strong> Old assertion said "should cover most of these" cases (00001002, 00001015, 00001020, 00001021). Three of the four have <code>Product__c = GC3060</code> but Subjects that do not mention "GC3060". The lenient "most of these" wording allowed Subject-keyword retrieval to satisfy the assertion without filtering on <code>Product__c</code>.</li>
+<li><strong>Fix applied:</strong> Assertion now requires <strong>all four</strong> matching cases to be returned, AND that cases whose Subject merely mentions "GC3060" (but have a different <code>Product__c</code> value) must not be returned. Tests the <code>Product__c</code> filter discriminator properly.</li>
+</ul>
+
+<hr>
+
+<h2 id="sec6">6. Scorecard updates (companion repo)</h2>
+
+<p>The pass-rate counts in <a href="https://github.com/Kai-Cloud/sf-schema-editor/blob/main/glean-scorecard.html">glean-scorecard.html</a> (sf-schema-editor repo) were updated to reflect the audit:</p>
+
+<ul>
+<li><strong>By Feature roadmap (May 12 pane):</strong> M2 2/13 → 0/13, M3 1/10 → 0/10, M4 1/3 → 0/3, M8 1/8 → 0/8</li>
+<li><strong>By Prompt Pattern:</strong> Field 15/20 → 14/20, Filter 13/27 → 12/27, Cross-object 23/28 → 21/28, Extended-object 1/24 → 0/24</li>
+<li><strong>By Criticality Level:</strong> Critical 42/75 → 40/75, Expected 22/41 → 20/41, Aspirational 1/27 → 0/27</li>
+<li><strong>Overall:</strong> 65/143 (45%) → 60/143 (42%)</li>
+</ul>
+
+<p>Pane intro paragraph and verdict box updated to call out the five reclassifications.</p>
+
+<hr>
+
+<h2 id="sec7">7. Action-Type roll-up for M1 (sized for planning)</h2>
+
+<table>
+<thead><tr><th>Action Type</th><th>Count</th><th>Share</th><th>Owner</th></tr></thead>
+<tbody>
+<tr><td>Code fix (ClosedDate → DateTime)</td><td>11</td><td>38%</td><td>Connector team</td></tr>
+<tr><td>Update query (stricter conditions / clearer wording)</td><td>9</td><td>31%</td><td>Eval-set author</td></tr>
+<tr><td>Report 3S feature gap</td><td>3</td><td>10%</td><td>3S platform team</td></tr>
+<tr><td>Fix assertion / expected-citation</td><td>3</td><td>10%</td><td>Eval-set author</td></tr>
+<tr><td>Fix data inconsistency</td><td>1</td><td>3%</td><td>Sandbox data steward</td></tr>
+<tr><td>Plugin invocation / connection description</td><td>2</td><td>7%</td><td>PM / LU team</td></tr>
+</tbody>
+</table>
+
+<p><strong>Key takeaway:</strong> A single PR fixing the <code>ClosedDate</code> type bug would lift M1 from 60/89 (67%) to roughly 71/89 (80%). The remaining ~18 M1 failures split across 3S platform gaps, eval-set hygiene, and assertion fixes — most of which are not owned by the connector team.</p>
+
+<hr>
+
+<h2 id="sec8">8. Outstanding to-dos</h2>
+
+<h3>Connector team</h3>
+<ul>
+<li>[ ] <strong>Ship <code>ClosedDate</code> → DateTime fix</strong> in <a href="https://o365exchange.visualstudio.com/O365%20Core/_git/GraphConnectors?path=/sources/dev/GCS/Services/OOBConnectors/Connectors/Salesforce/salesforcesourceschema/SalesforceSchemaCommon.json&version=GBmaster&line=169">SalesforceSchemaCommon.json:169-171</a> — unblocks 11 M1 queries</li>
+<li>[ ] Deliver M2 custom-field support on the 5 core objects (target 5/29)</li>
+<li>[ ] Verify whether <code>Product__c</code> is reachable via sourceJson today (Q137 audit suggests yes); if so, that's half of M2 already and can be promoted into the searchable/queryable index</li>
+</ul>
+
+<h3>3S platform team</h3>
+<ul>
+<li>[ ] NOT-EQUAL on enum support (unblocks Q72)</li>
+<li>[ ] Cross-object join support (unblocks Q113, Q117)</li>
+<li>[ ] Raise result-count cap above 50 (unblocks Q27, Q29, Q46, Q77, Q80 from being phrasing-sensitive)</li>
+</ul>
+
+<h3>Eval-set author / PM</h3>
+<ul>
+<li>[x] Tighten Q17, Q19, Q21 assertions (live values from sandbox)</li>
+<li>[ ] Fix Q71 expected citations — remove #00001108 (Slack notification, not SLA)</li>
+<li>[ ] Update Q118 expected citations to #00001057, #00001137, #00001055</li>
+<li>[x] Tighten Q116, Q120, Q137, Q139 assertions (false-positive audit)</li>
+<li>[x] Tighten Q103 assertion (M8 false-positive: ungrounded "8.0%" echo on Quote object that OOB does not crawl)</li>
+<li>[x] Seed <code>CaseComment 00adM00000LELIDQA5</code> on Case #00001054 in the sandbox</li>
+<li>[ ] Tighten Q51, Q53 with stricter numeric thresholds</li>
+<li>[ ] Tighten Q58 to specify Amount vs ExpectedRevenue</li>
+<li>[ ] Re-investigate Q43, Q70, Q118 assertions (suspected eval-author mistakes, not connector failures)</li>
+<li>[ ] Verify whether Q11, Q74 phrasing needs LU disambiguation hints in the connection description</li>
+<li>[ ] <strong>Expand the eval set with custom-object queries before the 8/28 rollout</strong> (M10 currently has zero queries; cannot measure a pass rate at GA)</li>
+</ul>
+
+<h3>Sandbox data steward</h3>
+<ul>
+<li>[ ] Fix 14 Case records where <code>Status = Escalated</code> but <code>IsEscalated = false</code> (unblocks Q28)</li>
+</ul>
+
+<h3>Re-run gate</h3>
+<ul>
+<li>[ ] After connector ships <code>ClosedDate</code> fix + M2 custom fields, request a rerun of the 143-query eval. Expected new baseline: ~82/143 (57%) per the May target.</li>
+</ul>
+
+</body>
+</html>
