@@ -1013,10 +1013,9 @@ window.SCORECARD_508 = {"list":[{"idx":1,"prompt":"Show me the top 50 accounts."
       var vClass = v === 'pass' ? 'pass' : v === 'fail' ? 'fail' : 'nt';
       var vLabel = v === 'pass' ? 'PASS' : v === 'fail' ? 'FAIL' : 'NOT TESTED';
       html += '<div class="sp-row">';
-      html += '<div class="sp-prompt">' + esc(r.prompt) + '</div>';
+      html += '<div class="sp-prompt">' + (r.idx ? '<span class="sp-idx" style="margin-right:6px;">Q' + r.idx + '</span>' : '') + esc(r.prompt) + '</div>';
       html += '<div class="sp-meta">';
       html += '<span class="sp-verdict ' + vClass + '">' + vLabel + '</span>';
-      if (r.idx) html += '<span class="sp-idx">#' + r.idx + '</span>';
       if (r.audit_note) html += '<span style="color:#92400e;font-weight:600;">raw: ' + (r.oob_raw || '').toUpperCase() + '</span>';
       html += '</div>';
       if (r.audit_note) html += '<div class="sp-reason">' + esc(r.audit_note) + '</div>';
